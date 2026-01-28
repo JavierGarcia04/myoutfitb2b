@@ -1,0 +1,103 @@
+{
+  "name": "MyOutfit - Organiza tu Armario Digital",
+  "short_name": "MyOutfit",
+  "description": "Organiza tu armario digitalmente, crea outfits únicos y gestiona tu ropa desde tu móvil",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#8000f7",
+  "orientation": "portrait-primary",
+  "categories": ["lifestyle", "fashion", "productivity"],
+  "lang": "es",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/images/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/phones/device_15_player_simple2.png",
+      "sizes": "400x800",
+      "type": "image/png",
+      "platform": "narrow"
+    },
+    {
+      "src": "/images/phones/device_15_player_full.png",
+      "sizes": "400x800",
+      "type": "image/png",
+      "platform": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Crear Outfit",
+      "short_name": "Nuevo Outfit",
+      "description": "Crear una nueva combinación de ropa",
+      "url": "/create-outfit",
+      "icons": [
+        {
+          "src": "/images/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Mi Armario",
+      "short_name": "Armario",
+      "description": "Ver mi armario digital",
+      "url": "/wardrobe",
+      "icons": [
+        {
+          "src": "/images/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

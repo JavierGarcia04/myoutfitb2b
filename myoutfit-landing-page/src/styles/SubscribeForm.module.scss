@@ -1,0 +1,145 @@
+/* styles/SubscribeForm.module.scss */
+
+.subscribeContainer {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem 1rem;
+  width: 90%;
+  max-width: 700px;
+  margin: 2rem auto;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+}
+
+.title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.form {
+  width: 100%;
+}
+
+.inputGroup {
+  display: flex;
+  margin-bottom: 0.75rem;
+}
+
+.input {
+  flex: 1;
+  border: 2px solid #e1e1e1;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  border-radius: 6px 0 0 6px;
+  transition: all 0.2s ease-in-out;
+}
+.input:focus {
+  border-color: #8000f7;
+  box-shadow: 0 0 0 3px rgba(128, 0, 247, 0.15);
+  outline: none;
+}
+
+.button {
+  background-color: #8000f7;
+  color: #fff;
+  border: none;
+  padding: 0 1.25rem;
+  font-weight: 600;
+  min-width: 130px;
+  border-radius: 0 6px 6px 0;
+  transition: all 0.2s ease-in-out;
+}
+.button:hover,
+.button:focus {
+  background-color: darken(#8000f7, 10%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(128, 0, 247, 0.3);
+}
+.button:disabled {
+  background-color: lighten(#8000f7, 20%);
+  transform: none;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.alertSuccess,
+.alertError {
+  font-size: 0.85rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+}
+.alertSuccess {
+  background: #e6ffed;
+  color: #1a7f37;
+}
+.alertError {
+  background: #ffe6e6;
+  color: #c00;
+}
+
+.privacy {
+  margin-top: 1rem;
+  color: #777;
+  font-size: 0.85rem;
+  position: relative;
+  padding-left: 20px;
+}
+.privacy::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238000f7'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/%3E%3C/svg%3E");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Animación al aparecer el éxito */
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animateIn {
+  animation: slideFadeIn 0.4s ease-out forwards;
+}
+
+/* Ajustes móviles */
+@media (max-width: 480px) {
+  .subscribeContainer {
+    padding: 1.5rem 0.75rem;
+    margin: 1.5rem auto;
+    width: 95%;
+  }
+  .title {
+    font-size: 1.3rem;
+  }
+  .description {
+    font-size: 0.85rem;
+  }
+  .input {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+  .button {
+    padding: 0 0.75rem;
+    font-size: 0.85rem;
+  }
+}

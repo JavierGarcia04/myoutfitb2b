@@ -1,0 +1,138 @@
+# MyOutfit Project - Contexto y Reglas
+
+## Visión General del Proyecto
+
+MyOutfit es una aplicación móvil que ayuda a los usuarios a gestionar su armario y crear combinaciones de outfits. El proyecto incluye:
+
+1. **Aplicación móvil** (Flutter/Dart) - `myoutfit-mobile`
+2. **Landing page web** (Next.js/React) - `myoutfit-landing-page`
+3. **Backend API** (FastAPI/Python) - Para funcionalidades B2B
+
+## Estructura B2C + B2B
+
+### B2C (Business to Consumer)
+- Landing page principal (`/`) para descarga de app móvil
+- Información sobre la app, características, FAQ
+- Enlaces a App Store y Google Play
+
+### B2B (Business to Business) - NUEVO
+- **Página principal B2B** (`/b2b`) - "MyOutfit for Business"
+- **Demo interactiva** (`/b2b/demo`) - Widget de recomendaciones
+- **Precios** (`/b2b/pricing`) - Planes Starter, Pro, Enterprise
+- **Documentación técnica** (`/b2b/docs`) - Para desarrolladores
+- **Dashboard** (`/dashboard`) - Panel para tiendas registradas
+
+## Identidad Visual
+
+- **Color primario**: `#8000f7ff` (morado)
+- **Color secundario**: `#9b51e0` (morado claro)
+- **Tipografía**: Montserrat (Google Fonts)
+- **Estilo**: Moderno, limpio, profesional
+- **Framework CSS**: Bootstrap 5 + SCSS modules
+
+## Estructura de Archivos
+
+```
+src/
+├── components/        # Componentes reutilizables
+├── pages/             # Páginas Next.js
+│   ├── index.js      # Landing B2C
+│   ├── b2b/          # Páginas B2B
+│   │   ├── index.js  # Página principal B2B
+│   │   ├── demo.js   # Demo interactiva
+│   │   ├── pricing.js # Precios
+│   │   └── docs.js   # Documentación
+│   └── dashboard/    # Dashboard tiendas
+├── styles/           # Estilos SCSS
+└── translations/     # Traducciones i18n
+```
+
+## Componentes Clave
+
+### Navigation
+- Menú principal con dropdown "Para Tiendas"
+- Incluye enlaces a todas las secciones B2B
+- Responsive con toggle móvil
+
+### Widget Embebible
+- Componente `MyOutfitWidget.js` para integración en tiendas
+- Se inicializa automáticamente cuando encuentra elementos con `id="myoutfit-recommendations"`
+- Atributos: `data-product-id`, `data-api-key`, `data-theme`, `data-count`
+
+### Dashboard
+- Sistema de login simple (localStorage para MVP)
+- Tabs: Visión General, Catálogo, Configuración Widget, Analítica, Facturación
+- Métricas en tiempo real (simuladas para MVP)
+
+## API Endpoints (Backend FastAPI)
+
+### Base URL
+```
+https://api.myoutfitapp.com/v1
+```
+
+### Endpoints principales
+- `POST /api/b2b/sync-catalog` - Sincronizar catálogo
+- `GET /api/b2b/recommendations?product_id=XXX&count=N` - Obtener recomendaciones
+- `GET /api/b2b/analytics` - Métricas y analítica
+
+### Autenticación
+- Header: `Authorization: Bearer TU_API_KEY`
+- API Keys se generan desde el dashboard
+
+## Reglas de Desarrollo
+
+### Estilos
+- Usar SCSS modules para estilos de componentes
+- Mantener coherencia con colores de marca
+- Diseño responsive (mobile-first cuando sea posible)
+- Usar Bootstrap 5 para grid y componentes base
+
+### Componentes React
+- Preferir componentes funcionales con hooks
+- Usar `next/link` para navegación interna
+- Mantener componentes pequeños y reutilizables
+
+### Navegación
+- Navigation component se usa en todas las páginas B2B
+- Hero component solo en landing B2C (index.js)
+- Footer component en todas las páginas
+
+### Estado y Autenticación
+- Para MVP: usar localStorage para simular login
+- En producción: integrar con backend FastAPI
+- Dashboard requiere autenticación
+
+### Widget Embebible
+- El widget debe funcionar sin React (vanilla JS)
+- Compatible con cualquier plataforma (Shopify, WooCommerce, etc.)
+- Carga asíncrona para no bloquear página
+
+## Próximos Pasos / Mejoras Futuras
+
+1. Integración real con backend FastAPI
+2. Sistema de autenticación completo (JWT)
+3. Pago automático (Stripe/PayPal)
+4. Webhooks para sincronización automática de catálogo
+5. A/B testing de widget
+6. Más idiomas en traducciones
+7. Analytics real con eventos tracking
+
+## Notas Importantes
+
+- El proyecto usa Next.js 14 con App Router (páginas en `src/pages/`)
+- Bootstrap 5 está incluido globalmente
+- React Icons para iconografía
+- SCSS para estilos personalizados
+- Sistema de traducciones existente (i18n)
+
+## Comandos Útiles
+
+```bash
+npm run dev          # Desarrollo local
+npm run build        # Build producción
+npm run start        # Servidor producción
+npm run lint         # Linter
+```
+
+

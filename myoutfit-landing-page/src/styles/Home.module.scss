@@ -1,0 +1,284 @@
+.main {
+  position: relative;
+  z-index: 1;
+  width: 100vw;
+  min-height: 100vh;
+
+  h2 {
+    font-size: 3em;
+    font-weight: 600;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  a {
+    position: relative;
+    z-index: 3;
+  }
+}
+
+#section_features {
+  min-height: 100vh;
+  width: 100%;
+
+  .backsplash_container {
+    position: relative;
+    margin-bottom: 1.5em;
+  }
+
+  .backsplash {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 200px;
+    background: #8000f7ff;
+    background: linear-gradient(90deg, #8000f7ff 0%, #8000f7ff 100%);
+    border-radius: 20px;
+  }
+
+  .backsplash_image {
+    position: relative;
+  }
+}
+
+#section_use_cases,
+#section_reviews,
+#section_faq {
+  width: 100%;
+}
+
+#section_wait_list {
+  margin-top: 3em;
+  margin-bottom: 5em;
+  width: 100%;
+
+  h2 {
+    font-weight: 800;
+  }
+}
+
+// CTA Section estilo Prankster
+.newsletterArea {
+  padding-bottom: 100px;
+  margin-top: 80px;
+}
+
+.newsletterInner {
+  position: relative;
+  z-index: 1;
+  padding: 0 60px;
+  border-radius: 16px;
+  overflow: hidden;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #8000f7ff 0%, #9b51e0 100%);
+  opacity: 1;
+  border-radius: 16px;
+  z-index: -1;
+}
+
+.content {
+  padding: 40px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.title {
+  color: white;
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.contentText {
+  width: 75%;
+  font-size: 17px;
+
+  @media (max-width: 576px) {
+    width: 100%;
+  }
+}
+
+.text {
+  color: white;
+  margin-bottom: 10px;
+
+  b {
+    font-weight: 700;
+  }
+}
+
+.btnGroups {
+  margin-top: 30px;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  img {
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    max-width: 166px;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.imageContainer {
+  display: none;
+  padding: 20px 0;
+
+  @media (min-width: 992px) {
+    display: block;
+  }
+}
+
+.phonesWrapper {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.phoneImage {
+  position: absolute !important;
+  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.4));
+  transition: transform 0.3s ease;
+
+  &:first-child {
+    transform: rotate(-12deg) translateX(-35px) translateY(15px);
+    z-index: 1;
+    width: 170px !important;
+    height: auto !important;
+  }
+
+  &:last-child {
+    transform: rotate(8deg) translateX(25px) translateY(-20px);
+    z-index: 2;
+    width: 170px !important;
+    height: auto !important;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 991px) {
+  .newsletterArea {
+    margin-top: 60px;
+  }
+
+  .newsletterInner {
+    padding: 0 30px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .newsletterArea {
+    margin-top: 50px;
+  }
+
+  .newsletterInner {
+    padding: 0 20px;
+  }
+
+  .content {
+    padding: 30px 0;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .contentText {
+    font-size: 16px;
+  }
+
+  .btnGroups {
+    img {
+      max-width: 140px;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .newsletterArea {
+    padding-bottom: 60px;
+    margin-top: 40px;
+  }
+
+  .newsletterInner {
+    padding: 0 15px;
+  }
+
+  .content {
+    padding: 25px 0;
+  }
+
+  .title {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+  }
+
+  .btnGroups {
+    margin-top: 20px;
+    justify-content: center;
+
+    img {
+      max-width: 130px;
+    }
+  }
+}
+
+// Ajustes específicos para desktop grande
+@media (min-width: 1200px) {
+  .phonesWrapper {
+    height: 380px;
+  }
+
+  .phoneImage {
+    &:first-child {
+      transform: rotate(-10deg) translateX(-40px) translateY(20px);
+      width: 180px !important;
+    }
+
+    &:last-child {
+      transform: rotate(6deg) translateX(30px) translateY(-25px);
+      width: 180px !important;
+    }
+  }
+}
+
+.subscribeSection {
+  /* Ajusta estos valores al "aire" que necesites arriba/abajo */
+  padding: 6rem 0;
+
+  /* Centrar horizontalmente (opcional) */
+  display: flex;
+  justify-content: center;
+}

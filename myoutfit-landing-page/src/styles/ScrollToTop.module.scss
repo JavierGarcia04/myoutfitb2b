@@ -1,0 +1,86 @@
+.scrollToTop {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #8000f7ff 0%, #9b51e0 100%);
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  box-shadow: 0 4px 20px rgba(128, 0, 247, 0.3);
+
+  &:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 30px rgba(128, 0, 247, 0.5);
+    background: linear-gradient(135deg, #9b51e0 0%, #8000f7ff 100%);
+  }
+
+  &:active {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  svg {
+    transition: transform 0.3s ease;
+  }
+
+  &:hover svg {
+    transform: translateY(-2px);
+  }
+}
+
+// Animación de entrada
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scrollToTop {
+  animation: fadeInUp 0.3s ease;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .scrollToTop {
+    width: 48px;
+    height: 48px;
+    bottom: 1.5rem;
+    right: 1.5rem;
+
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .scrollToTop {
+    width: 44px;
+    height: 44px;
+    bottom: 1rem;
+    right: 1rem;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}

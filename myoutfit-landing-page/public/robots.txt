@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://myoutfitapp.com
+
+# Sitemaps
+Sitemap: https://myoutfitapp.com/sitemap.xml

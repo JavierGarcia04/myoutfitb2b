@@ -1,0 +1,756 @@
+.pricingMain {
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+.hero {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #8000f7ff 0%, #9b51e0 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.3;
+  }
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(10px);
+  position: relative;
+
+  svg {
+    font-size: 1rem;
+  }
+}
+
+.heroTitle {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: white;
+  position: relative;
+
+  @media (max-width: 768px) {
+    font-size: 2.25rem;
+  }
+}
+
+.heroSubtitle {
+  font-size: 1.25rem;
+  opacity: 0.95;
+  max-width: 700px;
+  margin: 0 auto 2.5rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+// Billing Toggle
+.billingToggle {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 0.5rem;
+  border-radius: 50px;
+  gap: 0.5rem;
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+.toggleButton {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  border-radius: 40px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+
+  &:hover {
+    color: white;
+  }
+}
+
+.toggleActive {
+  background: white;
+  color: #8000f7ff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.savingsBadge {
+  background: #28a745;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.pricingSection {
+  padding: 80px 0;
+}
+
+.pricingCard {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 50px rgba(128, 0, 247, 0.2);
+    border-color: #8000f7ff;
+  }
+}
+
+.pricingCardPopular {
+  border: 3px solid #8000f7ff;
+  transform: scale(1.05);
+  box-shadow: 0 12px 40px rgba(128, 0, 247, 0.25);
+
+  &:hover {
+    transform: scale(1.05) translateY(-8px);
+  }
+
+  @media (max-width: 992px) {
+    transform: scale(1);
+
+    &:hover {
+      transform: translateY(-8px);
+    }
+  }
+}
+
+.popularBadge {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #8000f7ff 0%, #9b51e0 100%);
+  color: white;
+  padding: 0.6rem 1.75rem;
+  border-radius: 25px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  box-shadow: 0 6px 16px rgba(128, 0, 247, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.planHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  h3 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    color: #212529;
+    margin-top: 0.5rem;
+  }
+}
+
+.planIcon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(135deg, rgba(128, 0, 247, 0.1) 0%, rgba(155, 81, 224, 0.1) 100%);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #8000f7ff;
+}
+
+.planDescription {
+  color: #6c757d;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.priceSection {
+  text-align: center;
+  padding: 2rem 0;
+  border-top: 1px solid #e9ecef;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 2rem;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.currency {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #8000f7ff;
+}
+
+.price {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #8000f7ff;
+  line-height: 1;
+}
+
+.period {
+  font-size: 1.25rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.priceCustom {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #8000f7ff;
+}
+
+.savingsText {
+  background: #d4edda;
+  color: #155724;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+.annualOffer {
+  color: #6c757d;
+  font-size: 0.85rem;
+  margin-top: 0.75rem;
+  font-weight: 500;
+}
+
+.ctaButton {
+  width: 100%;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s;
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.ctaButtonPrimary {
+  background: linear-gradient(135deg, #8000f7ff 0%, #9b51e0 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(128, 0, 247, 0.3);
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 20px rgba(128, 0, 247, 0.4);
+    color: white;
+  }
+}
+
+.ctaButtonOutline {
+  background: white;
+  color: #8000f7ff;
+  border: 2px solid #8000f7ff;
+
+  &:hover {
+    background: #8000f7ff;
+    color: white;
+    transform: scale(1.02);
+  }
+}
+
+.featuresSection {
+  flex: 1;
+}
+
+.featuresHeader {
+  font-weight: 700;
+  color: #212529;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.05rem;
+
+  svg {
+    color: #28a745;
+    font-size: 1.25rem;
+  }
+}
+
+.featuresList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+  flex: 1;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e9ecef;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.checkIcon {
+  color: #28a745;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.xIcon {
+  color: #dc3545;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.featureDisabled {
+  color: #adb5bd;
+  text-decoration: line-through;
+}
+
+.roiSection {
+  padding: 80px 0;
+  background: white;
+}
+
+.roiCard {
+  background: linear-gradient(135deg, #8000f7ff 0%, #9b51e0 100%);
+  color: white;
+  padding: 3rem;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(128, 0, 247, 0.3);
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+  }
+}
+
+.roiCard h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+}
+
+.roiSubtitle {
+  font-size: 1.2rem;
+  opacity: 0.95;
+  margin-bottom: 0;
+}
+
+.statBox {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.statNumber {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.statLabel {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.roiNote {
+  margin-top: 2rem;
+  font-size: 0.875rem;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+.faqSection {
+  padding: 80px 0;
+  background: #f8f9fa;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  color: #212529;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+}
+
+.faqItem {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+  h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #212529;
+  }
+
+  p {
+    color: #6c757d;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+.ctaSection {
+  padding: 80px 0;
+  background: white;
+}
+
+.ctaCard {
+  background: linear-gradient(135deg, #8000f7ff 0%, #9b51e0 100%);
+  color: white;
+  padding: 4rem 3rem;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(128, 0, 247, 0.3);
+
+  @media (max-width: 768px) {
+    padding: 3rem 2rem;
+  }
+}
+
+.ctaCard h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+}
+
+.ctaCard p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.95;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+// Trust Section
+.trustSection {
+  padding: 80px 0;
+  background: white;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: #212529;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+}
+
+.sectionSubtitle {
+  font-size: 1.15rem;
+  color: #6c757d;
+  margin-bottom: 0;
+}
+
+.trustCard {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: #f8f9fa;
+  border-radius: 16px;
+  height: 100%;
+  transition: all 0.3s;
+
+  &:hover {
+    background: white;
+    box-shadow: 0 8px 30px rgba(128, 0, 247, 0.1);
+    transform: translateY(-4px);
+  }
+
+  h4 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #212529;
+  }
+
+  p {
+    color: #6c757d;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+.trustIcon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1.25rem;
+  background: linear-gradient(135deg, #8000f7ff 0%, #9b51e0 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  color: white;
+}
+
+// Comparison Table
+.comparisonSection {
+  padding: 80px 0;
+  background: #f8f9fa;
+}
+
+.comparisonTable {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+
+  thead tr {
+    th {
+      background: #f8f9fa;
+      padding: 1.5rem;
+      font-weight: 700;
+      color: #212529;
+      text-align: center;
+      border-bottom: 3px solid #e9ecef;
+      font-size: 1.1rem;
+
+      &:first-child {
+        text-align: left;
+        border-radius: 12px 0 0 0;
+      }
+
+      &:last-child {
+        border-radius: 0 12px 0 0;
+      }
+    }
+  }
+
+  tbody tr {
+    transition: background 0.2s;
+
+    &:hover {
+      background: #f8f9fa;
+    }
+
+    td {
+      padding: 1.25rem 1.5rem;
+      text-align: center;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 500;
+      color: #495057;
+
+      &:first-child {
+        text-align: left;
+        font-weight: 600;
+        color: #212529;
+      }
+    }
+
+    &:last-child td {
+      border-bottom: none;
+    }
+  }
+}
+
+.featureColumn {
+  min-width: 250px;
+}
+
+.popularColumn {
+  background: rgba(128, 0, 247, 0.03);
+  font-weight: 700;
+  color: #8000f7ff !important;
+}
+
+.iconYes {
+  font-size: 1.5rem;
+  color: #28a745;
+}
+
+.iconNo {
+  font-size: 1.5rem;
+  color: #dc3545;
+  opacity: 0.3;
+}
+
+// ROI Grid
+.roiSection {
+  padding: 80px 0;
+  background: white;
+}
+
+.roiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.roiCard {
+  background: linear-gradient(135deg, rgba(128, 0, 247, 0.05) 0%, rgba(155, 81, 224, 0.05) 100%);
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid rgba(128, 0, 247, 0.1);
+  transition: all 0.3s;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(128, 0, 247, 0.15);
+    border-color: #8000f7ff;
+  }
+}
+
+.roiIconWrapper {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(135deg, #8000f7ff 0%, #9b51e0 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: white;
+  box-shadow: 0 8px 20px rgba(128, 0, 247, 0.3);
+}
+
+.roiNumber {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #8000f7ff;
+  margin-bottom: 0.75rem;
+  line-height: 1;
+}
+
+.roiLabel {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #212529;
+  margin-bottom: 1rem;
+}
+
+.roiDesc {
+  font-size: 0.95rem;
+  color: #6c757d;
+  line-height: 1.6;
+}
+
+.roiNote {
+  text-align: center;
+  color: #6c757d;
+  font-size: 0.9rem;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+
+  svg {
+    flex-shrink: 0;
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .ctaButtons {
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  .table {
+    font-size: 0.875rem;
+
+    thead tr th {
+      padding: 1rem;
+      font-size: 0.95rem;
+    }
+
+    tbody tr td {
+      padding: 0.875rem 1rem;
+    }
+  }
+
+  .featureColumn {
+    min-width: 180px;
+  }
+}
+
+
