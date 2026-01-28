@@ -1,0 +1,243 @@
+{% comment %}
+  Outfit Completer - Complete Your Look Widget
+  Shows the current product + recommended items to complete the outfit
+{% endcomment %}
+
+<div 
+  id="outfit-completer-widget" 
+  class="outfit-completer"
+  data-product-id="{{ product.id }}"
+  data-product-handle="{{ product.handle }}"
+  data-product-title="{{ product.title | escape }}"
+  data-product-image="{{ product.featured_image | image_url: width: 400 }}"
+  data-product-price="{{ product.price }}"
+  data-product-variant-id="{{ product.selected_or_first_available_variant.id }}"
+  data-product-type="{{ product.type }}"
+  data-product-tags="{{ product.tags | join: ',' }}"
+  data-product-vendor="{{ product.vendor }}"
+  data-max-recommendations="{{ block.settings.max_recommendations }}"
+  data-show-prices="{{ block.settings.show_prices }}"
+  style="
+    --oc-primary: {{ block.settings.primary_color }};
+    --oc-accent: {{ block.settings.accent_color }};
+  "
+>
+  <!-- Loading State -->
+  <div class="oc-loading" aria-live="polite">
+    <div class="oc-loading__spinner">
+      <svg viewBox="0 0 50 50" class="oc-spinner">
+        <circle cx="25" cy="25" r="20" fill="none" stroke="currentColor" stroke-width="3"></circle>
+      </svg>
+    </div>
+    <p class="oc-loading__text">{{ block.settings.loading_text }}</p>
+  </div>
+
+  <!-- Widget Content -->
+  <div class="oc-content" style="display: none;">
+    <!-- Header -->
+    <div class="oc-header">
+      <h3 class="oc-title">{{ block.settings.widget_title }}</h3>
+      {% if block.settings.show_subtitle %}
+        <p class="oc-subtitle">{{ block.settings.subtitle_text }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Outfit Container -->
+    <div class="oc-outfit">
+      <!-- Current Product -->
+      <div class="oc-outfit__item oc-outfit__item--current" data-variant-id="{{ product.selected_or_first_available_variant.id }}" data-price="{{ product.price }}">
+        <div class="oc-outfit__image-wrapper">
+          <img 
+            src="{{ product.featured_image | image_url: width: 400 }}" 
+            alt="{{ product.title | escape }}" 
+            class="oc-outfit__image"
+            loading="lazy"
+            width="400"
+            height="400"
+          >
+          <span class="oc-outfit__label">{{ block.settings.current_product_label }}</span>
+        </div>
+        <div class="oc-outfit__info">
+          <h4 class="oc-outfit__title">{{ product.title }}</h4>
+          {% if block.settings.show_prices %}
+            <span class="oc-outfit__price">{{ product.price | money }}</span>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Recommendations Container (JS will populate with + signs) -->
+      <div class="oc-outfit__recommendations">
+        <!-- Products will be injected here by JavaScript -->
+      </div>
+    </div>
+
+    <!-- Total Price and Add All Button -->
+    <div class="oc-outfit__footer">
+      <div class="oc-outfit__total">
+        <span class="oc-outfit__total-label">{{ block.settings.total_label }}</span>
+        <span class="oc-outfit__total-price" data-total-price>{{ product.price | money }}</span>
+      </div>
+      <button class="oc-outfit__add-all-btn" data-add-all-btn>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span>{{ block.settings.add_all_text }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="oc-empty" style="display: none;">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+      <line x1="9" y1="9" x2="9.01" y2="9"></line>
+      <line x1="15" y1="9" x2="15.01" y2="9"></line>
+    </svg>
+    <p>{{ block.settings.empty_text }}</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="oc-error" style="display: none;">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="8" x2="12" y2="12"></line>
+      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+    <p>{{ block.settings.error_text }}</p>
+    <button class="oc-retry-btn">{{ block.settings.retry_text }}</button>
+  </div>
+</div>
+
+<!-- Recommendation Item Template (plus sign added dynamically in JS) -->
+<template id="oc-recommendation-template">
+  <div class="oc-outfit__item oc-outfit__item--recommendation" data-product-id="" data-variant-id="" data-price="">
+    <a href="" class="oc-outfit__link">
+      <div class="oc-outfit__image-wrapper">
+        <img src="" alt="" class="oc-outfit__image" loading="lazy" width="400" height="400">
+        <button class="oc-outfit__remove-btn" data-remove-btn type="button" title="Quitar del outfit">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="oc-outfit__info">
+        <h4 class="oc-outfit__title"></h4>
+        <span class="oc-outfit__price"></span>
+      </div>
+    </a>
+  </div>
+</template>
+
+{% schema %}
+{
+  "name": "Outfit Completer",
+  "target": "section",
+  "javascript": "outfit-widget.js",
+  "stylesheet": "outfit-widget.css",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Textos"
+    },
+    {
+      "type": "text",
+      "id": "widget_title",
+      "label": "Título del widget",
+      "default": "Completa tu look"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subtitle",
+      "label": "Mostrar subtítulo",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subtitle_text",
+      "label": "Subtítulo",
+      "default": "Combina estas prendas para un outfit perfecto"
+    },
+    {
+      "type": "text",
+      "id": "current_product_label",
+      "label": "Etiqueta producto actual",
+      "default": "Tu selección"
+    },
+    {
+      "type": "text",
+      "id": "total_label",
+      "label": "Etiqueta total",
+      "default": "Total del outfit:"
+    },
+    {
+      "type": "text",
+      "id": "add_all_text",
+      "label": "Texto botón añadir todo",
+      "default": "Añadir outfit al carrito"
+    },
+    {
+      "type": "text",
+      "id": "loading_text",
+      "label": "Texto de carga",
+      "default": "Buscando combinaciones perfectas..."
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "Texto sin recomendaciones",
+      "default": "No hay recomendaciones disponibles"
+    },
+    {
+      "type": "text",
+      "id": "error_text",
+      "label": "Texto de error",
+      "default": "Error al cargar recomendaciones"
+    },
+    {
+      "type": "text",
+      "id": "retry_text",
+      "label": "Texto reintentar",
+      "default": "Reintentar"
+    },
+    {
+      "type": "header",
+      "content": "Configuración"
+    },
+    {
+      "type": "range",
+      "id": "max_recommendations",
+      "label": "Máximo de recomendaciones",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_prices",
+      "label": "Mostrar precios",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colores"
+    },
+    {
+      "type": "color",
+      "id": "primary_color",
+      "label": "Color primario",
+      "default": "#2D3436"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Color de acento", 
+      "default": "#E17055"
+    }
+  ]
+}
+{% endschema %}

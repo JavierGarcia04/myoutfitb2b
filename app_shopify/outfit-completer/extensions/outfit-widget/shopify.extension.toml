@@ -1,0 +1,6 @@
+api_version = "2024-10"
+
+uid = "811301a8-e2ef-e4dd-2e4e-769c388d0f774b69114e"
+
+type = "theme_app_extension"
+name = "Outfit Completer Widget"

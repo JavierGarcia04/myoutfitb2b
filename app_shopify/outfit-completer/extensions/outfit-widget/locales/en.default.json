@@ -1,0 +1,16 @@
+{
+  "outfit_completer": {
+    "title": "Complete Your Look",
+    "subtitle": "Curated pieces that pair perfectly with your selection",
+    "view_all": "View All Recommendations",
+    "add_to_cart": "Add to Cart",
+    "adding": "Adding...",
+    "added": "Added!",
+    "quick_view": "Quick View",
+    "loading": "Finding the perfect matches...",
+    "no_recommendations": "No recommendations available at this time",
+    "error": "Unable to load recommendations",
+    "retry": "Try Again"
+  }
+}
+

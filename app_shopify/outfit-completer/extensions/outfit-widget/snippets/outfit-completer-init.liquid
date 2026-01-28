@@ -1,0 +1,25 @@
+{% comment %}
+  Outfit Completer - Initialization Snippet
+  Include this in your theme's product page to enable AI-powered outfit recommendations
+  
+  Usage: {% render 'outfit-completer-init' %}
+{% endcomment %}
+
+{% if product %}
+<script>
+  // Initialize Outfit Completer configuration
+  window.OutfitCompleterConfig = {
+    productId: "{{ product.id }}",
+    productHandle: "{{ product.handle }}",
+    productType: "{{ product.type | escape }}",
+    productTags: "{{ product.tags | join: ',' | escape }}",
+    productVendor: "{{ product.vendor | escape }}",
+    productPrice: {{ product.price }},
+    shopDomain: "{{ shop.permanent_domain }}",
+    currency: "{{ cart.currency.iso_code }}",
+    locale: "{{ request.locale.iso_code }}",
+  };
+</script>
+{% endif %}
+
+

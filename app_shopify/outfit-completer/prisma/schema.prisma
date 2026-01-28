@@ -1,0 +1,205 @@
+// =============================================================================
+// OUTFIT COMPLETER - Prisma Schema (SQLite para desarrollo)
+// =============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.sqlite"
+}
+
+// =============================================================================
+// SHOPIFY SESSION (Requerido por @shopify/shopify-app-session-storage-prisma)
+// =============================================================================
+
+model Session {
+  id                  String    @id
+  shop                String
+  state               String
+  isOnline            Boolean   @default(false)
+  scope               String?
+  expires             DateTime?
+  accessToken         String
+  userId              BigInt?
+  firstName           String?
+  lastName            String?
+  email               String?
+  accountOwner        Boolean   @default(false)
+  locale              String?
+  collaborator        Boolean?  @default(false)
+  emailVerified       Boolean?  @default(false)
+  refreshToken        String?
+  refreshTokenExpires DateTime?
+}
+
+// =============================================================================
+// SHOP - Datos de la tienda Shopify
+// =============================================================================
+
+model Shop {
+  id                    String    @id @default(cuid())
+  shopDomain            String    @unique
+  shopifyShopId         String?   @unique
+  name                  String?
+  email                 String?
+  currency              String    @default("USD")
+  timezone              String?
+  aiApiKey              String?
+  isActive              Boolean   @default(true)
+  syncStatus            String    @default("PENDING")
+  lastSyncAt            DateTime?
+  installedAt           DateTime  @default(now())
+  uninstalledAt         DateTime?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  products              Product[]
+  analyticsEvents       AnalyticsEvent[]
+  outfitRecommendations OutfitRecommendation[]
+}
+
+// =============================================================================
+// PRODUCT - Productos sincronizados desde Shopify
+// =============================================================================
+
+model Product {
+  id                String    @id @default(cuid())
+  shopId            String
+  shopifyProductId  String
+  title             String
+  handle            String
+  description       String?
+  productType       String?
+  vendor            String?
+  tags              String?   // JSON string de array
+  category          String?
+  subcategory       String?
+  color             String?
+  style             String?
+  season            String?
+  gender            String?
+  featuredImageUrl  String?
+  images            String?   // JSON string
+  status            String    @default("ACTIVE")
+  publishedAt       DateTime?
+  shopifyCreatedAt  DateTime?
+  shopifyUpdatedAt  DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  shop              Shop      @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  variants          ProductVariant[]
+  recommendationsAsMain    OutfitRecommendation[] @relation("MainProduct")
+  recommendationsAsItem    OutfitRecommendationItem[]
+
+  @@unique([shopId, shopifyProductId])
+}
+
+// =============================================================================
+// PRODUCT VARIANT - Variantes de producto con inventario
+// =============================================================================
+
+model ProductVariant {
+  id                  String    @id @default(cuid())
+  productId           String
+  shopifyVariantId    String
+  title               String
+  sku                 String?
+  barcode             String?
+  option1             String?
+  option2             String?
+  option3             String?
+  price               Float
+  compareAtPrice      Float?
+  totalInventory      Int       @default(0)
+  availableForSale    Boolean   @default(true)
+  imageUrl            String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  product             Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  inventoryLevels     InventoryLevel[]
+
+  @@unique([productId, shopifyVariantId])
+}
+
+// =============================================================================
+// INVENTORY LEVEL - Niveles de inventario por ubicación
+// =============================================================================
+
+model InventoryLevel {
+  id                    String    @id @default(cuid())
+  variantId             String
+  shopifyInventoryItemId String
+  shopifyLocationId     String
+  available             Int       @default(0)
+  onHand                Int?
+  committed             Int?
+  incoming              Int?
+  updatedAt             DateTime  @updatedAt
+  shopifyUpdatedAt      DateTime?
+
+  variant               ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@unique([variantId, shopifyLocationId])
+}
+
+// =============================================================================
+// OUTFIT RECOMMENDATION - Recomendaciones cacheadas de la IA
+// =============================================================================
+
+model OutfitRecommendation {
+  id                String    @id @default(cuid())
+  shopId            String
+  mainProductId     String
+  outfitName        String?
+  outfitDescription String?
+  confidence        Float?
+  expiresAt         DateTime
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  shop              Shop      @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  mainProduct       Product   @relation("MainProduct", fields: [mainProductId], references: [id], onDelete: Cascade)
+  items             OutfitRecommendationItem[]
+}
+
+// =============================================================================
+// OUTFIT RECOMMENDATION ITEM - Productos recomendados en un outfit
+// =============================================================================
+
+model OutfitRecommendationItem {
+  id                  String    @id @default(cuid())
+  recommendationId    String
+  productId           String
+  position            Int
+  matchReason         String?
+
+  recommendation      OutfitRecommendation @relation(fields: [recommendationId], references: [id], onDelete: Cascade)
+  product             Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([recommendationId, productId])
+}
+
+// =============================================================================
+// ANALYTICS EVENT - Eventos de tracking para métricas
+// =============================================================================
+
+model AnalyticsEvent {
+  id                String    @id @default(cuid())
+  shopId            String
+  eventType         String
+  productId         String?
+  recommendedProductId String?
+  recommendationId  String?
+  metadata          String?   // JSON string
+  sessionId         String?
+  userAgent         String?
+  country           String?
+  createdAt         DateTime  @default(now())
+
+  shop              Shop      @relation(fields: [shopId], references: [id], onDelete: Cascade)
+}
