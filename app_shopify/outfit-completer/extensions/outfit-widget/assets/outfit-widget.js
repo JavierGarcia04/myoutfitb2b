@@ -3,7 +3,7 @@
  * Complete Your Look - Shows current product + recommendations with + signs
  */
 
-(function() {
+(function () {
   'use strict';
 
   // Configuration
@@ -48,7 +48,7 @@
     // Get current product data from widget attributes
     // Shopify prices in Liquid are in cents (e.g., 4500 = $45.00)
     const priceInCents = parseInt(widget.dataset.productPrice) || 0;
-    
+
     state.currentProduct = {
       id: widget.dataset.productId,
       handle: widget.dataset.productHandle,
@@ -89,7 +89,7 @@
 
     try {
       const sessionId = getOrCreateSessionId();
-      
+
       // Try our app API first
       let response = await fetch(`${CONFIG.apiEndpoint}?` + new URLSearchParams({
         shop: CONFIG.shopDomain,
@@ -104,19 +104,21 @@
       if (response.ok) {
         const data = await response.json();
         console.log('[Outfit Widget] App API response:', data);
-        
+
         if (data.success && data.data?.products) {
           state.recommendations = data.data.products.map(p => {
             // Our API returns prices in DOLLARS (e.g., 20.00), convert to cents
             const priceInDollars = parseFloat(p.price) || 0;
             const priceInCents = Math.round(priceInDollars * 100);
-            
-            console.log('[Outfit Widget] App API price conversion:', {
+
+            // Be resilient with variant ID property names
+            const vId = p.variant_id || p.variantId || p.shopify_variant_id;
+
+            console.log('[Outfit Widget] App API product conversion:', {
               title: p.title,
-              originalPrice: p.price,
-              priceInCents: priceInCents
+              variantId: vId
             });
-            
+
             return {
               id: p.shopify_product_id || p.id,
               handle: p.handle,
@@ -124,7 +126,7 @@
               url: `/products/${p.handle}`,
               image: p.image_url || p.featuredImageUrl,
               price: priceInCents,
-              variantId: p.variant_id ? String(p.variant_id) : null,
+              variantId: vId ? String(vId) : null,
             };
           }).slice(0, config.maxRecommendations);
         }
@@ -135,11 +137,11 @@
         console.log('[Outfit Widget] Falling back to Shopify native API');
         const shopifyRecsUrl = `/recommendations/products.json?product_id=${config.productId}&limit=${config.maxRecommendations}&intent=related`;
         response = await fetch(shopifyRecsUrl);
-        
+
         if (response.ok) {
           const data = await response.json();
           console.log('[Outfit Widget] Shopify API response:', data);
-          
+
           state.recommendations = (data.products || [])
             .slice(0, config.maxRecommendations)
             .map(p => {
@@ -147,7 +149,7 @@
               // We need to convert to cents
               const variant = p.variants?.[0];
               let priceInCents = 0;
-              
+
               if (variant?.price) {
                 // Price is like "20.00" or "20" - convert to cents
                 priceInCents = Math.round(parseFloat(variant.price) * 100);
@@ -198,7 +200,7 @@
   function renderRecommendations(widget, config) {
     const container = widget.querySelector('.oc-outfit__recommendations');
     const template = document.getElementById('oc-recommendation-template');
-    
+
     if (!container || !template) {
       console.error('[Outfit Widget] Container or template not found');
       return;
@@ -233,7 +235,7 @@
       img.src = product.image || 'https://via.placeholder.com/400x400?text=No+Image';
       img.alt = product.title;
       title.textContent = product.title;
-      
+
       if (config.showPrices && product.price > 0) {
         price.textContent = formatMoney(product.price);
       } else {
@@ -269,16 +271,16 @@
    */
   function removeFromOutfit(widget, product) {
     console.log('[Outfit Widget] Removing product:', product.id);
-    
+
     // Remove from selected products
     state.selectedProducts = state.selectedProducts.filter(p => p.id !== product.id);
-    
+
     // Find and hide the item in DOM
     const item = widget.querySelector(`.oc-outfit__item[data-product-id="${product.id}"]`);
     if (item) {
       item.style.display = 'none';
     }
-    
+
     // Hide the corresponding plus sign
     const plusSign = widget.querySelector(`.oc-outfit__plus[data-for-product="${product.id}"]`);
     if (plusSign) {
@@ -327,7 +329,7 @@
       // Remove any existing listeners
       const newBtn = addAllBtn.cloneNode(true);
       addAllBtn.parentNode.replaceChild(newBtn, addAllBtn);
-      
+
       newBtn.addEventListener('click', async (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -359,102 +361,86 @@
     `;
 
     try {
-      // Prepare items to add
+      // Helper to extract numeric ID from Shopify GID
+      const getNumericId = (id) => {
+        if (!id) return null;
+        if (typeof id === 'number') return id;
+        const idString = String(id);
+        if (idString.includes('gid://')) {
+          const parts = idString.split('/');
+          return parseInt(parts[parts.length - 1]);
+        }
+        return parseInt(idString);
+      };
+
+      // Prepare items to add - Read from DOM for maximum reliability
       const items = [];
-      
-      // Add current product
-      if (state.currentProduct?.variantId) {
-        const variantId = parseInt(state.currentProduct.variantId);
-        if (!isNaN(variantId)) {
-          items.push({
-            id: variantId,
-            quantity: 1,
-          });
-          console.log('[Outfit Widget] Adding current product variant:', variantId);
+
+      // 1. Current product
+      const currentItem = widget.querySelector('.oc-outfit__item--current');
+      if (currentItem) {
+        const vId = getNumericId(currentItem.dataset.variantId);
+        if (vId && !isNaN(vId)) {
+          items.push({ id: vId, quantity: 1 });
+          console.log('[Outfit Widget] Adding current (from DOM):', vId);
         }
       }
 
-      // Add selected recommendations
-      for (const product of state.selectedProducts) {
-        if (product.variantId) {
-          const variantId = parseInt(product.variantId);
-          if (!isNaN(variantId)) {
-            items.push({
-              id: variantId,
-              quantity: 1,
-            });
-            console.log('[Outfit Widget] Adding recommendation variant:', variantId, product.title);
+      // 2. Recommendations (only if visible/selected)
+      const recItems = widget.querySelectorAll('.oc-outfit__item--recommendation');
+      recItems.forEach(item => {
+        if (item.style.display !== 'none') {
+          const vId = getNumericId(item.dataset.variantId);
+          if (vId && !isNaN(vId)) {
+            items.push({ id: vId, quantity: 1 });
+            console.log('[Outfit Widget] Adding recommendation (from DOM):', vId);
           }
         }
-      }
-
-      console.log('[Outfit Widget] All items to add:', items);
-
-      if (items.length === 0) {
-        throw new Error('No hay productos para añadir');
-      }
-
-      // Add all items to cart using Shopify's AJAX API
-      const response = await fetch('/cart/add.js', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({ items }),
       });
 
-      const responseText = await response.text();
-      console.log('[Outfit Widget] Cart response:', response.status, responseText);
+      console.log('[Outfit Widget] Final items to add:', items);
+
+      if (items.length === 0) {
+        throw new Error('No hay productos válidos para añadir');
+      }
+
+      // Track event
+      trackEvent('add_outfit_to_cart', {
+        productId: state.currentProduct?.id,
+        itemCount: items.length
+      });
+
+      // Update UI
+      button.style.background = '#27ae60';
+      button.innerHTML = `<span>¡Añadiendo outfit...!</span>`;
+
+      // Use Shopify AJAX API - it's the most compatible for multiple items
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: items })
+      });
 
       if (response.ok) {
-        let result;
-        try {
-          result = JSON.parse(responseText);
-        } catch (e) {
-          result = responseText;
-        }
-        
-        console.log('[Outfit Widget] Cart add success:', result);
+        // Track success
+        console.log('[Outfit Widget] Successfully added', items.length, 'items');
 
-        button.disabled = false;
-        button.style.background = '#27ae60';
-        button.innerHTML = `
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-          <span>¡Outfit añadido! (${items.length} productos)</span>
-        `;
-
-        // Track event
-        trackEvent('add_outfit_to_cart', {
-          productId: state.currentProduct?.id,
-          recommendationIds: state.selectedProducts.map(p => p.id),
-          totalItems: items.length,
-        });
-
-        // Update cart counter
-        await updateCartCounter();
-
-        // Reset button after 3 seconds
-        setTimeout(() => {
-          button.style.background = '';
-          button.innerHTML = originalContent;
-        }, 3000);
+        // Reload current page to update cart drawer/count but keep user here
+        window.location.reload();
       } else {
-        throw new Error(`Error del servidor: ${response.status} - ${responseText}`);
+        const errorText = await response.text();
+        console.error('[Outfit Widget] Add to cart failed:', errorText);
+        throw new Error(`No se pudo añadir al carrito. Inténtalo de nuevo.`);
       }
+
     } catch (error) {
       console.error('[Outfit Widget] Error adding to cart:', error);
+
+      // Revert button state
       button.disabled = false;
       button.style.background = '#e74c3c';
-      button.innerHTML = `
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-        <span>Error - Reintentar</span>
-      `;
+      // Show actual error message to help debug if it's a "sold out" issue etc
+      button.innerHTML = `<span style="font-size: 0.8em">Error: ${error.message.substring(0, 20)}...</span>`;
 
       setTimeout(() => {
         button.style.background = '';
@@ -472,7 +458,7 @@
       if (response.ok) {
         const cart = await response.json();
         console.log('[Outfit Widget] Cart updated:', cart.item_count, 'items');
-        
+
         // Common cart counter selectors
         const selectors = [
           '.cart-count',
@@ -498,7 +484,7 @@
         // Dispatch custom events that themes might listen to
         document.dispatchEvent(new CustomEvent('cart:updated', { detail: cart }));
         document.dispatchEvent(new CustomEvent('cart:refresh'));
-        
+
         // Try to trigger theme-specific cart updates
         if (window.theme?.Cart?.updateCounts) {
           window.theme.Cart.updateCounts();
@@ -536,14 +522,14 @@
     if (typeof cents === 'string') {
       cents = parseInt(cents);
     }
-    
+
     if (isNaN(cents) || cents === 0) {
       return formatCurrency(0);
     }
-    
+
     // Convert cents to dollars/euros
     const amount = cents / 100;
-    
+
     return formatCurrency(amount);
   }
 
@@ -568,12 +554,12 @@
   function getOrCreateSessionId() {
     const storageKey = 'outfit_completer_session';
     let sessionId = sessionStorage.getItem(storageKey);
-    
+
     if (!sessionId) {
       sessionId = 'oc_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
       sessionStorage.setItem(storageKey, sessionId);
     }
-    
+
     return sessionId;
   }
 
@@ -583,7 +569,7 @@
     const content = widget.querySelector('.oc-content');
     const empty = widget.querySelector('.oc-empty');
     const error = widget.querySelector('.oc-error');
-    
+
     if (loading) loading.style.display = 'flex';
     if (content) content.style.display = 'none';
     if (empty) empty.style.display = 'none';
@@ -595,7 +581,7 @@
     const content = widget.querySelector('.oc-content');
     const empty = widget.querySelector('.oc-empty');
     const error = widget.querySelector('.oc-error');
-    
+
     if (loading) loading.style.display = 'none';
     if (content) content.style.display = 'block';
     if (empty) empty.style.display = 'none';
@@ -607,7 +593,7 @@
     const content = widget.querySelector('.oc-content');
     const empty = widget.querySelector('.oc-empty');
     const error = widget.querySelector('.oc-error');
-    
+
     if (loading) loading.style.display = 'none';
     if (content) content.style.display = 'none';
     if (empty) empty.style.display = 'flex';
@@ -619,7 +605,7 @@
     const content = widget.querySelector('.oc-content');
     const empty = widget.querySelector('.oc-empty');
     const error = widget.querySelector('.oc-error');
-    
+
     if (loading) loading.style.display = 'none';
     if (content) content.style.display = 'none';
     if (empty) empty.style.display = 'none';
