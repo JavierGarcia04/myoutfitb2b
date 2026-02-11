@@ -16,21 +16,21 @@ export default function Hero() {
   const phoneImages = [
     {
       src: '/images/phones/device_15_home_feed2.png',
-      alt: 'Screenshot of MyOutfit app showing the main feed.',
+      alt: 'Screenshot of MyOutfit app showing dashboard with latest outfits.',
       width: 250, // Igualado al tamaño de la imagen del medio
       height: 500, // Igualado al tamaño de la imagen del medio
       className: 'phone_shadow mx-4', // Mismas clases que la imagen del medio
     },
     {
-      src: '/images/phones/device_15_player_full.png',
-      alt: 'Screenshot of MyOutfit app showing the main player with several comments.',
+      src: '/images/phones/device_15_tu_outfit_hoy.png',
+      alt: 'Screenshot of MyOutfit app showing TU OUTFIT DE HOY with combine feature.',
       width: 250,
       height: 500,
       className: 'phone_shadow mx-4',
     },
     {
       src: '/images/phones/device_15_player_response.png',
-      alt: 'Screenshot of MyOutfit app showing player response.',
+      alt: 'Screenshot of MyOutfit app showing wardrobe with garments grid.',
       width: 250, // Igualado al tamaño de la imagen del medio
       height: 500, // Igualado al tamaño de la imagen del medio
       className: 'phone_shadow mx-4', // Mismas clases que la imagen del medio
@@ -181,6 +181,16 @@ export default function Hero() {
                 <li>
                   <button
                     className={`dropdown-item ${
+                      language === 'pt' ? 'active' : ''
+                    }`}
+                    onClick={() => language !== 'pt' && toggleLanguage('pt')}
+                  >
+                    PT
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className={`dropdown-item ${
                       language === 'cs' ? 'active' : ''
                     }`}
                     onClick={() => language !== 'cs' && toggleLanguage('cs')}
@@ -206,21 +216,21 @@ export default function Hero() {
           >
             <Image
               src="/images/phones/device_15_home_feed2.png"
-              alt="Screenshot of MyOutfit app showing the main player with several comments."
+              alt="Screenshot of MyOutfit app showing dashboard with latest outfits."
               height={400}
               width={200}
               className="phone_shadow mt-5"
             />
             <Image
-              src="/images/phones/device_15_player_full.png"
-              alt="Screenshot of MyOutfit app showing the main player with several comments."
+              src="/images/phones/device_15_tu_outfit_hoy.png"
+              alt="Screenshot of MyOutfit app showing TU OUTFIT DE HOY with combine feature."
               height={500}
               width={250}
               className="phone_shadow mx-4"
             />
             <Image
               src="/images/phones/device_15_player_response.png"
-              alt="Screenshot of MyOutfit app showing the main player with several comments."
+              alt="Screenshot of MyOutfit app showing wardrobe with garments grid."
               height={400}
               width={200}
               className="phone_shadow mt-5"

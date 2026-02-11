@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const LanguageContext = createContext();
 
-const SUPPORTED_LANGUAGES = ['es', 'en', 'de', 'fr', 'it', 'cs'];
+const SUPPORTED_LANGUAGES = ['es', 'en', 'de', 'fr', 'it', 'pt', 'cs'];
 
 function getDefaultLanguage() {
   // Default to 'en' for initial SSR

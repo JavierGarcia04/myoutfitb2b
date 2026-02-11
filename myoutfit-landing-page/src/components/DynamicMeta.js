@@ -52,7 +52,7 @@ const DynamicMeta = () => {
       <meta name="keywords" content={currentMeta.keywords} />
       <meta name="author" content="MyOutfit Team" />
       <meta name="robots" content="index, follow" />
-      <meta name="language" content="es, en, de, fr, it, cs" />
+      <meta name="language" content="es, en, de, fr, it, pt, cs" />
       <meta name="theme-color" content="#8000f7" />
 
       {/* Canonical URL */}
@@ -89,6 +89,11 @@ const DynamicMeta = () => {
       />
       <link
         rel="alternate"
+        hrefLang="pt"
+        href={`https://myoutfitapp.com/pt${router.pathname}`}
+      />
+      <link
+        rel="alternate"
         hrefLang="cs"
         href={`https://myoutfitapp.com/cs${router.pathname}`}
       />
@@ -119,6 +124,7 @@ const DynamicMeta = () => {
       <meta property="og:locale:alternate" content="de_DE" />
       <meta property="og:locale:alternate" content="fr_FR" />
       <meta property="og:locale:alternate" content="it_IT" />
+      <meta property="og:locale:alternate" content="pt_BR" />
       <meta property="og:locale:alternate" content="cs_CZ" />
 
       {/* Twitter Card */}

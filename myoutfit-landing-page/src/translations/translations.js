@@ -9,9 +9,15 @@ export const translations = {
     createOutfits: 'Crea i tuoi outfit',
     createOutfitsDesc:
       'Crea i tuoi migliori outfit combinando i tuoi capi preferiti.',
+    aiRecommendations: 'Raccomandazioni con IA avanzata',
+    aiRecommendationsDesc:
+      'Usa il nostro chatbot con intelligenza artificiale per ottenere suggerimenti personalizzati su outfit. Pianifica look per eventi, scopri tendenze e ricevi combinazioni basate sul tuo guardaroba.',
     wardrobeControl: 'Prendi il controllo del tuo guardaroba',
     wardrobeControlDesc:
       'Carica facilmente i tuoi vestiti scattando una foto o scegliendoli dalla tua galleria.',
+    suitcaseControl: 'Controlla anche le tue valigie',
+    suitcaseControlDesc:
+      'Gestisci le tue valigie direttamente dall\'app. Aggiungi i capi che porti in viaggio, organizza outfit per ogni giorno e non dimenticare mai nulla.',
     dontRepeat: 'Non ripetere i vestiti!',
     dontRepeatDesc:
       'Controlla i tuoi outfit dei giorni precedenti per evitare di ripeterli durante la settimana.',
@@ -26,6 +32,11 @@ export const translations = {
         question: 'Come posso creare combinazioni?',
         answer:
           "Vai alla sezione 'Oggi' per scegliere il tuo outfit del giorno. Lì troverai tutti i tuoi vestiti per provare diverse combinazioni fino a trovare quella che ti piace di più.",
+      },
+      {
+        question: 'Come posso chiedere una raccomandazione all\'IA?',
+        answer:
+          "Accedi al Fashion Assistant dall'icona della chat nella barra di navigazione. Scrivi la tua domanda nel campo messaggio o tocca una delle suggestioni: pianificare un outfit per un evento, scoprire tendenze, fare una domanda sulla moda o ricevere combinazioni con i vestiti del tuo guardaroba. L'IA ti risponderà con raccomandazioni personalizzate.",
       },
       {
         question: 'Posso condividere i miei outfit?',
@@ -52,9 +63,15 @@ export const translations = {
     createOutfits: 'Créez vos tenues',
     createOutfitsDesc:
       'Créez vos meilleures tenues en combinant vos vêtements préférés.',
+    aiRecommendations: 'Recommandations avec IA avancée',
+    aiRecommendationsDesc:
+      'Utilisez notre chatbot à intelligence artificielle pour des suggestions personnalisées d\'outfits. Planifiez vos looks pour des événements, découvrez les tendances et recevez des combinaisons basées sur votre garde-robe.',
     wardrobeControl: 'Prenez le contrôle de votre garde-robe',
     wardrobeControlDesc:
       'Téléchargez facilement vos vêtements en prenant une photo ou en les choisissant depuis votre galerie.',
+    suitcaseControl: 'Contrôlez aussi vos valises',
+    suitcaseControlDesc:
+      'Gérez vos valises directement depuis l\'app. Ajoutez les vêtements que vous emportez en voyage, organisez des tenues pour chaque jour et n\'oubliez jamais rien.',
     dontRepeat: 'Ne répétez pas les vêtements !',
     dontRepeatDesc:
       'Consultez vos tenues des jours précédents pour éviter de les répéter pendant la semaine.',
@@ -69,6 +86,11 @@ export const translations = {
         question: 'Comment puis-je faire des combinaisons ?',
         answer:
           "Allez dans la section 'Aujourd'hui' pour choisir votre tenue du jour. Vous y trouverez tous vos vêtements pour essayer différentes combinaisons jusqu'à ce que vous trouviez celle qui vous plaît le plus.",
+      },
+      {
+        question: 'Comment puis-je demander une recommandation à l\'IA ?',
+        answer:
+          "Accédez au Fashion Assistant depuis l'icône de chat dans la barre de navigation. Tapez votre question dans le champ de message ou appuyez sur l'une des suggestions : planifier une tenue pour un événement, découvrir les tendances, poser une question sur la mode ou recevoir des combinaisons avec les vêtements de votre garde-robe. L'IA vous répondra avec des recommandations personnalisées.",
       },
       {
         question: 'Puis-je partager mes tenues ?',
@@ -95,9 +117,15 @@ export const translations = {
     createOutfits: 'Erstelle deine Outfits',
     createOutfitsDesc:
       'Erstelle deine besten Outfits, indem du deine Lieblingskleidung kombinierst.',
+    aiRecommendations: 'Empfehlungen mit fortgeschrittener KI',
+    aiRecommendationsDesc:
+      'Nutze unseren KI-Chatbot für personalisierte Outfit-Vorschläge. Plane Looks für Events, entdecke Trends und erhalte Kombinationen basierend auf deinem Kleiderschrank.',
     wardrobeControl: 'Übernimm die Kontrolle über deinen Kleiderschrank',
     wardrobeControlDesc:
       'Lade deine Kleidung einfach hoch, indem du ein Foto machst oder sie aus deiner Galerie auswählst.',
+    suitcaseControl: 'Kontrolliere auch deine Koffer',
+    suitcaseControlDesc:
+      'Verwalte deine Koffer direkt in der App. Füge die Kleidungsstücke hinzu, die du auf Reisen mitnimmst, organisiere Outfits für jeden Tag und vergiss nie etwas.',
     dontRepeat: 'Wiederhole keine Kleidung!',
     dontRepeatDesc:
       'Überprüfe deine Outfits der letzten Tage, um Wiederholungen während der Woche zu vermeiden.',
@@ -112,6 +140,11 @@ export const translations = {
         question: 'Wie kann ich Kombinationen erstellen?',
         answer:
           "Gehe zum 'Heute'-Bereich, um dein Outfit des Tages auszuwählen. Dort findest du deine gesamte Kleidung, um verschiedene Kombinationen auszuprobieren, bis du die findest, die dir am besten gefällt.",
+      },
+      {
+        question: 'Wie kann ich eine KI-Empfehlung anfordern?',
+        answer:
+          "Greife über das Chat-Symbol in der Navigationsleiste auf den Fashion Assistant zu. Gib deine Frage in das Nachrichtenfeld ein oder tippe auf eine der Vorschläge: Outfit für ein Event planen, Trends entdecken, Modefrage stellen oder Kombinationen aus deinem Kleiderschrank erhalten. Die KI antwortet mit personalisierten Empfehlungen.",
       },
       {
         question: 'Kann ich meine Outfits teilen?',
@@ -138,9 +171,15 @@ export const translations = {
     createOutfits: 'Crea tus outfits',
     createOutfitsDesc:
       'Crea tus mejores outfits combinando tus prendas favoritas.',
+    aiRecommendations: 'Recomendaciones con IA avanzada',
+    aiRecommendationsDesc:
+      'Usa nuestro chatbot con inteligencia artificial para obtener sugerencias personalizadas de outfits. Planifica looks para eventos, descubre tendencias y recibe combinaciones basadas en tu armario.',
     wardrobeControl: 'Ten un control de tu armario',
     wardrobeControlDesc:
       'Sube tus prendas fácilmente tomando una foto o eligiéndolas desde tu galería.',
+    suitcaseControl: 'También controla tus maletas',
+    suitcaseControlDesc:
+      'Gestiona tus maletas directamente desde la app. Añade las prendas que llevas de viaje, organiza outfits para cada día y no olvides nada.',
     dontRepeat: '¡No repitas ropa!',
     dontRepeatDesc:
       'Consulta tus outfits de días anteriores para evitar repetirlos durante la semana.',
@@ -155,6 +194,11 @@ export const translations = {
         question: '¿Cómo puedo hacer combinaciones?',
         answer:
           "Ve al apartado de 'Hoy' para elegir tu outfit del día. Allí encontrarás todas tus prendas para que pruebes distintas combinaciones hasta que des con la que más te guste.",
+      },
+      {
+        question: '¿Cómo puedo pedir una recomendación a la IA?',
+        answer:
+          "Accede al Fashion Assistant desde el icono de chat en la barra de navegación. Escribe tu pregunta en el campo de mensaje o pulsa en una de las sugerencias: planificar un outfit para un evento, descubrir tendencias, consultar una duda de moda o recibir combinaciones con las prendas de tu armario. La IA te responderá con recomendaciones personalizadas.",
       },
       {
         question: '¿Puedo compartir mis oufits?',
@@ -181,9 +225,15 @@ export const translations = {
     createOutfits: 'Create your outfits',
     createOutfitsDesc:
       'Create your best outfits by combining your favorite clothes.',
+    aiRecommendations: 'Recommendations with advanced AI',
+    aiRecommendationsDesc:
+      'Use our AI-powered chatbot for personalized outfit suggestions. Plan looks for events, discover trends and get combinations based on your wardrobe.',
     wardrobeControl: 'Take control of your wardrobe',
     wardrobeControlDesc:
       'Upload your clothes easily by taking a photo or choosing them from your gallery.',
+    suitcaseControl: 'Also control your suitcases',
+    suitcaseControlDesc:
+      'Manage your suitcases directly in the app. Add the clothes you pack for trips, organize outfits for each day and never forget anything.',
     dontRepeat: "Don't repeat clothes!",
     dontRepeatDesc:
       'Check your outfits from previous days to avoid repeating them during the week.',
@@ -200,6 +250,11 @@ export const translations = {
           "Go to the 'Today' section to choose your outfit of the day. There you'll find all your clothes to try different combinations until you find the one you like the most.",
       },
       {
+        question: 'How can I ask for an AI recommendation?',
+        answer:
+          "Access the Fashion Assistant from the chat icon in the navigation bar. Type your question in the message field or tap one of the suggestions: plan an outfit for an event, discover trends, ask a fashion question, or get combinations from your wardrobe. The AI will respond with personalized recommendations.",
+      },
+      {
         question: 'Can I share my outfits?',
         answer:
           "Yes, once you've created your outfit and click on the combine button, you'll see the outfit and two options below: 'Save' and 'Share'. Click on the share button and select the platform you want to share your outfit with friends.",
@@ -214,6 +269,60 @@ export const translations = {
     ctaSubtitle: 'Coming soon to App Store and Google Play.',
     ctaHashtag: 'Style Unites All',
   },
+  pt: {
+    title: 'Baixe o MyOutfit',
+    subtitle:
+      'Organize e guarde suas roupas no MyOutfit para criar combinações únicas e evitar repetir looks.',
+    downloadApp: 'Baixe o app MyOutfit',
+    mainSubtitle:
+      'Organize e guarde suas roupas no MyOutfit para criar combinações únicas e evitar repetir looks.',
+    createOutfits: 'Crie seus outfits',
+    createOutfitsDesc:
+      'Crie seus melhores outfits combinando suas roupas favoritas.',
+    aiRecommendations: 'Recomendações com IA avançada',
+    aiRecommendationsDesc:
+      'Use nosso chatbot com inteligência artificial para obter sugestões personalizadas de outfits. Planeje looks para eventos, descubra tendências e receba combinações baseadas no seu guarda-roupa.',
+    wardrobeControl: 'Tenha controle do seu guarda-roupa',
+    wardrobeControlDesc:
+      'Envie suas peças facilmente tirando uma foto ou escolhendo-as da sua galeria.',
+    suitcaseControl: 'Também controle suas malas',
+    suitcaseControlDesc:
+      'Gerencie suas malas diretamente no app. Adicione as peças que leva em viagem, organize outfits para cada dia e nunca esqueça nada.',
+    dontRepeat: 'Não repita roupa!',
+    dontRepeatDesc:
+      'Consulte seus outfits de dias anteriores para evitar repeti-los durante a semana.',
+    faq: 'Perguntas Frequentes',
+    faqQuestions: [
+      {
+        question: 'Como posso enviar roupas para o MyOutfit?',
+        answer:
+          "Na seção 'Closet' você encontrará uma imagem com uma câmera. Clique nela para escolher entre duas opções para enviar suas roupas: selecionar da galeria ou tirar uma foto.",
+      },
+      {
+        question: 'Como posso fazer combinações?',
+        answer:
+          "Vá à seção 'Hoje' para escolher seu outfit do dia. Lá você encontrará todas as suas peças para experimentar diferentes combinações até encontrar a que mais gostar.",
+      },
+      {
+        question: 'Como posso pedir uma recomendação à IA?',
+        answer:
+          "Acesse o Fashion Assistant pelo ícone de chat na barra de navegação. Escreva sua pergunta no campo de mensagem ou toque em uma das sugestões: planejar um outfit para um evento, descobrir tendências, fazer uma pergunta sobre moda ou receber combinações com as peças do seu guarda-roupa. A IA responderá com recomendações personalizadas.",
+      },
+      {
+        question: 'Posso compartilhar meus outfits?',
+        answer:
+          "Sim, assim que criar seu outfit e clicar no botão combinar, você verá o outfit e duas opções abaixo: 'Salvar' e 'Compartilhar'. Clique no botão compartilhar e selecione a plataforma desejada para compartilhar seu outfit com amigos.",
+      },
+      {
+        question: 'Como posso excluir peças?',
+        answer:
+          "Uma vez na sua janela de 'Closet', clique em uma peça para abrir uma janela com seus detalhes. Lá você poderá excluir sua peça clicando no botão 'Excluir' no canto superior direito.",
+      },
+    ],
+    ctaTitle: 'Junte-se e seja um #StyleMaster',
+    ctaSubtitle: 'Em breve na App Store e Google Play.',
+    ctaHashtag: 'Style Unites All',
+  },
   cs: {
     title: 'Stáhněte MyOutfit',
     subtitle:
@@ -224,9 +333,15 @@ export const translations = {
     createOutfits: 'Vytvořte si své outfity',
     createOutfitsDesc:
       'Vytvořte si nejlepší outfity kombinací vašeho oblíbeného oblečení.',
+    aiRecommendations: 'Doporučení s pokročilou umělou inteligencí',
+    aiRecommendationsDesc:
+      'Použijte našeho chatbotu s umělou inteligencí pro personalizované návrhy outfitů. Plánujte looky pro události, objevujte trendy a získávejte kombinace založené na vašem šatníku.',
     wardrobeControl: 'Převezměte kontrolu nad svým šatníkem',
     wardrobeControlDesc:
       'Nahrajte své oblečení snadno pořízením fotografie nebo výběrem z galerie.',
+    suitcaseControl: 'Také ovládejte své kufry',
+    suitcaseControlDesc:
+      'Spravujte své kufry přímo v aplikaci. Přidávejte oblečení, které si berete na cesty, organizujte outfity na každý den a nikdy nic nezapomeňte.',
     dontRepeat: 'Neopakujte oblečení!',
     dontRepeatDesc:
       'Zkontrolujte své outfity z předchozích dnů, abyste se vyhnuli jejich opakování během týdne.',
@@ -241,6 +356,11 @@ export const translations = {
         question: 'Jak mohu vytvářet kombinace?',
         answer:
           "Přejděte do sekce 'Dnes' pro výběr outfitu dne. Tam najdete všechno své oblečení pro vyzkoušení různých kombinací, dokud nenajdete tu, která se vám nejvíce líbí.",
+      },
+      {
+        question: 'Jak mohu požádat o doporučení od umělé inteligence?',
+        answer:
+          "Přístup k Fashion Assistantu získáte prostřednictvím ikony chatu v navigační liště. Napište svou otázku do pole zprávy nebo klepněte na jednu z návrhů: naplánovat outfit na událost, objevit trendy, položit módní otázku nebo získat kombinace z vašeho šatníku. Umělá inteligence vám odpoví personalizovanými doporučeními.",
       },
       {
         question: 'Mohu sdílet své outfity?',

@@ -59,6 +59,16 @@ const translations = {
     privacy:
       "Rispettiamo la tua privacy. Annulla l'iscrizione in qualsiasi momento.",
   },
+  pt: {
+    title: 'Não perca!',
+    description:
+      'Deixe-nos seu e-mail e avisaremos quando o MyOutfit estiver disponível.',
+    placeholder: 'Seu e-mail',
+    button: 'Avise-me',
+    success: 'Ótimo! Avisaremos você no lançamento.',
+    error: 'Algo deu errado. Por favor, tente novamente.',
+    privacy: 'Respeitamos sua privacidade. Cancele a inscrição a qualquer momento.',
+  },
   cs: {
     title: 'Nenechte si to ujít!',
     description:
@@ -73,7 +83,7 @@ const translations = {
 
 const SubscribeForm = () => {
   const { language } = useLanguage();
-  const t = translations[language];
+  const t = translations[language] || translations.en;
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState(null); // null | 'success' | 'error'
   const [loading, setLoading] = useState(false);

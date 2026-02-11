@@ -19,7 +19,6 @@ import {
   FiCheckCircle,
   FiChevronDown,
   FiChevronUp,
-  FiShoppingCart,
   FiTarget,
   FiAward,
   FiRefreshCw
@@ -64,87 +63,58 @@ export default function B2BHome() {
           <div className="container">
             <div className="row align-items-center min-vh-75">
               <div className="col-lg-6">
-                <div className={styles.heroBadge}>
-                  <FiZap size={16} /> Potenciado por IA
-                </div>
-                <h1 className={styles.heroTitle}>MyOutfit for Business</h1>
-                <p className={styles.heroSubtitle}>
-                  Recomendaciones inteligentes de outfits que aumentan tus ventas automáticamente
-                </p>
-                <p className={styles.heroDescription}>
-                  Integra nuestro motor de IA avanzado en tu tienda online para ofrecer recomendaciones 
-                  personalizadas de outfits completos. Aumenta el valor medio por pedido hasta un 30%, 
-                  reduce devoluciones y mejora la satisfacción de tus clientes.
-                </p>
-                <div className={styles.heroStats}>
-                  <div className={styles.heroStat}>
-                    <span className={styles.heroStatNumber}>+30%</span>
-                    <span className={styles.heroStatLabel}>Incremento AOV</span>
+                <div className={styles.heroContent}>
+                  <div className={styles.heroBadge}>
+                    <FiZap size={16} /> Potenciado por IA
                   </div>
-                  <div className={styles.heroStat}>
-                    <span className={styles.heroStatNumber}>-25%</span>
-                    <span className={styles.heroStatLabel}>Devoluciones</span>
+                  <h1 className={styles.heroTitle}>MyOutfit for Business</h1>
+                  <p className={styles.heroSubtitle}>
+                    Recomendaciones inteligentes de outfits que aumentan tus ventas automáticamente
+                  </p>
+                  <div className={styles.heroDescriptionWrap}>
+                    <p className={styles.heroDescription}>
+                      Integra nuestro motor de IA avanzado en tu tienda online para ofrecer recomendaciones 
+                      personalizadas de outfits completos. Aumenta el valor medio por pedido hasta un 30%, 
+                      reduce devoluciones y mejora la satisfacción de tus clientes.
+                    </p>
                   </div>
-                  <div className={styles.heroStat}>
-                    <span className={styles.heroStatNumber}>5 min</span>
-                    <span className={styles.heroStatLabel}>Integración</span>
-                  </div>
-                </div>
-                <div className={styles.ctaButtons}>
-                  <Link href="/b2b/demo" className="btn btn-light btn-lg me-3">
-                    <FiZap size={20} className="me-2" />
-                    Ver Demo Interactiva
-                  </Link>
-                  <Link href="/dashboard" className="btn btn-outline-light btn-lg">
-                    Comenzar Gratis
-                  </Link>
-                </div>
-                <div className={styles.heroTrust}>
-                  <FiCheckCircle size={18} /> <span>14 días de prueba gratuita · Sin tarjeta de crédito</span>
-                </div>
-              </div>
-              <div className="col-lg-6 text-center mt-5 mt-lg-0">
-                <div className={styles.widgetMockup}>
-                  <div className={styles.productCard}>
-                    <div className={styles.productImage}>👕</div>
-                    <h4>Camiseta Premium Cotton</h4>
-                    <p className="text-muted mb-0"><strong>€34.99</strong></p>
-                    <small className="text-muted">Talla M · Negro</small>
-                    <div className={styles.widgetDemo}>
-                      <h5><FiZap size={18} /> Completa tu outfit</h5>
-                      <p className={styles.widgetSubtext}>Combinaciones perfectas seleccionadas por IA</p>
-                      <div className={styles.recommendations}>
-                        <div className={styles.recommendationItem}>
-                          <div className={styles.recImage}>👖</div>
-                          <div className={styles.recInfo}>
-                            <span className={styles.recName}>Jeans Slim Fit</span>
-                            <span className={styles.recPrice}>€49.99</span>
-                          </div>
-                          <button className={styles.recButton}>+</button>
-                        </div>
-                        <div className={styles.recommendationItem}>
-                          <div className={styles.recImage}>👟</div>
-                          <div className={styles.recInfo}>
-                            <span className={styles.recName}>Zapatillas Urbanas</span>
-                            <span className={styles.recPrice}>€69.99</span>
-                          </div>
-                          <button className={styles.recButton}>+</button>
-                        </div>
-                        <div className={styles.recommendationItem}>
-                          <div className={styles.recImage}>🧥</div>
-                          <div className={styles.recInfo}>
-                            <span className={styles.recName}>Chaqueta Bomber</span>
-                            <span className={styles.recPrice}>€89.99</span>
-                          </div>
-                          <button className={styles.recButton}>+</button>
-                        </div>
-                      </div>
-                      <div className={styles.widgetFooter}>
-                        <span>Outfit completo: <strong>€244.96</strong></span>
-                        <button className={styles.addAllButton}>Añadir todo al carrito</button>
-                      </div>
+                  <div className={styles.heroStats}>
+                    <div className={styles.heroStat}>
+                      <span className={styles.heroStatNumber}>+30%</span>
+                      <span className={styles.heroStatLabel}>Incremento AOV</span>
+                    </div>
+                    <div className={styles.heroStat}>
+                      <span className={styles.heroStatNumber}>-25%</span>
+                      <span className={styles.heroStatLabel}>Devoluciones</span>
+                    </div>
+                    <div className={styles.heroStat}>
+                      <span className={styles.heroStatNumber}>5 min</span>
+                      <span className={styles.heroStatLabel}>Integración</span>
                     </div>
                   </div>
+                  <div className={styles.ctaButtons}>
+                    <Link href="/b2b/demo" className="btn btn-light btn-lg me-3">
+                      <FiZap size={20} className="me-2" />
+                      Ver Demo Interactiva
+                    </Link>
+                    <Link href="/dashboard" className="btn btn-outline-light btn-lg">
+                      Comenzar Gratis
+                    </Link>
+                  </div>
+                  <div className={styles.heroTrust}>
+                    <FiCheckCircle size={18} /> <span>14 días de prueba gratuita · Sin tarjeta de crédito</span>
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-6 mt-5 mt-lg-0">
+                <div className={styles.widgetMockup}>
+                  <Image
+                    src="/images/b2b-complete-look.png"
+                    alt="Widget Completa tu look - Recomendaciones de outfit con IA"
+                    width={600}
+                    height={360}
+                    className={styles.widgetImage}
+                  />
                 </div>
               </div>
             </div>

@@ -71,6 +71,25 @@ export default function Home() {
               >
                 <div className={`${styles.backsplash} mx-auto`}></div>
                 <Image
+                  src="/images/phones/device_15_tu_outfit.png"
+                  alt="Captura de MyOutfit app mostrando el Fashion Assistant con chatbot de IA."
+                  height={400}
+                  width={200}
+                  className={`${styles.backsplash_image} phone_shadow`}
+                />
+              </div>
+              <div className="col-md-6 col-lg-4 my-auto order-md-first text-center text-md-start">
+                <h3>{t.aiRecommendations}</h3>
+                <p>{t.aiRecommendationsDesc}</p>
+              </div>
+            </div>
+
+            <div className="row my-5 justify-content-md-center">
+              <div
+                className={`${styles.backsplash_container} col-md-6 col-lg-4 text-center`}
+              >
+                <div className={`${styles.backsplash} mx-auto`}></div>
+                <Image
                   src="/images/phones/device_15_player_nested.png"
                   alt="Captura de MyOutfit app mostrando el armario de ropa."
                   height={400}
@@ -78,26 +97,44 @@ export default function Home() {
                   className={`${styles.backsplash_image} phone_shadow`}
                 />
               </div>
-              <div className="col-md-6 col-lg-4 my-auto order-md-first text-center text-md-start">
+              <div className="col-md-6 col-lg-4 offset-lg-1 my-auto text-center text-md-start">
                 <h3>{t.wardrobeControl}</h3>
                 <p>{t.wardrobeControlDesc}</p>
               </div>
             </div>
 
-            <div className="row justify-content-md-center">
+            <div className="row my-5 justify-content-md-center">
               <div
-                className={`${styles.backsplash_container} col-md-6 col-lg-4 text-center`}
+                className={`${styles.backsplash_container} col-md-6 col-lg-4 offset-lg-1 text-center`}
               >
                 <div className={`${styles.backsplash} mx-auto`}></div>
                 <Image
-                  src="/images/phones/device_15_channel_invite.png"
-                  alt="Captura de MyOutfit app mostrando una ventana con el registro de ropa."
+                  src="/images/phones/device_15_suitcase.png"
+                  alt="Captura de MyOutfit app mostrando la gestión de maletas y checklist de viaje."
                   height={400}
                   width={200}
                   className={`${styles.backsplash_image} phone_shadow`}
                 />
               </div>
+              <div className="col-md-6 col-lg-4 my-auto order-md-first text-center text-md-start">
+                <h3>{t.suitcaseControl}</h3>
+                <p>{t.suitcaseControlDesc}</p>
+              </div>
+            </div>
 
+            <div className="row my-5 justify-content-md-center">
+              <div
+                className={`${styles.backsplash_container} col-md-6 col-lg-4 text-center`}
+              >
+                <div className={`${styles.backsplash} mx-auto`}></div>
+                <Image
+                  src="/images/phones/device_15_dont_repeat.png"
+                  alt="Captura de MyOutfit app mostrando los últimos outfits y panel de control."
+                  height={400}
+                  width={200}
+                  className={`${styles.backsplash_image} phone_shadow`}
+                />
+              </div>
               <div className="col-md-6 col-lg-4 offset-lg-1 my-auto text-center text-md-start">
                 <h3>{t.dontRepeat}</h3>
                 <p>{t.dontRepeatDesc}</p>
@@ -145,7 +182,7 @@ export default function Home() {
                     <div className={styles.phonesWrapper}>
                       <Image
                         src="/images/phones/device_15_channel_invite.png"
-                        alt="MyOutfit app no repitas ropa"
+                        alt="MyOutfit app panel con últimos outfits"
                         width={200}
                         height={400}
                         className={styles.phoneImage}
