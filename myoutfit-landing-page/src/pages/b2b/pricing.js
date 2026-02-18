@@ -20,6 +20,7 @@ import {
 const plans = [
   {
     name: 'Starter',
+    stripePlan: 'starter',
     price: 49,
     annualPrice: 39,
     period: '/mes',
@@ -47,6 +48,7 @@ const plans = [
   },
   {
     name: 'Pro',
+    stripePlan: 'pro',
     price: 149,
     annualPrice: 119,
     period: '/mes',
@@ -74,6 +76,7 @@ const plans = [
   },
   {
     name: 'Enterprise',
+    stripePlan: null,
     price: 'Custom',
     annualPrice: 'Custom',
     period: '',
@@ -103,7 +106,39 @@ const plans = [
 
 export default function Pricing() {
   const [billingPeriod, setBillingPeriod] = useState('monthly');
+  const [loadingPlan, setLoadingPlan] = useState(null);
   const isAnnual = billingPeriod === 'annual';
+
+  const handleCheckout = async (plan) => {
+    if (!plan.stripePlan) return;
+    if (isAnnual) {
+      window.location.href = '/b2b#contact';
+      return;
+    }
+    setLoadingPlan(plan.name);
+    try {
+      const res = await fetch('/api/stripe/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: plan.stripePlan }),
+      });
+      const contentType = res.headers.get('content-type');
+      const text = await res.text();
+      if (!contentType || !contentType.includes('application/json')) {
+        console.error('API returned non-JSON:', text?.slice(0, 200));
+        throw new Error('Error de servidor. ¿Reiniciaste el servidor después de añadir .env.local?');
+      }
+      const data = JSON.parse(text);
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error(data.error || 'Error al iniciar el pago');
+      }
+    } catch (err) {
+      alert(err.message || 'Error al procesar el pago. Intenta de nuevo.');
+      setLoadingPlan(null);
+    }
+  };
 
   return (
     <>
@@ -206,12 +241,23 @@ export default function Pricing() {
                         )}
                       </div>
 
-                      <Link
-                        href={plan.name === 'Enterprise' ? '/b2b#contact' : '/dashboard'}
-                        className={`${styles.ctaButton} ${plan.popular ? styles.ctaButtonPrimary : styles.ctaButtonOutline}`}
-                      >
-                        {plan.cta}
-                      </Link>
+                      {plan.stripePlan ? (
+                        <button
+                          type="button"
+                          onClick={() => handleCheckout(plan)}
+                          disabled={loadingPlan === plan.name}
+                          className={`${styles.ctaButton} ${plan.popular ? styles.ctaButtonPrimary : styles.ctaButtonOutline}`}
+                        >
+                          {loadingPlan === plan.name ? 'Redirigiendo...' : plan.cta}
+                        </button>
+                      ) : (
+                        <Link
+                          href="/b2b#contact"
+                          className={`${styles.ctaButton} ${plan.popular ? styles.ctaButtonPrimary : styles.ctaButtonOutline}`}
+                        >
+                          {plan.cta}
+                        </Link>
+                      )}
 
                       <div className={styles.featuresSection}>
                         <div className={styles.featuresHeader}>

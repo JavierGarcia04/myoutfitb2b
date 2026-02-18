@@ -231,6 +231,12 @@ export function useAuth() {
     }
   };
 
+  const refreshStore = async () => {
+    if (user?.id) {
+      await fetchStore(user.id);
+    }
+  };
+
   return {
     user,
     store,
@@ -238,6 +244,7 @@ export function useAuth() {
     signIn,
     signUp,
     signOut,
+    refreshStore,
   };
 }
 

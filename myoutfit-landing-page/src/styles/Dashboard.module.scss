@@ -799,6 +799,356 @@
   }
 }
 
+// Widget Config - Estilo tipo Shopify/Polaris
+.widgetConfigCard {
+  border: 1px solid #e1e3e5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.widgetConfigTitle {
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  color: #202223 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.widgetConfigDesc {
+  font-size: 0.875rem;
+  color: #6d7175;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.widgetConfigField {
+  margin-bottom: 1.25rem;
+}
+
+.widgetConfigLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #202223;
+  margin-bottom: 0.5rem;
+}
+
+.widgetConfigValue {
+  font-weight: 600;
+  color: #5c5f62;
+}
+
+.widgetConfigInput {
+  border-radius: 8px;
+  border-color: #c9cccf;
+  font-size: 0.875rem;
+
+  &:focus {
+    border-color: #5c6ac4;
+    box-shadow: 0 0 0 1px #5c6ac4;
+  }
+}
+
+.widgetConfigRadioGroup {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.widgetConfigRadio {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #c9cccf;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.15s;
+
+  input {
+    margin: 0;
+  }
+
+  input:checked + span {
+    font-weight: 600;
+  }
+
+  &:has(input:checked) {
+    border-color: #5c6ac4;
+    background: #f4f5fa;
+    color: #202223;
+  }
+
+  &:hover {
+    border-color: #8c9196;
+  }
+}
+
+.widgetConfigSaveBtn {
+  margin-top: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.widgetPreview {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: #f6f6f7;
+  border: 1px solid #e1e3e5;
+}
+
+.widgetPreviewDark {
+  background: #2c2e2f;
+  border-color: #454648;
+}
+
+.widgetPreviewTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #8000f7ff;
+  margin-bottom: 1rem;
+}
+
+.widgetPreviewDark .widgetPreviewTitle {
+  color: #a855f7;
+}
+
+.widgetPreviewGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.widgetPreviewItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e1e3e5;
+}
+
+.widgetPreviewDark .widgetPreviewItem {
+  background: #3d3f40;
+  border-color: #454648;
+}
+
+.widgetPreviewImg {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #f0f0f0;
+}
+
+.widgetPreviewInfo {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  color: #202223;
+}
+
+.widgetPreviewDark .widgetPreviewInfo {
+  color: #e1e3e5;
+}
+
+.widgetPreviewPrice {
+  font-weight: 600;
+  color: #8000f7ff;
+}
+
+.widgetPreviewEmpty {
+  margin: 0;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.widgetPreviewDark .widgetPreviewEmpty {
+  color: #9ca3af;
+}
+
+/* Estilo "Complete Your Look" (Shopify) */
+.widgetPreviewShopify {
+  background: #f7f7f7;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.widgetPreviewDark.widgetPreviewShopify {
+  background: #2c2e2f;
+}
+
+.widgetPreviewMainTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.25rem 0;
+  text-align: center;
+}
+
+.widgetPreviewDark .widgetPreviewMainTitle {
+  color: #f6f6f7;
+}
+
+.widgetPreviewSubtitle {
+  font-size: 0.95rem;
+  color: #777;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+}
+
+.widgetPreviewDark .widgetPreviewSubtitle {
+  color: #9ca3af;
+}
+
+.widgetPreviewProducts {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.widgetPreviewCard {
+  display: flex;
+  flex-direction: column;
+  background: #f0f0f0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  min-width: 120px;
+  max-width: 150px;
+}
+
+.widgetPreviewCardSelected {
+  border-color: #8a2be2;
+}
+
+.widgetPreviewDark .widgetPreviewCard {
+  background: #3d3f40;
+}
+
+.widgetPreviewDark .widgetPreviewCardSelected {
+  border-color: #a855f7;
+}
+
+.widgetPreviewImgWrap {
+  position: relative;
+  aspect-ratio: 1;
+  background: #efefef;
+  overflow: hidden;
+}
+
+.widgetPreviewDark .widgetPreviewImgWrap {
+  background: #2c2e2f;
+}
+
+.widgetPreviewImgWrap .widgetPreviewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.widgetPreviewBadge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #8a2be2;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.4rem;
+  text-align: center;
+}
+
+.widgetPreviewDark .widgetPreviewBadge {
+  background: #a855f7;
+}
+
+.widgetPreviewCardInfo {
+  padding: 0.6rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  font-size: 0.8rem;
+  color: #333;
+}
+
+.widgetPreviewDark .widgetPreviewCardInfo {
+  color: #e1e3e5;
+}
+
+.widgetPreviewCardInfo .widgetPreviewPrice {
+  color: #333;
+}
+
+.widgetPreviewDark .widgetPreviewCardInfo .widgetPreviewPrice {
+  color: #e1e3e5;
+}
+
+.widgetPreviewPlus {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.widgetPreviewDark .widgetPreviewPlus {
+  color: #9ca3af;
+}
+
+.widgetPreviewFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e1e3e5;
+}
+
+.widgetPreviewDark .widgetPreviewFooter {
+  border-top-color: #454648;
+}
+
+.widgetPreviewTotal {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.widgetPreviewDark .widgetPreviewTotal {
+  color: #e1e3e5;
+}
+
+.widgetPreviewBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #8a2be2;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(138, 43, 226, 0.35);
+}
+
+.widgetPreviewBtn:hover {
+  background: #7b1fd4;
+}
+
 .cardHeader {
   display: flex;
   justify-content: space-between;

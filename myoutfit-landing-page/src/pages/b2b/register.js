@@ -9,6 +9,8 @@ import { FiCheck, FiShield, FiZap, FiUsers } from 'react-icons/fi';
 
 export default function Register() {
   const router = useRouter();
+  const { session_id, plan } = router.query;
+  const paidSuccess = Boolean(session_id);
   const { user, signUp } = useAuth();
   const [formData, setFormData] = useState({
     storeName: '',
@@ -182,7 +184,11 @@ export default function Register() {
                     <div className={styles.loginCard}>
                       <h2>Crea tu cuenta</h2>
                       <p className={styles.loginSubtitle}>
-                        Comienza tu prueba gratuita de 14 días
+                        {paidSuccess ? (
+                          <>Pago completado. Completa tu registro para acceder a tu plan {plan === 'pro' ? 'Pro' : 'Starter'}.</>
+                        ) : (
+                          <>Comienza tu prueba gratuita de 14 días</>
+                        )}
                       </p>
 
                       {error && (

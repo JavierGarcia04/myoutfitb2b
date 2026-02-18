@@ -1,11 +1,73 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import styles from '@/styles/Dashboard.module.scss';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/lib/supabase';
 import UserConfigModal from '@/components/UserConfigModal';
+
+function WidgetPreviewSample({ count, theme, title, subtitle, styles, storeProducts = [] }) {
+  const displayData = useMemo(() => {
+    if (!storeProducts || storeProducts.length === 0) return { current: null, recs: [] };
+    const shuffled = [...storeProducts].sort(() => Math.random() - 0.5);
+    const current = shuffled[0];
+    const recs = shuffled.slice(1, Math.min(count, storeProducts.length));
+    return { current, recs };
+  }, [storeProducts, count]);
+
+  const total = displayData.current
+    ? parseFloat(displayData.current.price || 0) + displayData.recs.reduce((s, p) => s + parseFloat(p.price || 0), 0)
+    : 0;
+
+  return (
+    <div className={`${styles.widgetPreview} ${styles.widgetPreviewShopify} ${theme === 'dark' ? styles.widgetPreviewDark : ''}`}>
+      <h3 className={styles.widgetPreviewMainTitle}>{title}</h3>
+      <p className={styles.widgetPreviewSubtitle}>{subtitle || 'Combina estas prendas para un outfit perfecto'}</p>
+      {!displayData.current ? (
+        <p className={styles.widgetPreviewEmpty}>
+          Añade productos al catálogo para ver las recomendaciones aquí.
+        </p>
+      ) : (
+        <>
+          <div className={styles.widgetPreviewProducts}>
+            <div className={`${styles.widgetPreviewCard} ${styles.widgetPreviewCardSelected}`}>
+              <div className={styles.widgetPreviewImgWrap}>
+                <img src={displayData.current.image_url || ''} alt={displayData.current.name} className={styles.widgetPreviewImg} />
+                <span className={styles.widgetPreviewBadge}>TU SELECCIÓN</span>
+              </div>
+              <div className={styles.widgetPreviewCardInfo}>
+                <span>{displayData.current.name}</span>
+                <span className={styles.widgetPreviewPrice}>€{parseFloat(displayData.current.price || 0).toFixed(2)}</span>
+              </div>
+            </div>
+            {displayData.recs.map((p, i) => (
+              <React.Fragment key={p.id || i}>
+                <span className={styles.widgetPreviewPlus}>+</span>
+                <div className={styles.widgetPreviewCard}>
+                  <div className={styles.widgetPreviewImgWrap}>
+                    <img src={p.image_url || ''} alt={p.name} className={styles.widgetPreviewImg} />
+                  </div>
+                  <div className={styles.widgetPreviewCardInfo}>
+                    <span>{p.name}</span>
+                    <span className={styles.widgetPreviewPrice}>€{parseFloat(p.price || 0).toFixed(2)}</span>
+                  </div>
+                </div>
+              </React.Fragment>
+            ))}
+          </div>
+          <div className={styles.widgetPreviewFooter}>
+            <span className={styles.widgetPreviewTotal}>Total del outfit: <strong>€{total.toFixed(2)}</strong></span>
+            <button type="button" className={styles.widgetPreviewBtn}>
+              <FiShoppingCart style={{ width: 18, height: 18 }} /> Añadir outfit al carrito
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
 import NotificationsPanel from '@/components/NotificationsPanel';
+import CsvUploadModal from '@/components/CsvUploadModal';
 import {
   FiBarChart2,
   FiPackage,
@@ -41,7 +103,7 @@ import {
 } from 'react-icons/fi';
 
 export default function Dashboard() {
-  const { user, store, loading: authLoading, signIn, signOut } = useAuth();
+  const { user, store, loading: authLoading, signIn, signOut, refreshStore } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -53,6 +115,18 @@ export default function Dashboard() {
   const [apiKeyCopied, setApiKeyCopied] = useState(false);
   const [showApiKey, setShowApiKey] = useState(false);
   const [showUserConfig, setShowUserConfig] = useState(false);
+  const [showCsvUpload, setShowCsvUpload] = useState(false);
+
+  // Widget settings (cargados desde store.widget_settings)
+  const defaultWidgetSettings = {
+    theme: 'light',
+    title: 'Complete Your Look',
+    subtitle: 'Combina estas prendas para un outfit perfecto',
+    num_suggestions: 3,
+    position: 'below',
+  };
+  const [widgetSettings, setWidgetSettings] = useState(defaultWidgetSettings);
+  const [savingWidget, setSavingWidget] = useState(false);
 
   // Datos reales de Supabase
   const [products, setProducts] = useState([]);
@@ -66,6 +140,19 @@ export default function Dashboard() {
   const [loadingData, setLoadingData] = useState(false);
   const [showNotificationsPanel, setShowNotificationsPanel] = useState(false);
   const [notifications, setNotifications] = useState([]);
+
+  // Cargar widget settings cuando el store cambie
+  useEffect(() => {
+    if (store?.widget_settings && typeof store.widget_settings === 'object') {
+      setWidgetSettings((prev) => ({
+        theme: store.widget_settings.theme ?? 'light',
+        title: store.widget_settings.title ?? 'Complete Your Look',
+        subtitle: store.widget_settings.subtitle ?? 'Combina estas prendas para un outfit perfecto',
+        num_suggestions: store.widget_settings.num_suggestions ?? 3,
+        position: store.widget_settings.position ?? 'below',
+      }));
+    }
+  }, [store?.id, store?.widget_settings]);
 
   // Cargar productos y analytics cuando el store cambie
   useEffect(() => {
@@ -204,6 +291,31 @@ export default function Dashboard() {
       );
     } finally {
       setLoadingData(false);
+    }
+  };
+
+  // Guardar configuración del widget
+  const handleSaveWidgetConfig = async (e) => {
+    e?.preventDefault();
+    if (!store?.id) return;
+    setSavingWidget(true);
+    try {
+      const { error } = await supabase
+        .from('stores')
+        .update({
+          widget_settings: widgetSettings,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', store.id);
+
+      if (error) throw error;
+      await refreshStore?.();
+      addNotification('Configuración guardada', 'Los ajustes del widget se han actualizado correctamente.', 'success');
+    } catch (err) {
+      console.error('Error saving widget config:', err);
+      addNotification('Error', 'No se pudieron guardar los cambios. Inténtalo de nuevo.', 'warning');
+    } finally {
+      setSavingWidget(false);
     }
   };
 
@@ -967,8 +1079,11 @@ export default function Dashboard() {
                             <FiUpload />
                             <h4>Importación CSV</h4>
                             <p>Sube un archivo CSV con tus productos</p>
-                            <button className="btn btn-outline-primary" disabled>
-                              Próximamente
+                            <button
+                              className="btn btn-outline-primary"
+                              onClick={() => setShowCsvUpload(true)}
+                            >
+                              Subir CSV
                             </button>
                           </div>
 
@@ -989,9 +1104,20 @@ export default function Dashboard() {
                       <div className="row mt-4">
                         <div className="col-12 mb-4">
                           <div className={styles.card}>
-                            <div className="d-flex justify-content-between align-items-center mb-3">
+                            <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                               <h3>Estado de Sincronización</h3>
-                              <button className="btn btn-primary">Sincronizar Ahora</button>
+                              <div className="d-flex gap-2">
+                                <button
+                                  className="btn btn-outline-primary"
+                                  onClick={() => setShowCsvUpload(true)}
+                                >
+                                  <FiUpload className="me-2" />
+                                  Importar CSV
+                                </button>
+                                <button className="btn btn-primary" onClick={handleSyncCatalog}>
+                                  Sincronizar Ahora
+                                </button>
+                              </div>
                             </div>
                             <div className={styles.syncStatus}>
                               <div className={styles.syncItem}>
@@ -1076,51 +1202,106 @@ export default function Dashboard() {
                 <div>
                   <h1 className={styles.pageTitle}>Configuración del Widget</h1>
                   <div className="row mt-4">
-                    <div className="col-md-8 mb-4">
-                      <div className={styles.card}>
-                        <h3>Personalización</h3>
-                        <form>
-                          <div className="mb-3">
-                            <label className="form-label">Tema del Widget</label>
-                            <select className="form-select">
-                              <option>Claro</option>
-                              <option>Oscuro</option>
-                            </select>
+                    <div className="col-lg-7 mb-4">
+                      <div className={`${styles.card} ${styles.widgetConfigCard}`}>
+                        <h3 className={styles.widgetConfigTitle}>Personalización</h3>
+                        <p className={styles.widgetConfigDesc}>
+                          Personaliza la apariencia del widget de recomendaciones en tu tienda.
+                        </p>
+                        <form onSubmit={handleSaveWidgetConfig}>
+                          <div className={styles.widgetConfigField}>
+                            <label className={styles.widgetConfigLabel}>Tema del Widget</label>
+                            <div className={styles.widgetConfigRadioGroup}>
+                              <label className={styles.widgetConfigRadio}>
+                                <input
+                                  type="radio"
+                                  name="theme"
+                                  value="light"
+                                  checked={widgetSettings.theme === 'light'}
+                                  onChange={(e) => setWidgetSettings((s) => ({ ...s, theme: e.target.value }))}
+                                />
+                                <span>Claro</span>
+                              </label>
+                              <label className={styles.widgetConfigRadio}>
+                                <input
+                                  type="radio"
+                                  name="theme"
+                                  value="dark"
+                                  checked={widgetSettings.theme === 'dark'}
+                                  onChange={(e) => setWidgetSettings((s) => ({ ...s, theme: e.target.value }))}
+                                />
+                                <span>Oscuro</span>
+                              </label>
+                            </div>
                           </div>
-                          <div className="mb-3">
-                            <label className="form-label">Texto del Widget</label>
+                          <div className={styles.widgetConfigField}>
+                            <label className={styles.widgetConfigLabel}>Título del Widget</label>
                             <input
                               type="text"
-                              className="form-control"
-                              defaultValue="Combínalo con..."
+                              className={`form-control ${styles.widgetConfigInput}`}
+                              value={widgetSettings.title}
+                              onChange={(e) => setWidgetSettings((s) => ({ ...s, title: e.target.value }))}
+                              placeholder="Complete Your Look"
                             />
                           </div>
-                          <div className="mb-3">
-                            <label className="form-label">Número de Sugerencias</label>
+                          <div className={styles.widgetConfigField}>
+                            <label className={styles.widgetConfigLabel}>Subtítulo</label>
                             <input
-                              type="number"
-                              className="form-control"
+                              type="text"
+                              className={`form-control ${styles.widgetConfigInput}`}
+                              value={widgetSettings.subtitle || ''}
+                              onChange={(e) => setWidgetSettings((s) => ({ ...s, subtitle: e.target.value }))}
+                              placeholder="Combina estas prendas para un outfit perfecto"
+                            />
+                          </div>
+                          <div className={styles.widgetConfigField}>
+                            <label className={styles.widgetConfigLabel}>
+                              Número de Sugerencias
+                              <span className={styles.widgetConfigValue}>{widgetSettings.num_suggestions}</span>
+                            </label>
+                            <input
+                              type="range"
+                              className="form-range"
                               min="1"
                               max="5"
-                              defaultValue="3"
+                              value={widgetSettings.num_suggestions}
+                              onChange={(e) => setWidgetSettings((s) => ({ ...s, num_suggestions: parseInt(e.target.value) }))}
                             />
                           </div>
-                          <div className="mb-3">
-                            <label className="form-label">Posición</label>
-                            <select className="form-select">
-                              <option>Debajo del producto</option>
-                              <option>Barra lateral</option>
+                          <div className={styles.widgetConfigField}>
+                            <label className={styles.widgetConfigLabel}>Posición</label>
+                            <select
+                              className={`form-select ${styles.widgetConfigInput}`}
+                              value={widgetSettings.position}
+                              onChange={(e) => setWidgetSettings((s) => ({ ...s, position: e.target.value }))}
+                            >
+                              <option value="below">Debajo del producto</option>
+                              <option value="sidebar">Barra lateral</option>
                             </select>
                           </div>
-                          <button type="submit" className="btn btn-primary">
-                            Guardar Cambios
+                          <button
+                            type="submit"
+                            className={`btn btn-primary ${styles.widgetConfigSaveBtn}`}
+                            disabled={savingWidget}
+                          >
+                            {savingWidget ? (
+                              <>
+                                <span className="spinner-border spinner-border-sm me-2" />
+                                Guardando...
+                              </>
+                            ) : (
+                              'Guardar Cambios'
+                            )}
                           </button>
                         </form>
+
+                        {/* Vista previa del widget */}
+                        <WidgetPreviewSample count={widgetSettings.num_suggestions} theme={widgetSettings.theme} title={widgetSettings.title} subtitle={widgetSettings.subtitle} styles={styles} storeProducts={products} />
                       </div>
                     </div>
-                    <div className="col-md-4 mb-4">
-                      <div className={styles.card}>
-                        <h3>🔑 Tu API Key</h3>
+                    <div className="col-lg-5 mb-4">
+                      <div className={`${styles.card} ${styles.widgetConfigCard}`}>
+                        <h3 className={styles.widgetConfigTitle}>🔑 Tu API Key</h3>
                         <p className={styles.codeHelp}>
                           Usa esta API Key para conectar tu app de Shopify o integrar el widget en tu tienda:
                         </p>
@@ -1158,7 +1339,7 @@ export default function Dashboard() {
 
                         <hr />
 
-                        <h4 className="mt-3">📱 Integración con Shopify</h4>
+                        <h4 className={`mt-3 ${styles.widgetConfigTitle}`}>📱 Integración con Shopify</h4>
                         <ol className={styles.integrationSteps}>
                           <li>Instala la app "MyOutfit" desde la tienda de Shopify</li>
                           <li>Ve a Configuración en la app</li>
@@ -1168,7 +1349,7 @@ export default function Dashboard() {
 
                         <hr />
 
-                        <h4 className="mt-3">🌐 Widget para otras plataformas</h4>
+                        <h4 className={`mt-3 ${styles.widgetConfigTitle}`}>🌐 Widget para otras plataformas</h4>
                         <p className={styles.codeHelp}>
                           Copia este código y pégalo en tus páginas de producto:
                         </p>
@@ -1178,12 +1359,25 @@ export default function Dashboard() {
   id="myoutfit-recommendations" 
   data-product-id="PROD_ID" 
   data-api-key="${store?.api_key ? getMaskedApiKey() : 'TU_API_KEY'}"
+  data-theme="${widgetSettings.theme}"
+  data-title="${widgetSettings.title}"
+  data-subtitle="${(widgetSettings.subtitle || '').replace(/"/g, '&quot;')}"
+  data-count="${widgetSettings.num_suggestions}"
 ></div>`}</code>
                         </pre>
                         <button
                           className="btn btn-outline-primary w-100 mt-2"
                           onClick={() => {
-                            const code = `<script src="https://myoutfitapp.com/widget.js"></script>\n<div \n  id="myoutfit-recommendations" \n  data-product-id="PROD_ID" \n  data-api-key="${store?.api_key || 'TU_API_KEY'}"\n></div>`;
+                            const code = `<script src="https://myoutfitapp.com/widget.js"></script>
+<div 
+  id="myoutfit-recommendations" 
+  data-product-id="PROD_ID" 
+  data-api-key="${store?.api_key || 'TU_API_KEY'}"
+  data-theme="${widgetSettings.theme}"
+  data-title="${widgetSettings.title}"
+  data-subtitle="${(widgetSettings.subtitle || '').replace(/"/g, '&quot;')}"
+  data-count="${widgetSettings.num_suggestions}"
+></div>`;
                             navigator.clipboard.writeText(code);
                           }}
                         >
@@ -1317,6 +1511,16 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
+
+      <CsvUploadModal
+        isOpen={showCsvUpload}
+        onClose={() => setShowCsvUpload(false)}
+        store={store}
+        onSuccess={async () => {
+          await handleSyncCatalog();
+          await refreshStore?.();
+        }}
+      />
 
       <UserConfigModal
         isOpen={showUserConfig}

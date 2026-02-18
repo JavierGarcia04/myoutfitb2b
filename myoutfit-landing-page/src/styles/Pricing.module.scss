@@ -269,6 +269,12 @@
   transition: all 0.3s;
   display: block;
   margin-bottom: 2rem;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
 }
 
 .ctaButtonPrimary {

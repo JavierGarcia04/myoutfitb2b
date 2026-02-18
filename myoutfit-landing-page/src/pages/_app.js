@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import '@/styles/globals.scss';
+import '@/styles/MyOutfitWidget.scss';
 import '@/styles/blogs.scss';
 import { Montserrat } from 'next/font/google';
 import { useEffect } from 'react';
@@ -10,6 +11,7 @@ import StructuredData from '@/components/StructuredData';
 import useDropShadow from '@/hooks/useDropShadow';
 import Layout from '@/components/Layout';
 import { LanguageProvider } from '@/context/LanguageContext';
+import MyOutfitWidget from '@/components/MyOutfitWidget';
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 
@@ -36,6 +38,7 @@ export default function App({ Component, pageProps }) {
         <LanguageProvider>
           <Layout>
             <Component {...pageProps} />
+            <MyOutfitWidget />
           </Layout>
         </LanguageProvider>
       </main>

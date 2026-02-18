@@ -1,187 +1,150 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useCallback } from 'react';
+
+const API_BASE = typeof window !== 'undefined'
+  ? (process.env.NEXT_PUBLIC_APP_URL || window.location.origin)
+  : '';
 
 /**
- * Widget embebible de MyOutfit para recomendaciones de outfits
- * 
+ * Widget embebible de MyOutfit - estilo "Complete Your Look" (Shopify).
+ * Muestra producto actual + recomendaciones con total y botón añadir al carrito.
+ *
  * Uso:
- * <div id="myoutfit-recommendations" 
- *      data-product-id="PROD-123" 
+ * <div id="myoutfit-recommendations"
+ *      data-product-id="PROD-123"
  *      data-api-key="TU_API_KEY"
  *      data-theme="light"
- *      data-count="3">
+ *      data-count="2"
+ *      data-title="Complete Your Look"
+ *      data-subtitle="Combina estas prendas para un outfit perfecto">
  * </div>
  */
 export default function MyOutfitWidget() {
-  const [recommendations, setRecommendations] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const loadRecommendations = useCallback(async (productId, apiKey, count, theme, title, subtitle, container) => {
+    container.innerHTML = '<div class="myoutfit-widget-loading"><span class="myoutfit-spinner"></span><span>Cargando recomendaciones...</span></div>';
+
+    try {
+      const url = `${API_BASE}/api/recommendations?api_key=${encodeURIComponent(apiKey)}&product_id=${encodeURIComponent(productId)}&count=${count}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      const recommendations = data?.recommendations || [];
+      const currentProduct = data?.current_product || null;
+
+      const allProducts = [];
+      if (currentProduct) allProducts.push({ ...currentProduct, isCurrent: true });
+      const recLimit = currentProduct ? count - 1 : count;
+      allProducts.push(...recommendations.slice(0, recLimit).map((p) => ({ ...p, isCurrent: false })));
+
+      if (allProducts.length === 0) {
+        renderEmptyState(container, theme, title);
+        return;
+      }
+
+      renderWidget(container, allProducts, theme, title, subtitle);
+    } catch (err) {
+      console.error('MyOutfit Widget: Error cargando recomendaciones', err);
+      renderErrorState(container, theme);
+    }
+  }, []);
 
   useEffect(() => {
-    // Buscar todos los elementos con el ID del widget
     const widgetElements = document.querySelectorAll('[id="myoutfit-recommendations"]');
-    
+
     widgetElements.forEach((element) => {
       const productId = element.getAttribute('data-product-id');
       const apiKey = element.getAttribute('data-api-key');
       const theme = element.getAttribute('data-theme') || 'light';
-      const count = parseInt(element.getAttribute('data-count') || '3');
+      const count = parseInt(element.getAttribute('data-count') || '2', 10);
+      const title = element.getAttribute('data-title') || 'Complete Your Look';
+      const subtitle = element.getAttribute('data-subtitle') || 'Combina estas prendas para un outfit perfecto';
 
       if (!productId || !apiKey) {
-        console.error('MyOutfit Widget: data-product-id y data-api-key son requeridos');
+        element.innerHTML = '<p class="myoutfit-widget-error">MyOutfit: data-product-id y data-api-key son requeridos.</p>';
         return;
       }
 
-      // Cargar recomendaciones
-      loadRecommendations(productId, apiKey, count, theme, element);
+      loadRecommendations(productId, apiKey, count, theme, title, subtitle, element);
     });
-  }, []);
+  }, [loadRecommendations]);
 
-  const loadRecommendations = async (productId, apiKey, count, theme, container) => {
-    try {
-      setLoading(true);
-      
-      // En producción, esto llamaría a tu API real
-      // const response = await fetch(
-      //   `https://api.myoutfitapp.com/v1/api/b2b/recommendations?product_id=${productId}&count=${count}`,
-      //   {
-      //     headers: {
-      //       'Authorization': `Bearer ${apiKey}`
-      //     }
-      //   }
-      // );
-      // const data = await response.json();
-
-      // Simulación de datos para demo
-      const mockRecommendations = [
-        {
-          product_id: 'PROD-456',
-          name: 'Pantalón Negro Slim',
-          price: 49.99,
-          image_url: '👖',
-          match_score: 0.92,
-        },
-        {
-          product_id: 'PROD-789',
-          name: 'Zapatillas Blancas',
-          price: 79.99,
-          image_url: '👟',
-          match_score: 0.88,
-        },
-        {
-          product_id: 'PROD-101',
-          name: 'Chaqueta Azul',
-          price: 89.99,
-          image_url: '🧥',
-          match_score: 0.85,
-        },
-      ].slice(0, count);
-
-      // Renderizar widget en el contenedor
-      renderWidget(container, mockRecommendations, theme);
-      
-      setLoading(false);
-    } catch (err) {
-      console.error('Error cargando recomendaciones:', err);
-      setError(err.message);
-      setLoading(false);
-    }
-  };
-
-  const renderWidget = (container, recommendations, theme) => {
-    const isDark = theme === 'dark';
-    const widgetHTML = `
-      <div class="myoutfit-widget ${isDark ? 'myoutfit-widget-dark' : 'myoutfit-widget-light'}" style="
-        padding: 2rem;
-        border-radius: 12px;
-        margin-top: 2rem;
-        border: 2px solid ${isDark ? '#495057' : '#e9ecef'};
-        background: ${isDark ? '#212529' : 'white'};
-      ">
-        <h4 style="
-          font-size: 1.5rem;
-          font-weight: 600;
-          margin-bottom: 1.5rem;
-          color: #8000f7ff;
-        ">Combínalo con...</h4>
-        <div class="myoutfit-recommendations" style="
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 1rem;
-        ">
-          ${recommendations
-            .map(
-              (rec) => `
-            <div class="myoutfit-recommendation-item" style="
-              display: flex;
-              align-items: center;
-              gap: 1rem;
-              padding: 1rem;
-              background: ${isDark ? '#343a40' : '#f8f9fa'};
-              border-radius: 8px;
-              cursor: pointer;
-              transition: transform 0.2s, box-shadow 0.2s;
-            " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 4px 12px rgba(128, 0, 247, 0.2)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
-              <div style="
-                width: 60px;
-                height: 60px;
-                background: linear-gradient(135deg, #8000f7ff 0%, #9b51e0 100%);
-                border-radius: 8px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 2rem;
-                flex-shrink: 0;
-              ">${rec.image_url}</div>
-              <div style="flex: 1;">
-                <h5 style="
-                  font-size: 1rem;
-                  font-weight: 600;
-                  margin: 0 0 0.25rem 0;
-                  color: ${isDark ? 'white' : '#212529'};
-                ">${rec.name}</h5>
-                <p style="
-                  font-size: 0.9rem;
-                  color: #8000f7ff;
-                  margin: 0;
-                  font-weight: 600;
-                ">€${rec.price.toFixed(2)}</p>
-              </div>
-              <button style="
-                width: 36px;
-                height: 36px;
-                border-radius: 50%;
-                border: 2px solid #8000f7ff;
-                background: transparent;
-                color: #8000f7ff;
-                font-size: 1.5rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                flex-shrink: 0;
-              " onclick="console.log('Añadir al carrito:', '${rec.product_id}')">+</button>
-            </div>
-          `,
-            )
-            .join('')}
-        </div>
-      </div>
-    `;
-
-    container.innerHTML = widgetHTML;
-  };
-
-  return null; // Este componente no renderiza nada directamente, modifica el DOM
+  return null;
 }
 
-// Auto-inicialización cuando se carga el script
-if (typeof window !== 'undefined') {
-  // Esperar a que el DOM esté listo
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      // El widget se inicializará cuando se monte el componente React
+function escapeHtml(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function renderEmptyState(container, theme, title) {
+  container.innerHTML = `
+    <div class="myoutfit-widget myoutfit-widget--${theme}" data-theme="${theme}">
+      <h3 class="myoutfit-widget__main-title">${escapeHtml(title)}</h3>
+      <p class="myoutfit-widget__empty">No hay recomendaciones disponibles para este producto.</p>
+    </div>
+  `;
+}
+
+function renderErrorState(container, theme) {
+  container.innerHTML = `
+    <div class="myoutfit-widget myoutfit-widget--${theme}" data-theme="${theme}">
+      <p class="myoutfit-widget__error">No se pudieron cargar las recomendaciones.</p>
+    </div>
+  `;
+}
+
+function renderWidget(container, allProducts, theme, title, subtitle) {
+  const total = allProducts.reduce((sum, p) => sum + (parseFloat(p.price) || 0), 0);
+
+  const productCards = allProducts.map((p, i) => {
+    const isCurrent = p.isCurrent;
+    const cardClass = isCurrent ? 'myoutfit-widget__card myoutfit-widget__card--selected' : 'myoutfit-widget__card';
+    const badge = isCurrent ? '<span class="myoutfit-widget__badge">TU SELECCIÓN</span>' : '';
+    return `
+      <a href="${escapeHtml(p.product_url || '#')}" class="${cardClass}" target="_blank" rel="noopener noreferrer">
+        <div class="myoutfit-widget__img-wrap">
+          <img src="${escapeHtml(p.image_url || '')}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.style.display='none'" />
+          ${badge}
+        </div>
+        <div class="myoutfit-widget__card-info">
+          <span class="myoutfit-widget__card-name">${escapeHtml(p.name)}</span>
+          <span class="myoutfit-widget__card-price">€${(p.price || 0).toFixed(2)}</span>
+        </div>
+      </a>
+    `;
+  });
+
+  const plusSigns = allProducts.length > 1 ? Array(allProducts.length - 1).fill('<span class="myoutfit-widget__plus">+</span>').join('') : '';
+  const itemsHtml = productCards.reduce((acc, card, i) => {
+    const plus = i < productCards.length - 1 ? '<span class="myoutfit-widget__plus">+</span>' : '';
+    return acc + card + plus;
+  }, '');
+
+  container.innerHTML = `
+    <div class="myoutfit-widget myoutfit-widget--${theme}" data-theme="${theme}">
+      <h3 class="myoutfit-widget__main-title">${escapeHtml(title)}</h3>
+      <p class="myoutfit-widget__subtitle">${escapeHtml(subtitle)}</p>
+      <div class="myoutfit-widget__products">
+        ${itemsHtml}
+      </div>
+      <div class="myoutfit-widget__footer">
+        <span class="myoutfit-widget__total">Total del outfit: <strong>€${total.toFixed(2)}</strong></span>
+        <button type="button" class="myoutfit-widget__btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          Añadir outfit al carrito
+        </button>
+      </div>
+    </div>
+  `;
+
+  const btn = container.querySelector('.myoutfit-widget__btn');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      if (typeof window !== 'undefined' && window.dispatchEvent) {
+        window.dispatchEvent(new CustomEvent('myoutfit-add-outfit', {
+          detail: { products: allProducts },
+        }));
+      }
     });
   }
 }
-
-
