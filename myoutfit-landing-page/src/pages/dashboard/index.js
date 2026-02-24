@@ -3,10 +3,12 @@ import Head from 'next/head';
 import Link from 'next/link';
 import styles from '@/styles/Dashboard.module.scss';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/context/LanguageContext';
 import { supabase } from '@/lib/supabase';
+import { dashboardTranslations } from '@/translations/dashboardTranslations';
 import UserConfigModal from '@/components/UserConfigModal';
 
-function WidgetPreviewSample({ count, theme, title, subtitle, styles, storeProducts = [] }) {
+function WidgetPreviewSample({ count, theme, title, subtitle, styles, storeProducts = [], t }) {
   const displayData = useMemo(() => {
     if (!storeProducts || storeProducts.length === 0) return { current: null, recs: [] };
     const shuffled = [...storeProducts].sort(() => Math.random() - 0.5);
@@ -22,10 +24,10 @@ function WidgetPreviewSample({ count, theme, title, subtitle, styles, storeProdu
   return (
     <div className={`${styles.widgetPreview} ${styles.widgetPreviewShopify} ${theme === 'dark' ? styles.widgetPreviewDark : ''}`}>
       <h3 className={styles.widgetPreviewMainTitle}>{title}</h3>
-      <p className={styles.widgetPreviewSubtitle}>{subtitle || 'Combina estas prendas para un outfit perfecto'}</p>
+      <p className={styles.widgetPreviewSubtitle}>{subtitle || (t?.combineForPerfectOutfit ?? 'Combina estas prendas para un outfit perfecto')}</p>
       {!displayData.current ? (
         <p className={styles.widgetPreviewEmpty}>
-          Añade productos al catálogo para ver las recomendaciones aquí.
+          {t?.addProductsToCatalog ?? 'Añade productos al catálogo para ver las recomendaciones aquí.'}
         </p>
       ) : (
         <>
@@ -33,7 +35,7 @@ function WidgetPreviewSample({ count, theme, title, subtitle, styles, storeProdu
             <div className={`${styles.widgetPreviewCard} ${styles.widgetPreviewCardSelected}`}>
               <div className={styles.widgetPreviewImgWrap}>
                 <img src={displayData.current.image_url || ''} alt={displayData.current.name} className={styles.widgetPreviewImg} />
-                <span className={styles.widgetPreviewBadge}>TU SELECCIÓN</span>
+                <span className={styles.widgetPreviewBadge}>{t?.yourSelection ?? 'TU SELECCIÓN'}</span>
               </div>
               <div className={styles.widgetPreviewCardInfo}>
                 <span>{displayData.current.name}</span>
@@ -56,9 +58,9 @@ function WidgetPreviewSample({ count, theme, title, subtitle, styles, storeProdu
             ))}
           </div>
           <div className={styles.widgetPreviewFooter}>
-            <span className={styles.widgetPreviewTotal}>Total del outfit: <strong>€{total.toFixed(2)}</strong></span>
+            <span className={styles.widgetPreviewTotal}>{t?.outfitTotal ?? 'Total del outfit:'} <strong>€{total.toFixed(2)}</strong></span>
             <button type="button" className={styles.widgetPreviewBtn}>
-              <FiShoppingCart style={{ width: 18, height: 18 }} /> Añadir outfit al carrito
+              <FiShoppingCart style={{ width: 18, height: 18 }} /> {t?.addOutfitToCart ?? 'Añadir outfit al carrito'}
             </button>
           </div>
         </>
@@ -104,6 +106,16 @@ import {
 
 export default function Dashboard() {
   const { user, store, loading: authLoading, signIn, signOut, refreshStore } = useAuth();
+  const { language, toggleLanguage } = useLanguage();
+  const t = dashboardTranslations[language] || dashboardTranslations.en;
+
+  // Sincronizar idioma con preferencia guardada del usuario al cargar
+  useEffect(() => {
+    if (user?.user_metadata?.language && user.user_metadata.language !== language) {
+      toggleLanguage(user.user_metadata.language);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- solo sincronizar cuando cambie metadata del usuario
+  }, [user?.user_metadata?.language]);
   const [activeTab, setActiveTab] = useState('overview');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -121,7 +133,7 @@ export default function Dashboard() {
   const defaultWidgetSettings = {
     theme: 'light',
     title: 'Complete Your Look',
-    subtitle: 'Combina estas prendas para un outfit perfecto',
+    subtitle: t.combineForPerfectOutfit,
     num_suggestions: 3,
     position: 'below',
   };
@@ -147,12 +159,13 @@ export default function Dashboard() {
       setWidgetSettings((prev) => ({
         theme: store.widget_settings.theme ?? 'light',
         title: store.widget_settings.title ?? 'Complete Your Look',
-        subtitle: store.widget_settings.subtitle ?? 'Combina estas prendas para un outfit perfecto',
+        subtitle: store.widget_settings.subtitle ?? t.combineForPerfectOutfit,
         num_suggestions: store.widget_settings.num_suggestions ?? 3,
         position: store.widget_settings.position ?? 'below',
       }));
     }
-  }, [store?.id, store?.widget_settings]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- language/t.combineForPerfectOutfit used for default subtitle
+  }, [store?.id, store?.widget_settings, language]);
 
   // Cargar productos y analytics cuando el store cambie
   useEffect(() => {
@@ -241,8 +254,8 @@ export default function Dashboard() {
     if (!store?.id) return;
 
     addNotification(
-      'Sincronización iniciada',
-      'Actualizando inventario de productos...',
+      t.syncStarted,
+      t.syncStartedDesc,
       'sync'
     );
 
@@ -263,32 +276,24 @@ export default function Dashboard() {
 
         // Notificación de éxito con detalles
         if (newCount !== prevCount) {
-          addNotification(
-            'Inventario actualizado',
-            `Se ${newCount > prevCount ? 'añadieron' : 'eliminaron'} ${Math.abs(newCount - prevCount)} productos. Total: ${newCount}`,
-            'inventory_update'
-          );
+          const delta = Math.abs(newCount - prevCount);
+          const msg = newCount > prevCount
+            ? t.inventoryAdded.replace('{count}', delta).replace('{total}', newCount)
+            : t.inventoryRemoved.replace('{count}', delta).replace('{total}', newCount);
+          addNotification(t.inventoryUpdated, msg, 'inventory_update');
         } else {
           addNotification(
-            'Sincronización completada',
-            `${newCount} productos sincronizados correctamente`,
+            t.syncCompleted,
+            `${newCount} ${t.productsUpdated}`,
             'success'
           );
         }
       } else if (productsError) {
-        addNotification(
-          'Error de sincronización',
-          'No se pudo actualizar el inventario. Inténtalo de nuevo.',
-          'warning'
-        );
+        addNotification(t.syncError, t.syncErrorDesc, 'warning');
       }
     } catch (error) {
       console.error('Error syncing catalog:', error);
-      addNotification(
-        'Error de sincronización',
-        'Ocurrió un error inesperado.',
-        'warning'
-      );
+      addNotification(t.syncError, t.unexpectedError, 'warning');
     } finally {
       setLoadingData(false);
     }
@@ -310,10 +315,10 @@ export default function Dashboard() {
 
       if (error) throw error;
       await refreshStore?.();
-      addNotification('Configuración guardada', 'Los ajustes del widget se han actualizado correctamente.', 'success');
+      addNotification(t.configSaved, t.configSavedDesc, 'success');
     } catch (err) {
       console.error('Error saving widget config:', err);
-      addNotification('Error', 'No se pudieron guardar los cambios. Inténtalo de nuevo.', 'warning');
+      addNotification(t.error, t.couldNotSave, 'warning');
     } finally {
       setSavingWidget(false);
     }
@@ -348,13 +353,13 @@ export default function Dashboard() {
     const { data, error: signInError } = await signIn(email, password);
 
     if (signInError) {
-      let errorMessage = 'Error al iniciar sesión. Verifica tus credenciales.';
+      let errorMessage = t.loginError;
 
       // Mensajes específicos según el tipo de error
       if (signInError.message?.includes('Email not confirmed')) {
-        errorMessage = '📧 Por favor, confirma tu correo electrónico antes de iniciar sesión. Revisa tu bandeja de entrada y haz click en el enlace de confirmación.';
+        errorMessage = '📧 ' + t.emailNotConfirmed;
       } else if (signInError.message?.includes('Invalid login credentials')) {
-        errorMessage = 'Email o contraseña incorrectos. Por favor, verifica tus credenciales.';
+        errorMessage = t.invalidCredentials;
       } else if (signInError.message) {
         errorMessage = signInError.message;
       }
@@ -375,13 +380,8 @@ export default function Dashboard() {
   };
 
   const handleSaveUserConfig = async (formData) => {
-    // Aquí implementamos la lógica de actualización en Supabase
-    // Por ahora solo actualizamos el estado local para reflejar cambios inmediatos en la UI si es necesario
-    console.log('Guardando configuración:', formData);
-
     try {
       if (store?.id) {
-        // Actualizar nombre de la tienda
         const { error: storeError } = await supabase
           .from('stores')
           .update({ name: formData.storeName })
@@ -390,23 +390,25 @@ export default function Dashboard() {
         if (storeError) throw storeError;
       }
 
-      // Actualizar metadatos del usuario
       const { error: userError } = await supabase.auth.updateUser({
         data: {
           full_name: formData.name,
           language: formData.language,
-          notifications: formData.notifications
-        }
+          notifications: formData.notifications,
+        },
       });
 
       if (userError) throw userError;
 
-      // Recargar la página para ver cambios (o actualizar estado global si tuviéramos un context más complejo)
-      window.location.reload();
+      // Actualizar idioma en la UI de inmediato (sin esperar refresh)
+      toggleLanguage(formData.language);
+
+      // Refrescar store en segundo plano (no bloquear el cierre del modal)
+      refreshStore?.();
     } catch (error) {
       console.error('Error al guardar:', error);
-      alert('Error al guardar los cambios. Por favor intenta de nuevo.');
-      throw error; // Re-lanzar para que el modal sepa que hubo error
+      alert(t.saveError);
+      throw error;
     }
   };
 
@@ -414,12 +416,12 @@ export default function Dashboard() {
     return (
       <>
         <Head>
-          <title>Dashboard - MyOutfit for Business</title>
+          <title>{t.pageTitle}</title>
         </Head>
         <main className={styles.dashboardMain}>
           <div className={styles.loadingContainer}>
             <div className={styles.spinner}></div>
-            <p>Cargando...</p>
+            <p>{t.loading}</p>
           </div>
         </main>
       </>
@@ -430,7 +432,7 @@ export default function Dashboard() {
     return (
       <>
         <Head>
-          <title>Dashboard - MyOutfit for Business</title>
+          <title>{t.pageTitle}</title>
         </Head>
         <main className={styles.dashboardMain}>
           <section className={styles.loginSection}>
@@ -438,9 +440,9 @@ export default function Dashboard() {
               <div className="row justify-content-center">
                 <div className="col-md-5">
                   <div className={styles.loginCard}>
-                    <h2>Iniciar Sesión</h2>
+                    <h2>{t.loginTitle}</h2>
                     <p className={styles.loginSubtitle}>
-                      Accede a tu panel de MyOutfit for Business
+                      {t.loginSubtitle}
                     </p>
                     {error && (
                       <div className="alert alert-danger" role="alert">
@@ -450,7 +452,7 @@ export default function Dashboard() {
                     <form onSubmit={handleLogin}>
                       <div className="mb-3">
                         <label htmlFor="email" className="form-label">
-                          Email
+                          {t.email}
                         </label>
                         <input
                           type="email"
@@ -458,13 +460,13 @@ export default function Dashboard() {
                           id="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          placeholder="demo@mitienda.com"
+                          placeholder={t.emailPlaceholder}
                           required
                         />
                       </div>
                       <div className="mb-3">
                         <label htmlFor="password" className="form-label">
-                          Contraseña
+                          {t.password}
                         </label>
                         <input
                           type="password"
@@ -472,7 +474,7 @@ export default function Dashboard() {
                           id="password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          placeholder="Mínimo 6 caracteres"
+                          placeholder={t.passwordPlaceholder}
                           required
                         />
                       </div>
@@ -481,16 +483,16 @@ export default function Dashboard() {
                         className="btn btn-primary w-100"
                         disabled={loading}
                       >
-                        {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+                        {loading ? t.signingIn : t.signIn}
                       </button>
                     </form>
                     <div className={styles.loginFooter}>
                       <p className={styles.demoInfo}>
-                        <strong>🎯 Modo Demo:</strong> Usa cualquier email/contraseña para acceder al dashboard demo
+                        <strong>🎯 {t.demoMode}</strong>
                       </p>
                       <p>
-                        ¿No tienes cuenta?{' '}
-                        <Link href="/b2b/register">Regístrate aquí</Link>
+                        {t.noAccount}{' '}
+                        <Link href="/b2b/register">{t.registerHere}</Link>
                       </p>
                     </div>
                   </div>
@@ -507,7 +509,7 @@ export default function Dashboard() {
   return (
     <>
       <Head>
-        <title>Dashboard - MyOutfit for Business</title>
+        <title>{t.pageTitle}</title>
       </Head>
       <main className={styles.dashboardMain}>
         <div className={styles.dashboardContainer}>
@@ -518,7 +520,7 @@ export default function Dashboard() {
                 <div className={styles.logoIcon}>MO</div>
                 <div>
                   <h3>MyOutfit</h3>
-                  <p className={styles.storeName}>Dashboard</p>
+                  <p className={styles.storeName}>{t.dashboard}</p>
                 </div>
               </div>
             </div>
@@ -527,52 +529,52 @@ export default function Dashboard() {
                 className={`${styles.navItem} ${activeTab === 'overview' ? styles.active : ''}`}
                 onClick={() => setActiveTab('overview')}
               >
-                <FiBarChart2 /> <span>Visión General</span>
+                <FiBarChart2 /> <span>{t.overviewNav}</span>
               </button>
               <button
                 className={`${styles.navItem} ${activeTab === 'catalog' ? styles.active : ''}`}
                 onClick={() => setActiveTab('catalog')}
               >
-                <FiPackage /> <span>Catálogo</span>
+                <FiPackage /> <span>{t.catalogNav}</span>
               </button>
               <button
                 className={`${styles.navItem} ${activeTab === 'widget' ? styles.active : ''}`}
                 onClick={() => setActiveTab('widget')}
               >
-                <FiSettings /> <span>Widget</span>
+                <FiSettings /> <span>{t.widgetNav}</span>
               </button>
               <button
                 className={`${styles.navItem} ${activeTab === 'analytics' ? styles.active : ''}`}
                 onClick={() => setActiveTab('analytics')}
               >
-                <FiTrendingUp /> <span>Analítica</span>
+                <FiTrendingUp /> <span>{t.analyticsNav}</span>
               </button>
               <button
                 className={`${styles.navItem} ${activeTab === 'billing' ? styles.active : ''}`}
                 onClick={() => setActiveTab('billing')}
               >
-                <FiDollarSign /> <span>Facturación</span>
+                <FiDollarSign /> <span>{t.billingNav}</span>
               </button>
             </nav>
             <div className={styles.sidebarFooter}>
               <div
                 className={styles.userProfile}
                 onClick={() => setShowUserConfig(true)}
-                title="Configurar Perfil"
+                title={t.configureProfile}
               >
                 <div className={styles.userAvatar}>
                   {store?.name?.charAt(0)?.toUpperCase() || <FiUser />}
                 </div>
                 <div className={styles.userInfo}>
-                  <div className={styles.userName}>{store?.name || 'Mi Tienda'}</div>
-                  <div className={styles.userEmail}>{user?.email || 'tienda@email.com'}</div>
+                  <div className={styles.userName}>{store?.name || t.myStore}</div>
+                  <div className={styles.userEmail}>{user?.email || t.storeEmail}</div>
                   <div className={styles.userPlan}>
-                    Plan {store?.plan?.charAt(0)?.toUpperCase() + store?.plan?.slice(1) || 'Starter'}
+                    {t.plan} {store?.plan?.charAt(0)?.toUpperCase() + store?.plan?.slice(1) || 'Starter'}
                   </div>
                 </div>
               </div>
               <button className={styles.logoutButton} onClick={handleLogout}>
-                <FiLogOut /> <span>Cerrar Sesión</span>
+                <FiLogOut /> <span>{t.logout}</span>
               </button>
             </div>
           </aside>
@@ -583,22 +585,22 @@ export default function Dashboard() {
             <header className={styles.topHeader}>
               <div className={styles.headerLeft}>
                 <h1 className={styles.pageTitle}>
-                  {activeTab === 'overview' && 'Visión General'}
-                  {activeTab === 'catalog' && 'Catálogo de Productos'}
-                  {activeTab === 'widget' && 'Configuración del Widget'}
-                  {activeTab === 'analytics' && 'Analítica Detallada'}
-                  {activeTab === 'billing' && 'Facturación y Planes'}
+                  {activeTab === 'overview' && t.overview}
+                  {activeTab === 'catalog' && t.catalogProducts}
+                  {activeTab === 'widget' && t.widgetConfig}
+                  {activeTab === 'analytics' && t.detailedAnalytics}
+                  {activeTab === 'billing' && t.billingPlans}
                 </h1>
               </div>
               <div className={styles.headerRight}>
                 <div className={styles.searchBar}>
                   <FiSearch />
-                  <input type="text" placeholder="Buscar..." />
+                  <input type="text" placeholder={t.search} />
                 </div>
                 <div className={styles.headerActions}>
                   <button
                     className={styles.headerButton}
-                    title="Notificaciones"
+                    title={t.notifications}
                     onClick={() => setShowNotificationsPanel(!showNotificationsPanel)}
                   >
                     <FiBell />
@@ -620,10 +622,10 @@ export default function Dashboard() {
                       onChange={(e) => setDateFilter(e.target.value)}
                       className={styles.dateSelect}
                     >
-                      <option value="7days">Últimos 7 días</option>
-                      <option value="30days">Últimos 30 días</option>
-                      <option value="90days">Últimos 90 días</option>
-                      <option value="year">Este año</option>
+                      <option value="7days">{t.last7Days}</option>
+                      <option value="30days">{t.last30Days}</option>
+                      <option value="90days">{t.last90Days}</option>
+                      <option value="year">{t.thisYear}</option>
                     </select>
                   </div>
                 </div>
@@ -639,17 +641,17 @@ export default function Dashboard() {
                   {store && store.catalog_size === 0 && (
                     <div className={styles.welcomeCard}>
                       <div className={styles.welcomeIcon}>🎉</div>
-                      <h2>¡Bienvenido a MyOutfit for Business!</h2>
-                      <p>Tu cuenta ha sido creada exitosamente. Para comenzar a aumentar tus ventas con recomendaciones inteligentes, sigue estos pasos:</p>
+                      <h2>{t.welcomeTitle}</h2>
+                      <p>{t.welcomeMessage}</p>
 
                       <div className={styles.onboardingSteps}>
                         <div className={styles.onboardingStep}>
                           <div className={styles.stepNumber}>1</div>
                           <div className={styles.stepContent}>
-                            <h4>Sincroniza tu catálogo</h4>
-                            <p>Conecta tu tienda o sube tus productos manualmente</p>
+                            <h4>{t.syncCatalog}</h4>
+                            <p>{t.syncCatalogDesc}</p>
                             <button className={styles.stepButton} onClick={() => setActiveTab('catalog')}>
-                              <FiPackage /> Ir al Catálogo
+                              <FiPackage /> {t.goToCatalog}
                             </button>
                           </div>
                         </div>
@@ -657,10 +659,10 @@ export default function Dashboard() {
                         <div className={styles.onboardingStep}>
                           <div className={styles.stepNumber}>2</div>
                           <div className={styles.stepContent}>
-                            <h4>Configura el widget</h4>
-                            <p>Integra las recomendaciones en tu tienda online</p>
+                            <h4>{t.configureWidget}</h4>
+                            <p>{t.configureWidgetDesc}</p>
                             <button className={styles.stepButton} onClick={() => setActiveTab('widget')}>
-                              <FiCode /> Ver Documentación
+                              <FiCode /> {t.viewDocs}
                             </button>
                           </div>
                         </div>
@@ -668,14 +670,14 @@ export default function Dashboard() {
                         <div className={styles.onboardingStep}>
                           <div className={styles.stepNumber}>3</div>
                           <div className={styles.stepContent}>
-                            <h4>Comienza a vender más</h4>
-                            <p>Visualiza tus estadísticas y optimiza tus resultados</p>
+                            <h4>{t.startSelling}</h4>
+                            <p>{t.startSellingDesc}</p>
                           </div>
                         </div>
                       </div>
 
                       <div className={styles.welcomeFooter}>
-                        <p>📚 ¿Necesitas ayuda? <a href="/b2b/docs" target="_blank">Lee nuestra documentación</a></p>
+                        <p>📚 {t.needHelp} <a href="/b2b/docs" target="_blank">{t.readDocs}</a></p>
                       </div>
                     </div>
                   )}
@@ -684,13 +686,13 @@ export default function Dashboard() {
                   {store && store.catalog_size > 0 && (
                     <div className={styles.quickActions}>
                       <button className={styles.quickActionBtn} onClick={handleSyncCatalog}>
-                        <FiRefreshCw /> Sincronizar Catálogo
+                        <FiRefreshCw /> {t.syncCatalogBtn}
                       </button>
                       <button className={styles.quickActionBtn}>
-                        <FiDownload /> Exportar Datos
+                        <FiDownload /> {t.exportData}
                       </button>
                       <button className={styles.quickActionBtn}>
-                        <FiSettings /> Configurar Widget
+                        <FiSettings /> {t.configureWidgetBtn}
                       </button>
                     </div>
                   )}
@@ -711,7 +713,7 @@ export default function Dashboard() {
                               </div>
                             </div>
                             <div className={styles.metricValue}>{analytics.totalClicks.toLocaleString()}</div>
-                            <div className={styles.metricLabel}>Clics en Recomendaciones</div>
+                            <div className={styles.metricLabel}>{t.clicksOnRecommendations}</div>
                             <div className={styles.metricMini}>
                               <div className={styles.miniChart}>
                                 <div className={styles.miniBar} style={{ height: '40%' }}></div>
@@ -737,7 +739,7 @@ export default function Dashboard() {
                               </div>
                             </div>
                             <div className={styles.metricValue}>{analytics.totalConversions.toLocaleString()}</div>
-                            <div className={styles.metricLabel}>Conversiones</div>
+                            <div className={styles.metricLabel}>{t.conversions}</div>
                             <div className={styles.metricMini}>
                               <div className={styles.miniChart}>
                                 <div className={styles.miniBar} style={{ height: '30%' }}></div>
@@ -763,7 +765,7 @@ export default function Dashboard() {
                               </div>
                             </div>
                             <div className={styles.metricValue}>€{analytics.totalConversions > 0 ? (analytics.revenue / analytics.totalConversions).toFixed(0) : 0}</div>
-                            <div className={styles.metricLabel}>AOV Promedio</div>
+                            <div className={styles.metricLabel}>{t.avgAov}</div>
                             <div className={styles.metricMini}>
                               <div className={styles.miniChart}>
                                 <div className={styles.miniBar} style={{ height: '50%' }}></div>
@@ -788,10 +790,10 @@ export default function Dashboard() {
                               </div>
                             </div>
                             <div className={styles.metricValue}>{store?.catalog_size || products.length}</div>
-                            <div className={styles.metricLabel}>Productos Sincronizados</div>
+                            <div className={styles.metricLabel}>{t.syncedProducts}</div>
                             <div className={styles.metricFooter}>
                               <FiClock size={14} />
-                              <span>{store?.last_sync_at ? new Date(store.last_sync_at).toLocaleString('es-ES') : 'No sincronizado'}</span>
+                              <span>{store?.last_sync_at ? new Date(store.last_sync_at).toLocaleString() : t.notSynced}</span>
                             </div>
                           </div>
                         </div>
@@ -802,10 +804,10 @@ export default function Dashboard() {
                         <div className="col-lg-8 mb-4">
                           <div className={styles.card}>
                             <div className={styles.cardHeader}>
-                              <h3>Rendimiento de Recomendaciones</h3>
+                              <h3>{t.recommendationPerformance}</h3>
                               <div className={styles.cardActions}>
                                 <button className={styles.cardActionBtn}>
-                                  <FiDownload /> Exportar
+                                  <FiDownload /> {t.export}
                                 </button>
                               </div>
                             </div>
@@ -813,11 +815,11 @@ export default function Dashboard() {
                               <div className={styles.chartLegend}>
                                 <div className={styles.legendItem}>
                                   <span className={`${styles.legendDot} ${styles.dotPrimary}`}></span>
-                                  Clics
+                                  {t.clicks}
                                 </div>
                                 <div className={styles.legendItem}>
                                   <span className={`${styles.legendDot} ${styles.dotSuccess}`}></span>
-                                  Conversiones
+                                  {t.conversions}
                                 </div>
                               </div>
                               <div className={styles.chartArea}>
@@ -877,7 +879,7 @@ export default function Dashboard() {
                         <div className="col-lg-4 mb-4">
                           <div className={styles.card}>
                             <div className={styles.cardHeader}>
-                              <h3>Tasa de Conversión</h3>
+                              <h3>{t.conversionRate}</h3>
                               <FiTarget className={styles.cardHeaderIcon} />
                             </div>
                             <div className={styles.conversionRate}>
@@ -888,7 +890,7 @@ export default function Dashboard() {
                                 </svg>
                                 <div className={styles.rateValue}>
                                   <span className={styles.rateNumber}>{analytics.conversionRate || 0}%</span>
-                                  <span className={styles.rateLabel}>Conversión</span>
+                                  <span className={styles.rateLabel}>{t.conversionLabel}</span>
                                 </div>
                               </div>
                               <div className={styles.rateStats}>
@@ -896,14 +898,14 @@ export default function Dashboard() {
                                   <FiEye />
                                   <div>
                                     <div className={styles.rateStatValue}>{analytics.totalViews.toLocaleString()}</div>
-                                    <div className={styles.rateStatLabel}>Impresiones</div>
+                                    <div className={styles.rateStatLabel}>{t.impressions}</div>
                                   </div>
                                 </div>
                                 <div className={styles.rateStat}>
                                   <FiShoppingCart />
                                   <div>
                                     <div className={styles.rateStatValue}>{analytics.totalConversions.toLocaleString()}</div>
-                                    <div className={styles.rateStatLabel}>Conversiones</div>
+                                    <div className={styles.rateStatLabel}>{t.conversions}</div>
                                   </div>
                                 </div>
                               </div>
@@ -917,25 +919,25 @@ export default function Dashboard() {
                         <div className="col-lg-8 mb-4">
                           <div className={styles.card}>
                             <div className={styles.cardHeader}>
-                              <h3>Productos Más Recomendados</h3>
+                              <h3>{t.mostRecommended}</h3>
                               <div className={styles.cardActions}>
                                 <button className={styles.cardActionBtn}>
-                                  <FiFilter /> Filtrar
+                                  <FiFilter /> {t.filter}
                                 </button>
                               </div>
                             </div>
                             <div className={styles.tableContainer}>
                               {products.length === 0 ? (
-                                <p className="text-muted text-center py-4">No hay productos sincronizados aún</p>
+                                <p className="text-muted text-center py-4">{t.noProductsSynced}</p>
                               ) : (
                                 <table className={styles.modernTable}>
                                   <thead>
                                     <tr>
-                                      <th>Producto</th>
-                                      <th>Categoría</th>
-                                      <th>Precio</th>
-                                      <th>Stock</th>
-                                      <th>Estado</th>
+                                      <th>{t.product}</th>
+                                      <th>{t.category}</th>
+                                      <th>{t.price}</th>
+                                      <th>{t.stock}</th>
+                                      <th>{t.status}</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -951,12 +953,12 @@ export default function Dashboard() {
                                             <span>{product.name}</span>
                                           </div>
                                         </td>
-                                        <td><span className={styles.badge}>{product.category || 'Sin categoría'}</span></td>
+                                        <td><span className={styles.badge}>{product.category || t.noCategory}</span></td>
                                         <td>€{parseFloat(product.price || 0).toFixed(2)}</td>
                                         <td><strong>{product.stock_quantity || 0}</strong></td>
                                         <td>
                                           <span className={product.is_active ? styles.roiPositive : styles.roiNegative}>
-                                            {product.is_active ? 'Activo' : 'Inactivo'}
+                                            {product.is_active ? t.active : t.inactive}
                                           </span>
                                         </td>
                                       </tr>
@@ -970,7 +972,7 @@ export default function Dashboard() {
                         <div className="col-lg-4 mb-4">
                           <div className={styles.card}>
                             <div className={styles.cardHeader}>
-                              <h3>Actividad Reciente</h3>
+                              <h3>{t.recentActivity}</h3>
                               <FiActivity className={styles.cardHeaderIcon} />
                             </div>
                             <div className={styles.activityTimeline}>
@@ -979,10 +981,10 @@ export default function Dashboard() {
                                   <div className={`${styles.timelineDot} ${styles.dotSuccess}`}></div>
                                   <div className={styles.timelineContent}>
                                     <div className={styles.timelineTitle}>
-                                      <FiCheckCircle /> Catálogo sincronizado
+                                      <FiCheckCircle /> {t.catalogSynced}
                                     </div>
-                                    <div className={styles.timelineTime}>{new Date(store.last_sync_at).toLocaleString('es-ES')}</div>
-                                    <div className={styles.timelineDesc}>{store.catalog_size || 0} productos actualizados</div>
+                                    <div className={styles.timelineTime}>{new Date(store.last_sync_at).toLocaleString()}</div>
+                                    <div className={styles.timelineDesc}>{store.catalog_size || 0} {t.productsUpdated}</div>
                                   </div>
                                 </div>
                               )}
@@ -991,10 +993,10 @@ export default function Dashboard() {
                                   <div className={`${styles.timelineDot} ${styles.dotPrimary}`}></div>
                                   <div className={styles.timelineContent}>
                                     <div className={styles.timelineTitle}>
-                                      <FiLink /> Shopify conectado
+                                      <FiLink /> {t.shopifyConnected}
                                     </div>
                                     <div className={styles.timelineTime}>{store.shopify_domain}</div>
-                                    <div className={styles.timelineDesc}>Sincronización automática activa</div>
+                                    <div className={styles.timelineDesc}>{t.autoSyncActive}</div>
                                   </div>
                                 </div>
                               )}
@@ -1004,22 +1006,22 @@ export default function Dashboard() {
                                   <div className={styles.timelineTitle}>
                                     <FiZap /> Plan {store?.plan?.charAt(0).toUpperCase() + store?.plan?.slice(1) || 'Starter'}
                                   </div>
-                                  <div className={styles.timelineTime}>{store?.subscription_status === 'trial' ? 'Prueba gratuita' : 'Activo'}</div>
+                                  <div className={styles.timelineTime}>{store?.subscription_status === 'trial' ? t.freeTrial : t.activeSubscription}</div>
                                   <div className={styles.timelineDesc}>
                                     {store?.trial_ends_at && store?.subscription_status === 'trial'
-                                      ? `Expira: ${new Date(store.trial_ends_at).toLocaleDateString('es-ES')}`
-                                      : 'Suscripción activa'}
+                                      ? `${t.expires}: ${new Date(store.trial_ends_at).toLocaleDateString()}`
+                                      : t.subscriptionActive}
                                   </div>
                                 </div>
                               </div>
                               <div className={styles.timelineItem}>
                                 <div className={`${styles.timelineDot} ${styles.dotInfo}`}></div>
                                 <div className={styles.timelineContent}>
-                                  <div className={styles.timelineTitle}>
-                                    <FiAward /> Estadísticas del mes
-                                  </div>
-                                  <div className={styles.timelineTime}>{analytics.totalViews} impresiones</div>
-                                  <div className={styles.timelineDesc}>{analytics.totalConversions} conversiones</div>
+                                    <div className={styles.timelineTitle}>
+                                      <FiAward /> {t.monthlyStats}
+                                    </div>
+                                    <div className={styles.timelineTime}>{analytics.totalViews} {t.impressions}</div>
+                                    <div className={styles.timelineDesc}>{analytics.totalConversions} {t.conversions}</div>
                                 </div>
                               </div>
                             </div>
@@ -1027,22 +1029,22 @@ export default function Dashboard() {
 
                           <div className={styles.card}>
                             <div className={styles.cardHeader}>
-                              <h3>Enlaces Rápidos</h3>
+                              <h3>{t.quickLinks}</h3>
                               <FiExternalLink className={styles.cardHeaderIcon} />
                             </div>
                             <div className={styles.quickLinks}>
                               <a href="#" className={styles.quickLink}>
                                 <FiPackage />
-                                <span>Documentación API</span>
+                                <span>{t.apiDocs}</span>
                               </a>
                               <a href="#" className={styles.quickLink}>
                                 <FiZap />
-                                <span>Guía de Integración</span>
+                                <span>{t.integrationGuide}</span>
                               </a>
-                              <a href="/b2b/demo" className={styles.quickLink}>
+                              <Link href="/b2b/demo" className={styles.quickLink}>
                                 <FiEye />
-                                <span>Ver Demo en Vivo</span>
-                              </a>
+                                <span>{t.viewLiveDemo}</span>
+                              </Link>
                             </div>
                           </div>
                         </div>
@@ -1059,40 +1061,40 @@ export default function Dashboard() {
                   {store && store.catalog_size === 0 ? (
                     <div className={styles.emptyState}>
                       <div className={styles.emptyStateIcon}>📦</div>
-                      <h2>No tienes productos en tu catálogo</h2>
-                      <p>Para comenzar a generar recomendaciones inteligentes, necesitas sincronizar tus productos.</p>
+                      <h2>{t.noProductsInCatalog}</h2>
+                      <p>{t.catalogEmptyDesc}</p>
 
                       <div className={styles.emptyStateActions}>
-                        <h3>¿Cómo agregar productos?</h3>
+                        <h3>{t.howToAddProducts}</h3>
 
                         <div className={styles.integrationOptions}>
                           <div className={styles.integrationCard}>
                             <FiCode />
-                            <h4>Integración API</h4>
-                            <p>Conecta tu tienda usando nuestra API REST</p>
+                            <h4>{t.apiIntegration}</h4>
+                            <p>{t.apiIntegrationDesc}</p>
                             <button className="btn btn-outline-primary" onClick={() => setActiveTab('widget')}>
-                              Ver Documentación
+                              {t.viewDocumentation}
                             </button>
                           </div>
 
                           <div className={styles.integrationCard}>
                             <FiUpload />
-                            <h4>Importación CSV</h4>
-                            <p>Sube un archivo CSV con tus productos</p>
+                            <h4>{t.csvImport}</h4>
+                            <p>{t.csvImportDesc}</p>
                             <button
                               className="btn btn-outline-primary"
                               onClick={() => setShowCsvUpload(true)}
                             >
-                              Subir CSV
+                              {t.uploadCsv}
                             </button>
                           </div>
 
                           <div className={styles.integrationCard}>
                             <FiLink />
-                            <h4>Shopify / WooCommerce</h4>
-                            <p>Conecta directamente tu plataforma</p>
+                            <h4>{t.shopifyWooCommerce}</h4>
+                            <p>{t.shopifyWooCommerceDesc}</p>
                             <button className="btn btn-outline-primary" disabled>
-                              Próximamente
+                              {t.comingSoon}
                             </button>
                           </div>
                         </div>
@@ -1100,62 +1102,62 @@ export default function Dashboard() {
                     </div>
                   ) : (
                     <>
-                      <h1 className={styles.pageTitle}>Catálogo</h1>
+                      <h1 className={styles.pageTitle}>{t.catalog}</h1>
                       <div className="row mt-4">
                         <div className="col-12 mb-4">
                           <div className={styles.card}>
                             <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-                              <h3>Estado de Sincronización</h3>
+                              <h3>{t.syncStatus}</h3>
                               <div className="d-flex gap-2">
                                 <button
                                   className="btn btn-outline-primary"
                                   onClick={() => setShowCsvUpload(true)}
                                 >
                                   <FiUpload className="me-2" />
-                                  Importar CSV
+                                  {t.importCsv}
                                 </button>
                                 <button className="btn btn-primary" onClick={handleSyncCatalog}>
-                                  Sincronizar Ahora
+                                  {t.syncNow}
                                 </button>
                               </div>
                             </div>
                             <div className={styles.syncStatus}>
                               <div className={styles.syncItem}>
-                                <span>Total productos:</span>
+                                <span>{t.totalProducts}</span>
                                 <strong>{store?.catalog_size || products.length}</strong>
                               </div>
                               <div className={styles.syncItem}>
-                                <span>Última sincronización:</span>
-                                <strong>{store?.last_sync_at ? new Date(store.last_sync_at).toLocaleString('es-ES') : 'No sincronizado'}</strong>
+                                <span>{t.lastSync}</span>
+                                <strong>{store?.last_sync_at ? new Date(store.last_sync_at).toLocaleString() : t.notSynced}</strong>
                               </div>
                               <div className={styles.syncItem}>
-                                <span>Estado:</span>
-                                <strong className={styles.statusSuccess}>{store?.shopify_domain ? 'Conectado a Shopify' : 'Sincronizado'}</strong>
+                                <span>{t.status}:</span>
+                                <strong className={styles.statusSuccess}>{store?.shopify_domain ? t.connectedToShopify : t.synced}</strong>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div className="col-12 mb-4">
                           <div className={styles.card}>
-                            <h3>Productos Sincronizados</h3>
+                            <h3>{t.syncedProductsTitle}</h3>
                             <div className={styles.tableContainer}>
                               {loadingData ? (
                                 <div className={styles.loadingContainer}>
                                   <div className={styles.spinner}></div>
-                                  <p>Cargando productos...</p>
+                                  <p>{t.loadingProducts}</p>
                                 </div>
                               ) : products.length === 0 ? (
-                                <p className="text-muted">No hay productos sincronizados aún.</p>
+                                <p className="text-muted">{t.noProductsSynced}</p>
                               ) : (
                                 <table className={styles.dataTable}>
                                   <thead>
                                     <tr>
-                                      <th>Imagen</th>
-                                      <th>Nombre</th>
-                                      <th>Categoría</th>
-                                      <th>Precio</th>
-                                      <th>Stock</th>
-                                      <th>Estado</th>
+                                      <th>{t.image}</th>
+                                      <th>{t.name}</th>
+                                      <th>{t.category}</th>
+                                      <th>{t.price}</th>
+                                      <th>{t.stock}</th>
+                                      <th>{t.status}</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -1180,7 +1182,7 @@ export default function Dashboard() {
                                         <td>{product.stock_quantity || 0}</td>
                                         <td>
                                           <span className={product.is_active ? styles.badgeSuccess : styles.badgeWarning}>
-                                            {product.is_active ? 'Activo' : 'Inactivo'}
+                                            {product.is_active ? t.active : t.inactive}
                                           </span>
                                         </td>
                                       </tr>
@@ -1200,17 +1202,17 @@ export default function Dashboard() {
               {/* Widget Config Tab */}
               {activeTab === 'widget' && (
                 <div>
-                  <h1 className={styles.pageTitle}>Configuración del Widget</h1>
+                  <h1 className={styles.pageTitle}>{t.widgetConfigTitle}</h1>
                   <div className="row mt-4">
                     <div className="col-lg-7 mb-4">
                       <div className={`${styles.card} ${styles.widgetConfigCard}`}>
-                        <h3 className={styles.widgetConfigTitle}>Personalización</h3>
+                        <h3 className={styles.widgetConfigTitle}>{t.customization}</h3>
                         <p className={styles.widgetConfigDesc}>
-                          Personaliza la apariencia del widget de recomendaciones en tu tienda.
+                          {t.customizationDesc}
                         </p>
                         <form onSubmit={handleSaveWidgetConfig}>
                           <div className={styles.widgetConfigField}>
-                            <label className={styles.widgetConfigLabel}>Tema del Widget</label>
+                            <label className={styles.widgetConfigLabel}>{t.widgetTheme}</label>
                             <div className={styles.widgetConfigRadioGroup}>
                               <label className={styles.widgetConfigRadio}>
                                 <input
@@ -1220,7 +1222,7 @@ export default function Dashboard() {
                                   checked={widgetSettings.theme === 'light'}
                                   onChange={(e) => setWidgetSettings((s) => ({ ...s, theme: e.target.value }))}
                                 />
-                                <span>Claro</span>
+                                <span>{t.light}</span>
                               </label>
                               <label className={styles.widgetConfigRadio}>
                                 <input
@@ -1230,12 +1232,12 @@ export default function Dashboard() {
                                   checked={widgetSettings.theme === 'dark'}
                                   onChange={(e) => setWidgetSettings((s) => ({ ...s, theme: e.target.value }))}
                                 />
-                                <span>Oscuro</span>
+                                <span>{t.dark}</span>
                               </label>
                             </div>
                           </div>
                           <div className={styles.widgetConfigField}>
-                            <label className={styles.widgetConfigLabel}>Título del Widget</label>
+                            <label className={styles.widgetConfigLabel}>{t.widgetTitle}</label>
                             <input
                               type="text"
                               className={`form-control ${styles.widgetConfigInput}`}
@@ -1245,7 +1247,7 @@ export default function Dashboard() {
                             />
                           </div>
                           <div className={styles.widgetConfigField}>
-                            <label className={styles.widgetConfigLabel}>Subtítulo</label>
+                            <label className={styles.widgetConfigLabel}>{t.subtitle}</label>
                             <input
                               type="text"
                               className={`form-control ${styles.widgetConfigInput}`}
@@ -1256,7 +1258,7 @@ export default function Dashboard() {
                           </div>
                           <div className={styles.widgetConfigField}>
                             <label className={styles.widgetConfigLabel}>
-                              Número de Sugerencias
+                              {t.numSuggestions}
                               <span className={styles.widgetConfigValue}>{widgetSettings.num_suggestions}</span>
                             </label>
                             <input
@@ -1269,14 +1271,14 @@ export default function Dashboard() {
                             />
                           </div>
                           <div className={styles.widgetConfigField}>
-                            <label className={styles.widgetConfigLabel}>Posición</label>
+                            <label className={styles.widgetConfigLabel}>{t.position}</label>
                             <select
                               className={`form-select ${styles.widgetConfigInput}`}
                               value={widgetSettings.position}
                               onChange={(e) => setWidgetSettings((s) => ({ ...s, position: e.target.value }))}
                             >
-                              <option value="below">Debajo del producto</option>
-                              <option value="sidebar">Barra lateral</option>
+                              <option value="below">{t.belowProduct}</option>
+                              <option value="sidebar">{t.sidebar}</option>
                             </select>
                           </div>
                           <button
@@ -1287,23 +1289,23 @@ export default function Dashboard() {
                             {savingWidget ? (
                               <>
                                 <span className="spinner-border spinner-border-sm me-2" />
-                                Guardando...
+                                {t.saving}
                               </>
                             ) : (
-                              'Guardar Cambios'
+                              t.saveChanges
                             )}
                           </button>
                         </form>
 
                         {/* Vista previa del widget */}
-                        <WidgetPreviewSample count={widgetSettings.num_suggestions} theme={widgetSettings.theme} title={widgetSettings.title} subtitle={widgetSettings.subtitle} styles={styles} storeProducts={products} />
+                        <WidgetPreviewSample count={widgetSettings.num_suggestions} theme={widgetSettings.theme} title={widgetSettings.title} subtitle={widgetSettings.subtitle} styles={styles} storeProducts={products} t={t} />
                       </div>
                     </div>
                     <div className="col-lg-5 mb-4">
                       <div className={`${styles.card} ${styles.widgetConfigCard}`}>
-                        <h3 className={styles.widgetConfigTitle}>🔑 Tu API Key</h3>
+                        <h3 className={styles.widgetConfigTitle}>🔑 {t.yourApiKey}</h3>
                         <p className={styles.codeHelp}>
-                          Usa esta API Key para conectar tu app de Shopify o integrar el widget en tu tienda:
+                          {t.apiKeyHelp}
                         </p>
 
                         <div className={styles.apiKeySection}>
@@ -1319,7 +1321,7 @@ export default function Dashboard() {
                               className="btn btn-outline-secondary"
                               type="button"
                               onClick={() => setShowApiKey(!showApiKey)}
-                              title={showApiKey ? "Ocultar" : "Mostrar"}
+                              title={showApiKey ? t.hide : t.show}
                             >
                               <FiEye />
                             </button>
@@ -1329,29 +1331,26 @@ export default function Dashboard() {
                               onClick={copyApiKey}
                               disabled={!store?.api_key}
                             >
-                              {apiKeyCopied ? <><FiCheckCircle /> Copiado!</> : <><FiCopy /> Copiar</>}
+                              {apiKeyCopied ? <><FiCheckCircle /> {t.copied}</> : <><FiCopy /> {t.copy}</>}
                             </button>
                           </div>
                           <small className="text-muted d-block mb-3">
-                            ⚠️ Mantén tu API Key segura. No la compartas públicamente.
+                            ⚠️ {t.keepApiKey}
                           </small>
                         </div>
 
                         <hr />
 
-                        <h4 className={`mt-3 ${styles.widgetConfigTitle}`}>📱 Integración con Shopify</h4>
+                        <h4 className={`mt-3 ${styles.widgetConfigTitle}`}>📱 {t.shopifyIntegration}</h4>
                         <ol className={styles.integrationSteps}>
-                          <li>Instala la app "MyOutfit" desde la tienda de Shopify</li>
-                          <li>Ve a Configuración en la app</li>
-                          <li>Pega tu API Key en el campo "API Key de MyOutfit"</li>
-                          <li>¡Listo! Tu inventario y estadísticas se sincronizarán automáticamente</li>
+                          {t.shopifySteps?.map((step, i) => <li key={i}>{step}</li>)}
                         </ol>
 
                         <hr />
 
-                        <h4 className={`mt-3 ${styles.widgetConfigTitle}`}>🌐 Widget para otras plataformas</h4>
+                        <h4 className={`mt-3 ${styles.widgetConfigTitle}`}>🌐 {t.widgetOtherPlatforms}</h4>
                         <p className={styles.codeHelp}>
-                          Copia este código y pégalo en tus páginas de producto:
+                          {t.copyCode}
                         </p>
                         <pre className={styles.codeBlock}>
                           <code>{`<script src="https://myoutfitapp.com/widget.js"></script>
@@ -1367,6 +1366,7 @@ export default function Dashboard() {
                         </pre>
                         <button
                           className="btn btn-outline-primary w-100 mt-2"
+                          title={t.copyIntegrationCode}
                           onClick={() => {
                             const code = `<script src="https://myoutfitapp.com/widget.js"></script>
 <div 
@@ -1381,7 +1381,7 @@ export default function Dashboard() {
                             navigator.clipboard.writeText(code);
                           }}
                         >
-                          <FiCopy /> Copiar Código de Integración
+                          <FiCopy /> {t.copyIntegrationCode}
                         </button>
                       </div>
                     </div>
@@ -1392,13 +1392,13 @@ export default function Dashboard() {
               {/* Analytics Tab */}
               {activeTab === 'analytics' && (
                 <div>
-                  <h1 className={styles.pageTitle}>Analítica</h1>
+                  <h1 className={styles.pageTitle}>{t.analyticsTitle}</h1>
                   <div className="row mt-4">
                     <div className="col-12 mb-4">
                       <div className={styles.card}>
-                        <h3>Métricas de Rendimiento</h3>
+                        <h3>{t.performanceMetrics}</h3>
                         <div className={styles.chartPlaceholder}>
-                          <p>Gráfico de clics y conversiones (últimos 30 días)</p>
+                          <p>{t.clicksConversionsChart}</p>
                           <div className={styles.chartMock}>
                             <div className={styles.bar} style={{ height: '60%' }}></div>
                             <div className={styles.bar} style={{ height: '80%' }}></div>
@@ -1413,37 +1413,37 @@ export default function Dashboard() {
                     </div>
                     <div className="col-md-6 mb-4">
                       <div className={styles.card}>
-                        <h3>Top Combinaciones</h3>
+                        <h3>{t.topCombinations}</h3>
                         <div className={styles.combinationsList}>
                           <div className={styles.combinationItem}>
                             <span>Camiseta Blanca + Pantalón Negro</span>
-                            <strong>245 veces</strong>
+                            <strong>245 {t.times}</strong>
                           </div>
                           <div className={styles.combinationItem}>
                             <span>Vestido Floral + Bolso Cuero</span>
-                            <strong>189 veces</strong>
+                            <strong>189 {t.times}</strong>
                           </div>
                           <div className={styles.combinationItem}>
                             <span>Pantalón Vaquero + Cazadora</span>
-                            <strong>156 veces</strong>
+                            <strong>156 {t.times}</strong>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="col-md-6 mb-4">
                       <div className={styles.card}>
-                        <h3>Resumen del Período</h3>
+                        <h3>{t.periodSummary}</h3>
                         <div className={styles.roiMetrics}>
                           <div className={styles.roiItem}>
-                            <span>Total Views:</span>
+                            <span>{t.totalViews}</span>
                             <strong>{analytics.totalViews.toLocaleString()}</strong>
                           </div>
                           <div className={styles.roiItem}>
-                            <span>Ingresos Atribuidos:</span>
+                            <span>{t.attributedRevenue}</span>
                             <strong>€{analytics.revenue.toLocaleString()}</strong>
                           </div>
                           <div className={styles.roiItem}>
-                            <span>Tasa de Conversión:</span>
+                            <span>{t.conversionRateLabel}</span>
                             <strong>{analytics.conversionRate}%</strong>
                           </div>
                         </div>
@@ -1456,41 +1456,41 @@ export default function Dashboard() {
               {/* Billing Tab */}
               {activeTab === 'billing' && (
                 <div>
-                  <h1 className={styles.pageTitle}>Facturación</h1>
+                  <h1 className={styles.pageTitle}>{t.billingTitle}</h1>
                   <div className="row mt-4">
                     <div className="col-md-8 mb-4">
                       <div className={styles.card}>
-                        <h3>Plan Actual</h3>
+                        <h3>{t.currentPlan}</h3>
                         <div className={styles.planInfo}>
-                          <div className={styles.planName}>Plan {store?.plan?.charAt(0).toUpperCase() + store?.plan?.slice(1) || 'Starter'}</div>
+                          <div className={styles.planName}>{t.plan} {store?.plan?.charAt(0).toUpperCase() + store?.plan?.slice(1) || 'Starter'}</div>
                           <div className={styles.planPrice}>
-                            {store?.subscription_status === 'trial' ? 'Prueba Gratuita' :
+                            {store?.subscription_status === 'trial' ? t.freeTrialPlan :
                               store?.plan === 'starter' ? '€29/mes' :
                                 store?.plan === 'pro' ? '€149/mes' :
                                   store?.plan === 'enterprise' ? 'Contactar' : '€29/mes'}
                           </div>
                           <div className={styles.planFeatures}>
                             <ul>
-                              <li>Hasta {store?.max_products?.toLocaleString() || '100'} productos</li>
-                              <li>{store?.max_api_requests?.toLocaleString() || '1,000'} peticiones API/mes</li>
-                              <li>Dashboard de analítica</li>
-                              <li>{store?.plan === 'enterprise' ? 'Soporte dedicado' : 'Soporte por email'}</li>
+                              <li>{t.upTo} {store?.max_products?.toLocaleString() || '100'} {t.productsLabel}</li>
+                              <li>{store?.max_api_requests?.toLocaleString() || '1,000'} {t.apiRequestsMonth}</li>
+                              <li>{t.analyticsDashboard}</li>
+                              <li>{store?.plan === 'enterprise' ? t.dedicatedSupport : t.emailSupport}</li>
                             </ul>
                           </div>
-                          <button className="btn btn-outline-primary">Cambiar Plan</button>
+                          <button className="btn btn-outline-primary">{t.changePlan}</button>
                         </div>
                       </div>
                     </div>
                     <div className="col-md-4 mb-4">
                       <div className={styles.card}>
-                        <h3>Uso del Mes</h3>
+                        <h3>{t.monthlyUsage}</h3>
                         <div className={styles.usageStats}>
                           <div className={styles.usageItem}>
-                            <span>Productos:</span>
+                            <span>{t.productsUsage}</span>
                             <strong>{store?.catalog_size || 0} / {store?.max_products?.toLocaleString() || '100'}</strong>
                           </div>
                           <div className={styles.usageItem}>
-                            <span>Peticiones API:</span>
+                            <span>{t.apiRequests}</span>
                             <strong>{store?.api_requests_this_month?.toLocaleString() || 0} / {store?.max_api_requests?.toLocaleString() || '1,000'}</strong>
                           </div>
                           <div className={styles.progressBar}>
@@ -1499,9 +1499,9 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className={styles.card}>
-                        <h3>Método de Pago</h3>
+                        <h3>{t.paymentMethod}</h3>
                         <p>Visa •••• 4242</p>
-                        <button className="btn btn-outline-primary w-100">Actualizar Pago</button>
+                        <button className="btn btn-outline-primary w-100">{t.updatePayment}</button>
                       </div>
                     </div>
                   </div>

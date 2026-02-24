@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 
 // Genera una API key única
@@ -17,47 +17,7 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
   const [store, setStore] = useState(null);
 
-  useEffect(() => {
-    // Check current session
-    checkUser();
-
-    // Listen for auth changes
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        const currentUser = session?.user ?? null;
-        setUser(currentUser);
-        
-        if (currentUser) {
-          await fetchStore(currentUser.id);
-        } else {
-          setStore(null);
-        }
-        
-        setLoading(false);
-      }
-    );
-
-    return () => {
-      authListener?.subscription?.unsubscribe();
-    };
-  }, []);
-
-  async function checkUser() {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user ?? null);
-      
-      if (user) {
-        await fetchStore(user.id);
-      }
-    } catch (error) {
-      console.error('Error checking user:', error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function fetchStore(userId) {
+  const fetchStore = useCallback(async (userId) => {
     try {
       const { data, error } = await supabase
         .from('stores')
@@ -74,7 +34,6 @@ export function useAuth() {
       if (!data && (!error || error.code === 'PGRST116')) {
         console.log('[useAuth] No store found, attempting to create one for user:', userId);
         
-        // Obtener el usuario actual para el email y metadata
         const { data: { user } } = await supabase.auth.getUser();
         
         if (user) {
@@ -105,7 +64,6 @@ export function useAuth() {
           if (createError) {
             console.error('[useAuth] Error creating store in fetchStore:', createError);
           } else {
-            console.log('[useAuth] Store created in fetchStore with API key:', newStore.api_key);
             setStore(newStore);
           }
         }
@@ -115,7 +73,70 @@ export function useAuth() {
     } catch (error) {
       console.error('[useAuth] Error in fetchStore:', error);
     }
-  }
+  }, []);
+
+  const checkUser = useCallback(async () => {
+    try {
+      // getSession es más rápido (lee de storage) que getUser (hace request al servidor)
+      const sessionPromise = supabase.auth.getSession();
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Auth timeout')), 2500)
+      );
+      const { data: { session } } = await Promise.race([sessionPromise, timeoutPromise]);
+      const currentUser = session?.user ?? null;
+      setUser(currentUser);
+      
+      if (currentUser) {
+        await fetchStore(currentUser.id);
+      }
+    } catch (error) {
+      if (error?.message !== 'Auth timeout') {
+        console.error('Error checking user:', error);
+      }
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchStore]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const init = async () => {
+      await checkUser();
+    };
+    init();
+
+    // Safeguard: si tras 3s sigue cargando, forzar fin
+    const timeoutId = setTimeout(() => {
+      if (!cancelled) {
+        setLoading((prev) => (prev ? false : prev));
+      }
+    }, 3000);
+
+    // Listen for auth changes (INITIAL_SESSION suele dispararse al iniciar)
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (cancelled) return;
+        const currentUser = session?.user ?? null;
+        setUser(currentUser);
+        
+        if (currentUser) {
+          await fetchStore(currentUser.id);
+        } else {
+          setStore(null);
+        }
+        
+        setLoading(false);
+      }
+    );
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+      authListener?.subscription?.unsubscribe();
+    };
+  }, [checkUser, fetchStore]);
 
   const signIn = async (email, password) => {
     try {

@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react';
 import styles from '@/styles/Dashboard.module.scss';
 import { supabase } from '@/lib/supabase';
 import { FiX, FiUpload, FiFile, FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
+import { useLanguage } from '@/context/LanguageContext';
+import { dashboardTranslations } from '@/translations/dashboardTranslations';
 
 // Parsea CSV manejando comillas y comas dentro de campos
 function parseCSV(text) {
@@ -117,6 +119,8 @@ pantalon-vaquero,Pantalón Vaquero Azul,"",Mi Tienda,Apparel & Accessories > Clo
 sudadera-blanca,Sudadera Blanca,"",Mi Tienda,Apparel & Accessories > Activewear > Hoodies,Hoodies,,3,45.00,https://ejemplo.com/sudadera.png,active`;
 
 export default function CsvUploadModal({ isOpen, onClose, store, onSuccess }) {
+  const { language } = useLanguage();
+  const t = dashboardTranslations[language] || dashboardTranslations.en;
   const [file, setFile] = useState(null);
   const [parsing, setParsing] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -149,7 +153,7 @@ export default function CsvUploadModal({ isOpen, onClose, store, onSuccess }) {
     }
 
     if (!selectedFile.name.toLowerCase().endsWith('.csv')) {
-      setError('Por favor, selecciona un archivo CSV.');
+      setError(t.csvFileError);
       setFile(null);
       return;
     }
@@ -277,9 +281,9 @@ export default function CsvUploadModal({ isOpen, onClose, store, onSuccess }) {
         <div className={styles.modalHeader}>
           <h3>
             <FiUpload className="me-2" />
-            Importar catálogo desde CSV
+            {t.importFromCsv}
           </h3>
-          <button className={styles.closeButton} onClick={handleClose} title="Cerrar">
+          <button className={styles.closeButton} onClick={handleClose} title={t.close}>
             <FiX />
           </button>
         </div>
@@ -288,12 +292,11 @@ export default function CsvUploadModal({ isOpen, onClose, store, onSuccess }) {
           {!result ? (
             <>
               <p className="text-muted mb-3">
-                Sube un archivo CSV con tus productos. Compatible con la exportación de Shopify
-                (Handle, Title, Variant Price, Product Category, Image Src).
+                {t.csvUploadDesc}
               </p>
 
               <div className="mb-3">
-                <label className="form-label">Archivo CSV</label>
+                <label className="form-label">{t.csvFile}</label>
                 <div className="input-group">
                   <span className="input-group-text bg-light">
                     <FiFile />
@@ -311,14 +314,14 @@ export default function CsvUploadModal({ isOpen, onClose, store, onSuccess }) {
               {parsing && (
                 <div className="alert alert-info py-2">
                   <span className="spinner-border spinner-border-sm me-2" />
-                  Leyendo archivo...
+                  {t.readingFile}
                 </div>
               )}
 
               {preview && !parsing && (
                 <div className="alert alert-success py-2 mb-3">
                   <FiCheckCircle className="me-2" />
-                  {preview.total} productos detectados. Listo para importar.
+                  {preview.total} {t.productsDetected}
                 </div>
               )}
 
@@ -331,7 +334,7 @@ export default function CsvUploadModal({ isOpen, onClose, store, onSuccess }) {
 
               <details className="mb-3">
                 <summary className="text-muted" style={{ cursor: 'pointer', fontSize: '0.9rem' }}>
-                  Ver formato de ejemplo
+                  {t.viewExampleFormat}
                 </summary>
                 <pre
                   className="bg-light p-3 rounded mt-2"
@@ -344,10 +347,9 @@ export default function CsvUploadModal({ isOpen, onClose, store, onSuccess }) {
           ) : (
             <div className="text-center py-3">
               <FiCheckCircle size={48} className="text-success mb-3" />
-              <h5>Importación completada</h5>
+              <h5>{t.importCompleted}</h5>
               <p className="text-muted mb-0">
-                {result.added} productos nuevos, {result.updated} actualizados. Total procesados:{' '}
-                {result.total}.
+                {result.added} {t.newProducts}, {result.updated} {t.updated}. {t.totalProcessed} {result.total}.
               </p>
             </div>
           )}
@@ -356,7 +358,7 @@ export default function CsvUploadModal({ isOpen, onClose, store, onSuccess }) {
         {!result && (
           <div className={styles.modalFooter}>
             <button type="button" className="btn btn-outline-secondary" onClick={handleClose}>
-              Cancelar
+              {t.cancel}
             </button>
             <button
               type="button"
@@ -367,12 +369,12 @@ export default function CsvUploadModal({ isOpen, onClose, store, onSuccess }) {
               {uploading ? (
                 <>
                   <span className="spinner-border spinner-border-sm me-2" />
-                  Importando...
+                  {t.importing}
                 </>
               ) : (
                 <>
                   <FiUpload className="me-2" />
-                  Importar {preview?.total || 0} productos
+                  {t.importProducts} {preview?.total || 0} {t.productsLabel}
                 </>
               )}
             </button>
@@ -382,7 +384,7 @@ export default function CsvUploadModal({ isOpen, onClose, store, onSuccess }) {
         {result && (
           <div className={styles.modalFooter}>
             <button type="button" className="btn btn-primary" onClick={handleClose}>
-              Cerrar
+              {t.close}
             </button>
           </div>
         )}

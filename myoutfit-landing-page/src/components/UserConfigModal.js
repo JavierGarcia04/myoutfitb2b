@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styles from '@/styles/Dashboard.module.scss';
 import { FiX, FiUser, FiMail, FiMapPin, FiBriefcase, FiSave } from 'react-icons/fi';
+import { useLanguage } from '@/context/LanguageContext';
+import { dashboardTranslations } from '@/translations/dashboardTranslations';
 
 export default function UserConfigModal({ isOpen, onClose, user, store, onSave }) {
+    const { language } = useLanguage();
+    const t = dashboardTranslations[language] || dashboardTranslations.en;
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -51,8 +55,8 @@ export default function UserConfigModal({ isOpen, onClose, user, store, onSave }
         <div className={styles.modalOverlay} onClick={onClose}>
             <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
                 <div className={styles.modalHeader}>
-                    <h3>Configuración de Perfil</h3>
-                    <button className={styles.closeButton} onClick={onClose} title="Cerrar">
+                    <h3>{t.profileConfig}</h3>
+                    <button className={styles.closeButton} onClick={onClose} title={t.close}>
                         <FiX />
                     </button>
                 </div>
@@ -63,13 +67,27 @@ export default function UserConfigModal({ isOpen, onClose, user, store, onSave }
                             <div className={styles.userAvatar} style={{ width: '80px', height: '80px', fontSize: '2rem', margin: '0 auto 1rem' }}>
                                 {store?.name?.charAt(0)?.toUpperCase() || <FiUser />}
                             </div>
-                            <h4 className="mb-1">{store?.name || 'Mi Tienda'}</h4>
+                            <h4 className="mb-1">{store?.name || t.myStore}</h4>
                             <span className={styles.badge}>{store?.plan || 'Starter'} Plan</span>
                         </div>
 
                         <div className="row g-3">
                             <div className="col-12">
-                                <label className="form-label">Nombre de la Tienda</label>
+                                <label className="form-label">{t.fullName}</label>
+                                <div className="input-group">
+                                    <span className="input-group-text bg-light"><FiUser /></span>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        placeholder={t.fullNamePlaceholder}
+                                    />
+                                </div>
+                            </div>
+                            <div className="col-12">
+                                <label className="form-label">{t.storeName}</label>
                                 <div className="input-group">
                                     <span className="input-group-text bg-light"><FiBriefcase /></span>
                                     <input
@@ -78,15 +96,15 @@ export default function UserConfigModal({ isOpen, onClose, user, store, onSave }
                                         name="storeName"
                                         value={formData.storeName}
                                         onChange={handleChange}
-                                        placeholder="Ej. Mi Boutique"
+                                        placeholder={t.storeNamePlaceholder}
                                         required
                                     />
                                 </div>
-                                <div className="form-text">Este nombre será visible en tus facturas y correos.</div>
+                                <div className="form-text">{t.storeNameHelp}</div>
                             </div>
 
                             <div className="col-12">
-                                <label className="form-label">Correo Electrónico</label>
+                                <label className="form-label">{t.emailLabel}</label>
                                 <div className="input-group">
                                     <span className="input-group-text bg-light"><FiMail /></span>
                                     <input
@@ -98,11 +116,11 @@ export default function UserConfigModal({ isOpen, onClose, user, store, onSave }
                                         title="El correo no se puede cambiar"
                                     />
                                 </div>
-                                <div className="form-text">Para cambiar tu correo, contacta con soporte.</div>
+                                <div className="form-text">{t.emailChangeHelp}</div>
                             </div>
 
                             <div className="col-md-6">
-                                <label className="form-label">Idioma</label>
+                                <label className="form-label">{t.language}</label>
                                 <select
                                     className="form-select"
                                     name="language"
@@ -111,12 +129,16 @@ export default function UserConfigModal({ isOpen, onClose, user, store, onSave }
                                 >
                                     <option value="es">Español</option>
                                     <option value="en">English</option>
+                                    <option value="fr">Français</option>
+                                    <option value="de">Deutsch</option>
+                                    <option value="it">Italiano</option>
                                     <option value="pt">Português</option>
+                                    <option value="cs">Čeština</option>
                                 </select>
                             </div>
 
                             <div className="col-md-6">
-                                <label className="form-label">Región</label>
+                                <label className="form-label">{t.region}</label>
                                 <div className="input-group">
                                     <span className="input-group-text bg-light"><FiMapPin /></span>
                                     <select className="form-select" disabled>
@@ -137,7 +159,7 @@ export default function UserConfigModal({ isOpen, onClose, user, store, onSave }
                                         role="button"
                                     />
                                     <label className="form-check-label user-select-none" htmlFor="notificationsSwitch" role="button">
-                                        Recibir notificaciones por correo sobre el rendimiento
+                                        {t.receiveNotifications}
                                     </label>
                                 </div>
                             </div>
@@ -146,17 +168,17 @@ export default function UserConfigModal({ isOpen, onClose, user, store, onSave }
 
                     <div className={styles.modalFooter}>
                         <button type="button" className="btn btn-outline-secondary" onClick={onClose}>
-                            Cancelar
+                            {t.cancel}
                         </button>
                         <button type="submit" className="btn btn-primary" disabled={saving}>
                             {saving ? (
                                 <>
                                     <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                    Guardando...
+                                    {t.savingChanges}
                                 </>
                             ) : (
                                 <>
-                                    <FiSave className="me-2" /> Guardar Cambios
+                                    <FiSave className="me-2" /> {t.saveChanges}
                                 </>
                             )}
                         </button>

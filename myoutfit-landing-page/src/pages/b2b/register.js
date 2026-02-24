@@ -208,7 +208,7 @@ export default function Register() {
                             Por favor, revisa tu bandeja de entrada (y la carpeta de spam) y haz click en el enlace de confirmación para activar tu cuenta.
                           </p>
                           <p className="mb-0 mt-2">
-                            Una vez confirmado, podrás <a href="/dashboard">iniciar sesión aquí</a>.
+                            Una vez confirmado, podrás <Link href="/dashboard">iniciar sesión aquí</Link>.
                           </p>
                         </div>
                       )}

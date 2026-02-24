@@ -111,16 +111,15 @@ export default function Pricing() {
 
   const handleCheckout = async (plan) => {
     if (!plan.stripePlan) return;
-    if (isAnnual) {
-      window.location.href = '/b2b#contact';
-      return;
-    }
     setLoadingPlan(plan.name);
     try {
       const res = await fetch('/api/stripe/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan: plan.stripePlan }),
+        body: JSON.stringify({
+          plan: plan.stripePlan,
+          interval: isAnnual ? 'annual' : 'monthly',
+        }),
       });
       const contentType = res.headers.get('content-type');
       const text = await res.text();
@@ -131,6 +130,9 @@ export default function Pricing() {
       const data = JSON.parse(text);
       if (data.url) {
         window.location.href = data.url;
+      } else if (data.error?.includes('precio anual') && isAnnual) {
+        setLoadingPlan(null);
+        window.location.href = '/b2b#contact';
       } else {
         throw new Error(data.error || 'Error al iniciar el pago');
       }
