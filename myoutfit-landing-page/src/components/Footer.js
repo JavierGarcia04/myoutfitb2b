@@ -30,6 +30,10 @@ class Footer extends Component {
           >
             Contacto
           </Link>
+          <span>|</span>
+          <Link href="/b2b" className="btn btn-link">
+            Para Tiendas
+          </Link>
 
           <div className="mt-2 mb-3">
             <Link href="#" className="social-icon mx-1">

@@ -50,10 +50,62 @@ export default function B2BHome() {
   return (
     <>
       <Head>
-        <title>MyOutfit for Business - Recomendaciones de Outfits para Tu Tienda Online</title>
+        <title>MyOutfit for Business | Widget de Recomendaciones de Outfits con IA para Tiendas de Moda</title>
         <meta
           name="description"
-          content="Lleva recomendaciones inteligentes de outfits a tu tienda online. Aumenta el valor medio por cliente y reduce devoluciones con IA."
+          content="Aumenta el ticket medio y las conversiones de tu tienda online de moda con recomendaciones de outfits generadas por IA. Compatible con Shopify, WooCommerce y cualquier ecommerce. Sin código."
+        />
+        <meta
+          name="keywords"
+          content="widget recomendaciones outfits tienda online, recomendaciones moda IA ecommerce, aumentar ticket medio moda, outfit recommendations shopify, AI fashion widget woocommerce, upselling ropa inteligente"
+        />
+        <link rel="canonical" href="https://myoutfitapp.com/b2b" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://myoutfitapp.com/b2b" />
+        <meta property="og:title" content="MyOutfit for Business | Widget de Recomendaciones de Outfits con IA" />
+        <meta property="og:description" content="Aumenta el ticket medio y las conversiones de tu tienda de moda con recomendaciones de outfits por IA. Compatible con Shopify, WooCommerce y cualquier plataforma." />
+        <meta property="og:image" content="https://myoutfitapp.com/images/MyOutfitAppLogo.png" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="MyOutfit for Business | Widget IA para Tiendas de Moda" />
+        <meta name="twitter:description" content="Recomendaciones de outfits con IA para tu tienda online. Más ventas, menos devoluciones." />
+        <meta name="twitter:image" content="https://myoutfitapp.com/images/MyOutfitAppLogo.png" />
+
+        {/* JSON-LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@graph': [
+                {
+                  '@type': 'SoftwareApplication',
+                  name: 'MyOutfit for Business',
+                  applicationCategory: 'BusinessApplication',
+                  operatingSystem: 'Web',
+                  url: 'https://myoutfitapp.com/b2b',
+                  description: 'Widget de recomendaciones de outfits con inteligencia artificial para tiendas de moda online.',
+                  offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+                  provider: {
+                    '@type': 'Organization',
+                    name: 'MyOutfit',
+                    url: 'https://myoutfitapp.com',
+                  },
+                },
+                {
+                  '@type': 'Service',
+                  name: 'Widget de Recomendaciones de Outfits con IA',
+                  provider: { '@type': 'Organization', name: 'MyOutfit', url: 'https://myoutfitapp.com' },
+                  description: 'Servicio de recomendaciones inteligentes de outfits para tiendas de moda online. Aumenta conversiones y ticket medio con IA.',
+                  areaServed: 'ES',
+                  serviceType: 'AI Fashion Recommendation Widget',
+                },
+              ],
+            }),
+          }}
         />
       </Head>
       <Navigation />
