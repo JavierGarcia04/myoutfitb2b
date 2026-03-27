@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 export default function Navigation() {
@@ -12,12 +11,7 @@ export default function Navigation() {
     <nav className="navbar bg-primary navbar-expand-lg">
       <div className="container-fluid">
         <Link className="navbar-brand" href="/">
-          <Image
-            src="/images/MyOutfitTextWhite.png"
-            alt="MyOutfit Logo"
-            height={50}
-            width={125}
-          />
+          <span style={{ color: 'white', fontFamily: "'Poppins', sans-serif", fontWeight: 800, fontSize: '1.4rem', letterSpacing: '-0.01em' }}>MyOutfit</span>
         </Link>
         <button
           className="navbar-toggler"

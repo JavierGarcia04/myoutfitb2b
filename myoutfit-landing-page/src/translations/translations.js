@@ -2,379 +2,379 @@ export const translations = {
   it: {
     title: 'Scarica MyOutfit',
     subtitle:
-      'Organizza e salva i tuoi vestiti in MyOutfit per creare combinazioni uniche ed evitare di ripetere gli outfit.',
+      'Il tuo armario digitale. Crea look perfetti in secondi, ricevi consigli di stile con IA e non ripetere mai più un outfit.',
     downloadApp: "Scarica l'app MyOutfit",
     mainSubtitle:
-      'Organizza e salva i tuoi vestiti in MyOutfit per creare combinazioni uniche ed evitare di ripetere gli outfit.',
-    createOutfits: 'Crea i tuoi outfit',
+      'Il tuo armario digitale. Crea look perfetti in secondi, ricevi consigli di stile con IA e non ripetere mai più un outfit.',
+    createOutfits: 'Crea look che fanno colpo, ogni giorno',
     createOutfitsDesc:
-      'Crea i tuoi migliori outfit combinando i tuoi capi preferiti.',
-    aiRecommendations: 'Raccomandazioni con IA avanzata',
+      'Scorri i tuoi capi e combinali in pochi secondi. Basta perdere tempo davanti all\'armario ogni mattina — decidi il tuo outfit in un click.',
+    aiRecommendations: 'Il tuo stilista personale, disponibile 24/7',
     aiRecommendationsDesc:
-      'Usa il nostro chatbot con intelligenza artificiale per ottenere suggerimenti personalizzati su outfit. Pianifica look per eventi, scopri tendenze e ricevi combinazioni basate sul tuo guardaroba.',
-    wardrobeControl: 'Prendi il controllo del tuo guardaroba',
+      'Chiedi alla IA cosa indossare per una cena, un colloquio o un weekend. Riceve suggerimenti basati sul tuo guardaroba reale, sulle tendenze attuali e sull\'occasione. Come avere uno stilista in tasca.',
+    wardrobeControl: 'Scopri capi che hai già e non indossi mai',
     wardrobeControlDesc:
-      'Carica facilmente i tuoi vestiti scattando una foto o scegliendoli dalla tua galleria.',
-    suitcaseControl: 'Controlla anche le tue valigie',
+      'Aggiungi capi in quattro modi: scatta una foto, scegli dalla galleria, incolla un link da internet o genera l\'immagine con IA. Il tuo guardaroba completo, digitalizzato in pochi minuti e sempre a portata di mano.',
+    suitcaseControl: 'Viaggia senza stress, vestito alla perfezione ogni giorno',
     suitcaseControlDesc:
-      'Gestisci le tue valigie direttamente dall\'app. Aggiungi i capi che porti in viaggio, organizza outfit per ogni giorno e non dimenticare mai nulla.',
-    dontRepeat: 'Non ripetere i vestiti!',
+      'Crea valigie virtuali e usa la checklist integrata per spuntare i capi man mano che li metti. Associa un look a ogni giorno di viaggio e arriva a destinazione senza dimenticare nulla.',
+    dontRepeat: 'Sempre originale, mai ripetitivo',
     dontRepeatDesc:
-      'Controlla i tuoi outfit dei giorni precedenti per evitare di ripeterli durante la settimana.',
+      'Consulta in un colpo d\'occhio tutti i look che hai già indossato. Scegli sempre qualcosa di diverso e sorprendi chi ti vede ogni giorno.',
     faq: 'Domande Frequenti',
     faqQuestions: [
       {
-        question: 'Come posso caricare vestiti su MyOutfit?',
+        question: "È gratis scaricare MyOutfit?",
         answer:
-          "Nella sezione 'Guardaroba' troverai un'immagine con una fotocamera. Cliccaci sopra per scegliere tra due opzioni per caricare i tuoi vestiti: seleziona dalla galleria o scatta una foto.",
+          "Sì, MyOutfit è gratuita da scaricare. Puoi caricare i tuoi capi, creare outfit e usare le funzioni base senza pagare nulla. Sono disponibili opzioni premium per chi vuole sbloccare funzionalità avanzate.",
       },
       {
-        question: 'Come posso creare combinazioni?',
+        question: 'Come funziona l\'assistente di moda con IA?',
         answer:
-          "Vai alla sezione 'Oggi' per scegliere il tuo outfit del giorno. Lì troverai tutti i tuoi vestiti per provare diverse combinazioni fino a trovare quella che ti piace di più.",
+          "Il Fashion Assistant è una chat intelligente integrata nell'app. Scrivile la tua domanda — cosa indossare stasera, cosa mettere in valigia, come abbinare un capo specifico — e risponde con suggerimenti personalizzati basati sui vestiti che hai già nel tuo guardaroba.",
       },
       {
-        question: 'Come posso chiedere una raccomandazione all\'IA?',
+        question: 'È complicato caricare i miei vestiti?',
         answer:
-          "Accedi al Fashion Assistant dall'icona della chat nella barra di navigazione. Scrivi la tua domanda nel campo messaggio o tocca una delle suggestioni: pianificare un outfit per un evento, scoprire tendenze, fare una domanda sulla moda o ricevere combinazioni con i vestiti del tuo guardaroba. L'IA ti risponderà con raccomandazioni personalizzate.",
+          "No, è semplicissimo. Vai nella sezione Armario, tocca l'icona della fotocamera e scegli se scattare una foto direttamente o selezionarla dalla galleria. In pochi minuti avrai tutto il tuo guardaroba digitalizzato.",
       },
       {
-        question: 'Posso condividere i miei outfit?',
+        question: 'Funziona su iPhone e Android?',
         answer:
-          "Sì, una volta creato il tuo outfit e cliccato sul pulsante di combinazione, vedrai l'outfit e due opzioni sotto: 'Salva' e 'Condividi'. Clicca sul pulsante condividi e seleziona la piattaforma su cui desideri condividere il tuo outfit con gli amici.",
+          "Sì. MyOutfit è disponibile sia su App Store (iPhone) che su Google Play (Android). Basta cercare 'MyOutfit' e scaricarla gratuitamente.",
       },
       {
-        question: 'Come posso eliminare i vestiti?',
+        question: 'Le mie foto e i miei dati sono al sicuro?',
         answer:
-          "Una volta nella finestra 'Guardaroba', clicca su un capo per aprire una finestra con i suoi dettagli. Lì potrai eliminare il tuo capo cliccando sul pulsante 'Elimina' nell'angolo in alto a destra.",
+          "Sì. Le tue immagini e i tuoi dati sono archiviati in modo sicuro e la tua privacy è la nostra priorità. Non vendiamo mai le tue informazioni personali.",
       },
     ],
-    ctaTitle: 'Unisciti e diventa un #StyleMaster',
-    ctaSubtitle: 'Presto su App Store e Google Play.',
-    ctaHashtag: 'Style Unites All',
+    ctaTitle: 'Style Unites Us All',
+    ctaSubtitle: 'Migliaia di persone già vestono con più sicurezza, non si ripetono e viaggiano senza stress. Ora tocca a te.',
+    ctaHashtag: 'Disponibile ora su App Store e Google Play.',
   },
   fr: {
     title: 'Téléchargez MyOutfit',
     subtitle:
-      'Organisez et sauvegardez vos vêtements dans MyOutfit pour créer des combinaisons uniques et éviter de répéter les tenues.',
+      'Votre garde-robe numérique. Créez des looks parfaits en secondes, obtenez des conseils style avec IA et ne répétez plus jamais une tenue.',
     downloadApp: "Téléchargez l'application MyOutfit",
     mainSubtitle:
-      'Organisez et sauvegardez vos vêtements dans MyOutfit pour créer des combinaisons uniques et éviter de répéter les tenues.',
-    createOutfits: 'Créez vos tenues',
+      'Votre garde-robe numérique. Créez des looks parfaits en secondes, obtenez des conseils style avec IA et ne répétez plus jamais une tenue.',
+    createOutfits: 'Créez des looks qui impressionnent, chaque jour',
     createOutfitsDesc:
-      'Créez vos meilleures tenues en combinant vos vêtements préférés.',
-    aiRecommendations: 'Recommandations avec IA avancée',
+      "Faites défiler vos vêtements et combinez-les en quelques secondes. Fini de perdre du temps devant la penderie chaque matin — décidez de votre tenue en un clic.",
+    aiRecommendations: 'Votre styliste personnel, disponible 24h/24',
     aiRecommendationsDesc:
-      'Utilisez notre chatbot à intelligence artificielle pour des suggestions personnalisées d\'outfits. Planifiez vos looks pour des événements, découvrez les tendances et recevez des combinaisons basées sur votre garde-robe.',
-    wardrobeControl: 'Prenez le contrôle de votre garde-robe',
+      "Demandez à l'IA quoi porter pour un dîner, un entretien ou un week-end. Recevez des suggestions basées sur votre garde-robe réelle, les tendances actuelles et l'occasion. Comme avoir un styliste dans votre poche.",
+    wardrobeControl: 'Redécouvrez les vêtements que vous avez déjà',
     wardrobeControlDesc:
-      'Téléchargez facilement vos vêtements en prenant une photo ou en les choisissant depuis votre galerie.',
-    suitcaseControl: 'Contrôlez aussi vos valises',
+      "Ajoutez des pièces de quatre façons : prenez une photo, choisissez depuis votre galerie, collez un lien internet ou générez l'image avec l'IA. Votre garde-robe complète, numérisée en quelques minutes et toujours à portée de main.",
+    suitcaseControl: 'Voyagez sans stress, habillé parfaitement chaque jour',
     suitcaseControlDesc:
-      'Gérez vos valises directement depuis l\'app. Ajoutez les vêtements que vous emportez en voyage, organisez des tenues pour chaque jour et n\'oubliez jamais rien.',
-    dontRepeat: 'Ne répétez pas les vêtements !',
+      "Créez des valises virtuelles et utilisez la checklist intégrée pour cocher les vêtements au fur et à mesure que vous les rangez. Associez un look à chaque jour de voyage et arrivez à destination sans rien oublier.",
+    dontRepeat: 'Toujours original, jamais répétitif',
     dontRepeatDesc:
-      'Consultez vos tenues des jours précédents pour éviter de les répéter pendant la semaine.',
+      "Consultez en un coup d'œil toutes les tenues que vous avez déjà portées. Choisissez toujours quelque chose de différent et surprenez ceux qui vous voient chaque jour.",
     faq: 'Questions Fréquentes',
     faqQuestions: [
       {
-        question: 'Comment puis-je télécharger des vêtements sur MyOutfit ?',
+        question: 'Est-ce gratuit de télécharger MyOutfit ?',
         answer:
-          "Dans la section 'Garde-robe', vous trouverez une image avec un appareil photo. Cliquez dessus pour choisir entre deux options pour télécharger vos vêtements : sélectionner depuis la galerie ou prendre une photo.",
+          "Oui, MyOutfit est gratuite à télécharger. Vous pouvez ajouter vos vêtements, créer des tenues et utiliser les fonctions de base sans rien payer. Des options premium sont disponibles pour débloquer des fonctionnalités avancées.",
       },
       {
-        question: 'Comment puis-je faire des combinaisons ?',
+        question: "Comment fonctionne l'assistant mode avec IA ?",
         answer:
-          "Allez dans la section 'Aujourd'hui' pour choisir votre tenue du jour. Vous y trouverez tous vos vêtements pour essayer différentes combinaisons jusqu'à ce que vous trouviez celle qui vous plaît le plus.",
+          "Le Fashion Assistant est un chat intelligent intégré dans l'app. Posez-lui votre question — quoi porter ce soir, quoi mettre dans votre valise, comment associer une pièce spécifique — et il répond avec des suggestions personnalisées basées sur les vêtements que vous avez déjà.",
       },
       {
-        question: 'Comment puis-je demander une recommandation à l\'IA ?',
+        question: 'Est-il compliqué de télécharger mes vêtements ?',
         answer:
-          "Accédez au Fashion Assistant depuis l'icône de chat dans la barre de navigation. Tapez votre question dans le champ de message ou appuyez sur l'une des suggestions : planifier une tenue pour un événement, découvrir les tendances, poser une question sur la mode ou recevoir des combinaisons avec les vêtements de votre garde-robe. L'IA vous répondra avec des recommandations personnalisées.",
+          "Non, c'est très simple. Allez dans la section Garde-robe, touchez l'icône appareil photo et choisissez de prendre une photo directement ou de la sélectionner depuis votre galerie. En quelques minutes, toute votre garde-robe est numérisée.",
       },
       {
-        question: 'Puis-je partager mes tenues ?',
+        question: 'Fonctionne-t-elle sur iPhone et Android ?',
         answer:
-          "Oui, une fois que vous avez créé votre tenue et cliqué sur le bouton combiner, vous verrez la tenue et deux options ci-dessous : 'Sauvegarder' et 'Partager'. Cliquez sur le bouton partager et sélectionnez la plateforme sur laquelle vous souhaitez partager votre tenue avec vos amis.",
+          "Oui. MyOutfit est disponible sur l'App Store (iPhone) et Google Play (Android). Cherchez 'MyOutfit' et téléchargez-la gratuitement.",
       },
       {
-        question: 'Comment puis-je supprimer des vêtements ?',
+        question: 'Mes photos et données sont-elles en sécurité ?',
         answer:
-          "Une fois dans votre fenêtre 'Garde-robe', cliquez sur un vêtement pour ouvrir une fenêtre avec ses détails. Là, vous pourrez supprimer votre vêtement en cliquant sur le bouton 'Supprimer' dans le coin supérieur droit.",
+          "Oui. Vos images et données sont stockées de manière sécurisée et votre confidentialité est notre priorité. Nous ne vendons jamais vos informations personnelles.",
       },
     ],
-    ctaTitle: 'Rejoignez et devenez un #StyleMaster',
-    ctaSubtitle: 'Bientôt sur App Store et Google Play.',
-    ctaHashtag: 'Style Unites All',
+    ctaTitle: 'Style Unites Us All',
+    ctaSubtitle: 'Des milliers de personnes s\'habillent déjà avec plus de confiance, ne se répètent pas et voyagent sans stress. À toi de jouer.',
+    ctaHashtag: "Disponible maintenant sur l'App Store et Google Play.",
   },
   de: {
     title: 'Lade MyOutfit herunter',
     subtitle:
-      'Organisiere und speichere deine Kleidung in MyOutfit, um einzigartige Kombinationen zu erstellen und Outfits nicht zu wiederholen.',
+      'Deine digitale Garderobe. Erstelle perfekte Outfits in Sekunden, erhalte KI-Stilberatung und wiederhole nie mehr ein Outfit.',
     downloadApp: 'MyOutfit App herunterladen',
     mainSubtitle:
-      'Organisiere und speichere deine Kleidung in MyOutfit, um einzigartige Kombinationen zu erstellen und Outfits nicht zu wiederholen.',
-    createOutfits: 'Erstelle deine Outfits',
+      'Deine digitale Garderobe. Erstelle perfekte Outfits in Sekunden, erhalte KI-Stilberatung und wiederhole nie mehr ein Outfit.',
+    createOutfits: 'Beeindruckende Looks, jeden Tag — in Sekunden',
     createOutfitsDesc:
-      'Erstelle deine besten Outfits, indem du deine Lieblingskleidung kombinierst.',
-    aiRecommendations: 'Empfehlungen mit fortgeschrittener KI',
+      'Blättere durch deine Kleidungsstücke und kombiniere sie sofort. Kein langes Überlegen mehr vor dem Schrank jeden Morgen — entscheide deinen Look mit einem Klick.',
+    aiRecommendations: 'Dein persönlicher Styliste, immer verfügbar',
     aiRecommendationsDesc:
-      'Nutze unseren KI-Chatbot für personalisierte Outfit-Vorschläge. Plane Looks für Events, entdecke Trends und erhalte Kombinationen basierend auf deinem Kleiderschrank.',
-    wardrobeControl: 'Übernimm die Kontrolle über deinen Kleiderschrank',
+      'Frage die KI, was du zum Dinner, Vorstellungsgespräch oder Wochenende anziehen sollst. Erhalte Vorschläge basierend auf deiner echten Garderobe, aktuellen Trends und dem Anlass. Wie ein Styliste in deiner Tasche.',
+    wardrobeControl: 'Entdecke Kleidung, die du schon hast und nie trägst',
     wardrobeControlDesc:
-      'Lade deine Kleidung einfach hoch, indem du ein Foto machst oder sie aus deiner Galerie auswählst.',
-    suitcaseControl: 'Kontrolliere auch deine Koffer',
+      'Füge Kleidung auf vier Arten hinzu: mache ein Foto, wähle aus deiner Galerie, füge einen Internet-Link ein oder generiere das Bild mit KI. Deine gesamte Garderobe, in wenigen Minuten digitalisiert und immer griffbereit.',
+    suitcaseControl: 'Stressfrei reisen, jeden Tag perfekt angezogen',
     suitcaseControlDesc:
-      'Verwalte deine Koffer direkt in der App. Füge die Kleidungsstücke hinzu, die du auf Reisen mitnimmst, organisiere Outfits für jeden Tag und vergiss nie etwas.',
-    dontRepeat: 'Wiederhole keine Kleidung!',
+      'Erstelle virtuelle Koffer und nutze die integrierte Checkliste, um Kleidungsstücke abzuhaken, während du packst. Weise jedem Reisetag einen Look zu und komme ans Ziel, ohne etwas zu vergessen.',
+    dontRepeat: 'Immer originell, nie repetitiv',
     dontRepeatDesc:
-      'Überprüfe deine Outfits der letzten Tage, um Wiederholungen während der Woche zu vermeiden.',
+      'Sieh auf einen Blick alle Outfits, die du bereits getragen hast. Wähle immer etwas Neues und überrasche alle, die dich täglich sehen.',
     faq: 'Häufig gestellte Fragen',
     faqQuestions: [
       {
-        question: 'Wie kann ich Kleidung zu MyOutfit hochladen?',
+        question: 'Ist das Herunterladen von MyOutfit kostenlos?',
         answer:
-          "Im 'Kleiderschrank'-Bereich findest du ein Bild mit einer Kamera. Klicke darauf, um zwischen zwei Optionen zum Hochladen deiner Kleidung zu wählen: aus der Galerie auswählen oder ein Foto aufnehmen.",
+          'Ja, MyOutfit ist kostenlos herunterzuladen. Du kannst deine Kleidung hinzufügen, Outfits erstellen und die Grundfunktionen kostenlos nutzen. Premium-Optionen sind für erweiterte Funktionen verfügbar.',
       },
       {
-        question: 'Wie kann ich Kombinationen erstellen?',
+        question: 'Wie funktioniert der KI-Modeassistent?',
         answer:
-          "Gehe zum 'Heute'-Bereich, um dein Outfit des Tages auszuwählen. Dort findest du deine gesamte Kleidung, um verschiedene Kombinationen auszuprobieren, bis du die findest, die dir am besten gefällt.",
+          'Der Fashion Assistant ist ein intelligenter Chat in der App. Stelle ihm deine Frage — was heute Abend anziehen, was einpacken, wie man ein bestimmtes Teil kombiniert — und er antwortet mit personalisierten Vorschlägen basierend auf deiner vorhandenen Garderobe.',
       },
       {
-        question: 'Wie kann ich eine KI-Empfehlung anfordern?',
+        question: 'Ist das Hochladen meiner Kleidung kompliziert?',
         answer:
-          "Greife über das Chat-Symbol in der Navigationsleiste auf den Fashion Assistant zu. Gib deine Frage in das Nachrichtenfeld ein oder tippe auf eine der Vorschläge: Outfit für ein Event planen, Trends entdecken, Modefrage stellen oder Kombinationen aus deinem Kleiderschrank erhalten. Die KI antwortet mit personalisierten Empfehlungen.",
+          "Nein, es ist ganz einfach. Gehe zum Bereich 'Kleiderschrank', tippe auf das Kamera-Symbol und wähle, ob du direkt ein Foto machst oder eines aus deiner Galerie auswählst. In wenigen Minuten ist deine gesamte Garderobe digitalisiert.",
       },
       {
-        question: 'Kann ich meine Outfits teilen?',
+        question: 'Funktioniert die App auf iPhone und Android?',
         answer:
-          "Ja, sobald du dein Outfit erstellt und auf den Kombinieren-Button geklickt hast, siehst du das Outfit und zwei Optionen darunter: 'Speichern' und 'Teilen'. Klicke auf den Teilen-Button und wähle die Plattform aus, auf der du dein Outfit mit Freunden teilen möchtest.",
+          "Ja. MyOutfit ist im App Store (iPhone) und bei Google Play (Android) verfügbar. Suche nach 'MyOutfit' und lade sie kostenlos herunter.",
       },
       {
-        question: 'Wie kann ich Kleidung löschen?',
+        question: 'Sind meine Fotos und Daten sicher?',
         answer:
-          "Sobald du im 'Kleiderschrank'-Fenster bist, klicke auf ein Kleidungsstück, um ein Fenster mit den Details zu öffnen. Dort kannst du dein Kleidungsstück löschen, indem du auf den 'Löschen'-Button in der oberen rechten Ecke klickst.",
+          'Ja. Deine Bilder und Daten werden sicher gespeichert und deine Privatsphäre hat für uns höchste Priorität. Wir verkaufen deine persönlichen Daten niemals.',
       },
     ],
-    ctaTitle: 'Tritt bei und werde ein #StyleMaster',
-    ctaSubtitle: 'Bald im App Store und Google Play.',
-    ctaHashtag: 'Style Unites All',
+    ctaTitle: 'Style Unites Us All',
+    ctaSubtitle: 'Tausende kleiden sich bereits selbstbewusster, wiederholen sich nicht und reisen stressfrei. Jetzt bist du dran.',
+    ctaHashtag: 'Jetzt verfügbar im App Store und Google Play.',
   },
   es: {
     title: 'Descarga MyOutfit',
     subtitle:
-      'Organiza y guarda tus prendas en MyOutfit para crear combinaciones únicas y evitar repetir outfits.',
-    downloadApp: 'Descarga MyOufit app',
+      'Tu armario digital. Crea looks perfectos en segundos, recibe consejos de estilo con IA y nunca más repitas un outfit.',
+    downloadApp: 'Descarga MyOutfit app',
     mainSubtitle:
-      'Organiza y guarda tus prendas en MyOutfit para crear combinaciones únicas y evitar repetir outfits.',
-    createOutfits: 'Crea tus outfits',
+      'Tu armario digital. Crea looks perfectos en segundos, recibe consejos de estilo con IA y nunca más repitas un outfit.',
+    createOutfits: 'Crea looks que impresionan en segundos',
     createOutfitsDesc:
-      'Crea tus mejores outfits combinando tus prendas favoritas.',
-    aiRecommendations: 'Recomendaciones con IA avanzada',
+      'Desliza entre tus prendas y combínalas al instante. Sin perder tiempo delante del armario cada mañana — decide tu outfit con un toque.',
+    aiRecommendations: 'Tu estilista personal, disponible las 24 horas',
     aiRecommendationsDesc:
-      'Usa nuestro chatbot con inteligencia artificial para obtener sugerencias personalizadas de outfits. Planifica looks para eventos, descubre tendencias y recibe combinaciones basadas en tu armario.',
-    wardrobeControl: 'Ten un control de tu armario',
+      'Pregúntale a la IA qué ponerte para una cena, una entrevista o un fin de semana. Recibe sugerencias basadas en tu ropa real, las tendencias actuales y la ocasión. Como tener un estilista en el bolsillo.',
+    wardrobeControl: 'Descubre ropa que ya tienes y casi nunca usas',
     wardrobeControlDesc:
-      'Sube tus prendas fácilmente tomando una foto o eligiéndolas desde tu galería.',
-    suitcaseControl: 'También controla tus maletas',
+      'Añade prendas de cuatro formas: haz una foto, elige desde tu galería, pega un enlace de internet o genera la imagen con IA. En minutos tienes todo tu armario digital y siempre a mano.',
+    suitcaseControl: 'Viaja sin estrés, vestido perfecto cada día',
     suitcaseControlDesc:
-      'Gestiona tus maletas directamente desde la app. Añade las prendas que llevas de viaje, organiza outfits para cada día y no olvides nada.',
-    dontRepeat: '¡No repitas ropa!',
+      'Crea maletas virtuales y usa el checklist integrado para ir marcando lo que ya has metido. Asocia un outfit a cada día de viaje y llega a tu destino sin olvidar nada.',
+    dontRepeat: 'Siempre original, nunca repetitivo',
     dontRepeatDesc:
-      'Consulta tus outfits de días anteriores para evitar repetirlos durante la semana.',
+      'Consulta de un vistazo todos los outfits que ya te has puesto. Elige siempre algo diferente y sorprende a quien te ve cada día.',
     faq: 'Preguntas Frecuentes',
     faqQuestions: [
       {
-        question: '¿Cómo puedo subir ropa a MyOufit?',
+        question: '¿Es gratis descargar MyOutfit?',
         answer:
-          "En al apartado de 'Closet' encontrarás una imagen con una cámara de fotos. Pulsa sobre ella para elegir entre dos opciones para subir tu ropa: seleccionar desde la galería o tomar una foto.",
+          'Sí, MyOutfit es gratis para descargar. Puedes subir tus prendas, crear outfits y usar las funciones básicas sin pagar nada. Hay opciones premium disponibles para quien quiera desbloquear funcionalidades avanzadas.',
       },
       {
-        question: '¿Cómo puedo hacer combinaciones?',
+        question: '¿Cómo funciona el asistente de moda con IA?',
         answer:
-          "Ve al apartado de 'Hoy' para elegir tu outfit del día. Allí encontrarás todas tus prendas para que pruebes distintas combinaciones hasta que des con la que más te guste.",
+          'El Fashion Assistant es un chat inteligente integrado en la app. Escríbele tu pregunta — qué ponerse esta noche, qué meter en la maleta, cómo combinar una prenda concreta — y te responde con sugerencias personalizadas basadas en la ropa que ya tienes en tu armario.',
       },
       {
-        question: '¿Cómo puedo pedir una recomendación a la IA?',
+        question: '¿Es difícil subir mi ropa a la app?',
         answer:
-          "Accede al Fashion Assistant desde el icono de chat en la barra de navegación. Escribe tu pregunta en el campo de mensaje o pulsa en una de las sugerencias: planificar un outfit para un evento, descubrir tendencias, consultar una duda de moda o recibir combinaciones con las prendas de tu armario. La IA te responderá con recomendaciones personalizadas.",
+          "Para nada, es muy sencillo. Ve al apartado de Closet, pulsa el icono de la cámara y elige si haces la foto en el momento o la seleccionas desde tu galería. En pocos minutos tienes todo tu armario digitalizado.",
       },
       {
-        question: '¿Puedo compartir mis oufits?',
+        question: '¿Funciona en iPhone y en Android?',
         answer:
-          "Sí, una vez que hayas creado tu outfit y pulses en el botón de combinar, verás el outfit y dos opciones debajo: 'Guardar' y 'Compartir'. Haz clic en el botón de compartir y selecciona la plataforma que desees para compartir tu outfit con amigos.",
+          "Sí. MyOutfit está disponible tanto en la App Store (iPhone) como en Google Play (Android). Solo busca 'MyOutfit' y descárgala gratis.",
       },
       {
-        question: '¿Cómo puedo eliminar prendas?',
+        question: '¿Están seguras mis fotos y mis datos?',
         answer:
-          "Una vez en tu ventana de 'Closet', pulsa sobre una prenda para abrir una ventana con los detalles de esta. Allí podrás eliminar tu prenda pulsando sobre el botón de 'Eliminar' en la esquina superior derecha.",
+          'Sí. Tus imágenes y datos se almacenan de forma segura y tu privacidad es nuestra prioridad. Nunca vendemos tu información personal.',
       },
     ],
-    ctaTitle: 'Únete y sé un #StyleMaster',
-    ctaSubtitle: 'Pronto en la App Store y Google Play.',
-    ctaHashtag: 'Style Unites All',
+    ctaTitle: 'Style Unites Us All',
+    ctaSubtitle: 'Miles de personas ya visten con más confianza, no se repiten y viajan sin estrés. Ahora es tu turno.',
+    ctaHashtag: 'Ya disponible en App Store y Google Play.',
   },
   en: {
     title: 'Download MyOutfit',
     subtitle:
-      'Organize and save your clothes in MyOutfit to create unique combinations and avoid repeating outfits.',
+      'Your digital wardrobe. Create perfect looks in seconds, get AI style advice and never repeat an outfit again.',
     downloadApp: 'Download MyOutfit app',
     mainSubtitle:
-      'Organize and save your clothes in MyOutfit to create unique combinations and avoid repeating outfits.',
-    createOutfits: 'Create your outfits',
+      'Your digital wardrobe. Create perfect looks in seconds, get AI style advice and never repeat an outfit again.',
+    createOutfits: 'Create impressive looks in seconds',
     createOutfitsDesc:
-      'Create your best outfits by combining your favorite clothes.',
-    aiRecommendations: 'Recommendations with advanced AI',
+      'Browse your clothes and combine them instantly. No more standing in front of the wardrobe every morning — decide your outfit with one tap.',
+    aiRecommendations: 'Your personal stylist, available 24/7',
     aiRecommendationsDesc:
-      'Use our AI-powered chatbot for personalized outfit suggestions. Plan looks for events, discover trends and get combinations based on your wardrobe.',
-    wardrobeControl: 'Take control of your wardrobe',
+      'Ask the AI what to wear for a dinner, an interview or a weekend away. Get suggestions based on your real wardrobe, current trends and the occasion. Like having a stylist in your pocket.',
+    wardrobeControl: 'Rediscover clothes you already own but never wear',
     wardrobeControlDesc:
-      'Upload your clothes easily by taking a photo or choosing them from your gallery.',
-    suitcaseControl: 'Also control your suitcases',
+      'Add items four ways: take a photo, pick from your gallery, paste an internet link or generate the image with AI. Your full wardrobe, digitised in minutes and always at hand.',
+    suitcaseControl: 'Travel stress-free, perfectly dressed every day',
     suitcaseControlDesc:
-      'Manage your suitcases directly in the app. Add the clothes you pack for trips, organize outfits for each day and never forget anything.',
-    dontRepeat: "Don't repeat clothes!",
+      'Create virtual suitcases and use the built-in checklist to tick off items as you pack them. Assign an outfit to each day of your trip and arrive at your destination with everything you need.',
+    dontRepeat: 'Always original, never repetitive',
     dontRepeatDesc:
-      'Check your outfits from previous days to avoid repeating them during the week.',
+      'See at a glance every outfit you have already worn. Always pick something different and keep surprising the people who see you every day.',
     faq: 'Frequently Asked Questions',
     faqQuestions: [
       {
-        question: 'How can I upload clothes to MyOutfit?',
+        question: 'Is MyOutfit free to download?',
         answer:
-          "In the 'Closet' section, you'll find an image with a camera. Click on it to choose between two options to upload your clothes: select from gallery or take a photo.",
+          'Yes, MyOutfit is free to download. You can upload your clothes, create outfits and use the core features at no cost. Premium options are available for those who want to unlock advanced features.',
       },
       {
-        question: 'How can I make combinations?',
+        question: 'How does the AI fashion assistant work?',
         answer:
-          "Go to the 'Today' section to choose your outfit of the day. There you'll find all your clothes to try different combinations until you find the one you like the most.",
+          'The Fashion Assistant is a smart chat built into the app. Type your question — what to wear tonight, what to pack, how to style a specific piece — and it replies with personalised suggestions based on the clothes you already own.',
       },
       {
-        question: 'How can I ask for an AI recommendation?',
+        question: 'Is it hard to upload my clothes?',
         answer:
-          "Access the Fashion Assistant from the chat icon in the navigation bar. Type your question in the message field or tap one of the suggestions: plan an outfit for an event, discover trends, ask a fashion question, or get combinations from your wardrobe. The AI will respond with personalized recommendations.",
+          "Not at all. Go to the Closet section, tap the camera icon and choose whether to take a photo on the spot or select one from your gallery. In just a few minutes your entire wardrobe is digitised.",
       },
       {
-        question: 'Can I share my outfits?',
+        question: 'Does it work on iPhone and Android?',
         answer:
-          "Yes, once you've created your outfit and click on the combine button, you'll see the outfit and two options below: 'Save' and 'Share'. Click on the share button and select the platform you want to share your outfit with friends.",
+          "Yes. MyOutfit is available on both the App Store (iPhone) and Google Play (Android). Just search for 'MyOutfit' and download it for free.",
       },
       {
-        question: 'How can I delete clothes?',
+        question: 'Are my photos and data safe?',
         answer:
-          "Once in your 'Closet' window, click on a garment to open a window with its details. There you can delete your garment by clicking on the 'Delete' button in the top right corner.",
+          'Yes. Your images and data are stored securely and your privacy is our priority. We never sell your personal information.',
       },
     ],
-    ctaTitle: 'Join and become a #StyleMaster',
-    ctaSubtitle: 'Coming soon to App Store and Google Play.',
-    ctaHashtag: 'Style Unites All',
+    ctaTitle: 'Style Unites Us All',
+    ctaSubtitle: 'Thousands of people already dress with more confidence, never repeat looks and travel stress-free. Now it\'s your turn.',
+    ctaHashtag: 'Now available on App Store and Google Play.',
   },
   pt: {
     title: 'Baixe o MyOutfit',
     subtitle:
-      'Organize e guarde suas roupas no MyOutfit para criar combinações únicas e evitar repetir looks.',
+      'Seu guarda-roupa digital. Crie looks perfeitos em segundos, receba conselhos de estilo com IA e nunca mais repita um outfit.',
     downloadApp: 'Baixe o app MyOutfit',
     mainSubtitle:
-      'Organize e guarde suas roupas no MyOutfit para criar combinações únicas e evitar repetir looks.',
-    createOutfits: 'Crie seus outfits',
+      'Seu guarda-roupa digital. Crie looks perfeitos em segundos, receba conselhos de estilo com IA e nunca mais repita um outfit.',
+    createOutfits: 'Crie looks que impressionam em segundos',
     createOutfitsDesc:
-      'Crie seus melhores outfits combinando suas roupas favoritas.',
-    aiRecommendations: 'Recomendações com IA avançada',
+      'Deslize pelas suas peças e combine-as na hora. Sem perder tempo na frente do guarda-roupa toda manhã — decida seu outfit com um toque.',
+    aiRecommendations: 'Seu estilista pessoal, disponível 24 horas',
     aiRecommendationsDesc:
-      'Use nosso chatbot com inteligência artificial para obter sugestões personalizadas de outfits. Planeje looks para eventos, descubra tendências e receba combinações baseadas no seu guarda-roupa.',
-    wardrobeControl: 'Tenha controle do seu guarda-roupa',
+      'Pergunte à IA o que vestir para um jantar, uma entrevista ou um fim de semana. Receba sugestões baseadas nas suas roupas reais, tendências atuais e a ocasião. Como ter um estilista no bolso.',
+    wardrobeControl: 'Redescubra roupas que você já tem e quase não usa',
     wardrobeControlDesc:
-      'Envie suas peças facilmente tirando uma foto ou escolhendo-as da sua galeria.',
-    suitcaseControl: 'Também controle suas malas',
+      'Adicione peças de quatro formas: tire uma foto, escolha da galeria, cole um link da internet ou gere a imagem com IA. Seu guarda-roupa completo, digitalizado em minutos e sempre à mão.',
+    suitcaseControl: 'Viaje sem estresse, vestido perfeitamente cada dia',
     suitcaseControlDesc:
-      'Gerencie suas malas diretamente no app. Adicione as peças que leva em viagem, organize outfits para cada dia e nunca esqueça nada.',
-    dontRepeat: 'Não repita roupa!',
+      'Crie malas virtuais e use o checklist integrado para marcar as peças conforme as coloca. Associe um outfit a cada dia de viagem e chegue ao destino sem esquecer nada.',
+    dontRepeat: 'Sempre original, nunca repetitivo',
     dontRepeatDesc:
-      'Consulte seus outfits de dias anteriores para evitar repeti-los durante a semana.',
+      'Veja de relance todos os outfits que você já usou. Escolha sempre algo diferente e surpreenda quem te vê todos os dias.',
     faq: 'Perguntas Frequentes',
     faqQuestions: [
       {
-        question: 'Como posso enviar roupas para o MyOutfit?',
+        question: 'O MyOutfit é gratuito?',
         answer:
-          "Na seção 'Closet' você encontrará uma imagem com uma câmera. Clique nela para escolher entre duas opções para enviar suas roupas: selecionar da galeria ou tirar uma foto.",
+          'Sim, o MyOutfit é gratuito para baixar. Você pode adicionar suas peças, criar outfits e usar as funções básicas sem pagar nada. Opções premium estão disponíveis para quem quiser desbloquear funcionalidades avançadas.',
       },
       {
-        question: 'Como posso fazer combinações?',
+        question: 'Como funciona o assistente de moda com IA?',
         answer:
-          "Vá à seção 'Hoje' para escolher seu outfit do dia. Lá você encontrará todas as suas peças para experimentar diferentes combinações até encontrar a que mais gostar.",
+          'O Fashion Assistant é um chat inteligente integrado ao app. Escreva sua pergunta — o que vestir esta noite, o que colocar na mala, como combinar uma peça específica — e ele responde com sugestões personalizadas baseadas nas roupas que você já tem.',
       },
       {
-        question: 'Como posso pedir uma recomendação à IA?',
+        question: 'É difícil adicionar minhas roupas ao app?',
         answer:
-          "Acesse o Fashion Assistant pelo ícone de chat na barra de navegação. Escreva sua pergunta no campo de mensagem ou toque em uma das sugestões: planejar um outfit para um evento, descobrir tendências, fazer uma pergunta sobre moda ou receber combinações com as peças do seu guarda-roupa. A IA responderá com recomendações personalizadas.",
+          'De jeito nenhum. Vá à seção Closet, toque no ícone da câmera e escolha se tira a foto na hora ou seleciona da galeria. Em poucos minutos todo o seu guarda-roupa está digitalizado.',
       },
       {
-        question: 'Posso compartilhar meus outfits?',
+        question: 'Funciona no iPhone e no Android?',
         answer:
-          "Sim, assim que criar seu outfit e clicar no botão combinar, você verá o outfit e duas opções abaixo: 'Salvar' e 'Compartilhar'. Clique no botão compartilhar e selecione a plataforma desejada para compartilhar seu outfit com amigos.",
+          "Sim. O MyOutfit está disponível na App Store (iPhone) e no Google Play (Android). Basta buscar 'MyOutfit' e baixar gratuitamente.",
       },
       {
-        question: 'Como posso excluir peças?',
+        question: 'Minhas fotos e dados estão seguros?',
         answer:
-          "Uma vez na sua janela de 'Closet', clique em uma peça para abrir uma janela com seus detalhes. Lá você poderá excluir sua peça clicando no botão 'Excluir' no canto superior direito.",
+          'Sim. Suas imagens e dados são armazenados com segurança e sua privacidade é nossa prioridade. Nunca vendemos suas informações pessoais.',
       },
     ],
-    ctaTitle: 'Junte-se e seja um #StyleMaster',
-    ctaSubtitle: 'Em breve na App Store e Google Play.',
-    ctaHashtag: 'Style Unites All',
+    ctaTitle: 'Style Unites Us All',
+    ctaSubtitle: 'Milhares de pessoas já se vestem com mais confiança, não se repetem e viajam sem estresse. Agora é a sua vez.',
+    ctaHashtag: 'Já disponível na App Store e Google Play.',
   },
   cs: {
     title: 'Stáhněte MyOutfit',
     subtitle:
-      'Organizujte a ukládejte své oblečení v MyOutfit pro vytváření jedinečných kombinací a vyhněte se opakování outfitů.',
+      'Váš digitální šatník. Vytvořte perfektní outfit za vteřiny, získejte rady stylisty s IA a nikdy víc neopakujte stejný look.',
     downloadApp: 'Stáhněte si aplikaci MyOutfit',
     mainSubtitle:
-      'Organizujte a ukládejte své oblečení v MyOutfit pro vytváření jedinečných kombinací a vyhněte se opakování outfitů.',
-    createOutfits: 'Vytvořte si své outfity',
+      'Váš digitální šatník. Vytvořte perfektní outfit za vteřiny, získejte rady stylisty s IA a nikdy víc neopakujte stejný look.',
+    createOutfits: 'Vytvářejte působivé looky za vteřiny',
     createOutfitsDesc:
-      'Vytvořte si nejlepší outfity kombinací vašeho oblíbeného oblečení.',
-    aiRecommendations: 'Doporučení s pokročilou umělou inteligencí',
+      'Procházejte svými kousky a kombinujte je okamžitě. Žádné přemýšlení před skříní každé ráno — rozhodněte o svém outfitu jedním klepnutím.',
+    aiRecommendations: 'Váš osobní stylista, dostupný 24/7',
     aiRecommendationsDesc:
-      'Použijte našeho chatbotu s umělou inteligencí pro personalizované návrhy outfitů. Plánujte looky pro události, objevujte trendy a získávejte kombinace založené na vašem šatníku.',
-    wardrobeControl: 'Převezměte kontrolu nad svým šatníkem',
+      'Zeptejte se IA, co si vzít na večeři, pohovor nebo víkend. Dostanete návrhy na základě vašeho skutečného šatníku, aktuálních trendů a příležitosti. Jako mít stylistu v kapse.',
+    wardrobeControl: 'Znovu objevte oblečení, které máte a skoro nenosíte',
     wardrobeControlDesc:
-      'Nahrajte své oblečení snadno pořízením fotografie nebo výběrem z galerie.',
-    suitcaseControl: 'Také ovládejte své kufry',
+      'Přidejte kousky čtyřmi způsoby: vyfotografujte, vyberte z galerie, vložte odkaz z internetu nebo vygenerujte obrázek pomocí IA. Celý váš šatník, digitalizovaný za pár minut a vždy po ruce.',
+    suitcaseControl: 'Cestujte bez stresu, každý den perfektně oblečeni',
     suitcaseControlDesc:
-      'Spravujte své kufry přímo v aplikaci. Přidávejte oblečení, které si berete na cesty, organizujte outfity na každý den a nikdy nic nezapomeňte.',
-    dontRepeat: 'Neopakujte oblečení!',
+      'Vytvářejte virtuální kufry a používejte integrovaný checklist k odškrtávání položek při balení. Přiřaďte look každému dni cesty a dorazte do cíle bez zapomenutých věcí.',
+    dontRepeat: 'Vždy originální, nikdy se neopakující',
     dontRepeatDesc:
-      'Zkontrolujte své outfity z předchozích dnů, abyste se vyhnuli jejich opakování během týdne.',
+      'Mějte přehled o všech outfitech, které jste již měli na sobě. Vybírejte vždy něco jiného a překvapujte lidi, kteří vás vidí každý den.',
     faq: 'Často kladené otázky',
     faqQuestions: [
       {
-        question: 'Jak mohu nahrát oblečení do MyOutfit?',
+        question: 'Je MyOutfit zdarma?',
         answer:
-          "V sekci 'Šatník' najdete obrázek s fotoaparátem. Klikněte na něj a vyberte jednu ze dvou možností pro nahrání oblečení: vybrat z galerie nebo pořídit fotografii.",
+          'Ano, MyOutfit je zdarma ke stažení. Můžete přidávat oblečení, vytvářet outfity a používat základní funkce bez placení. Prémiové možnosti jsou k dispozici pro ty, kteří chtějí odemknout pokročilé funkce.',
       },
       {
-        question: 'Jak mohu vytvářet kombinace?',
+        question: 'Jak funguje módní asistent s IA?',
         answer:
-          "Přejděte do sekce 'Dnes' pro výběr outfitu dne. Tam najdete všechno své oblečení pro vyzkoušení různých kombinací, dokud nenajdete tu, která se vám nejvíce líbí.",
+          'Fashion Assistant je chytrý chat zabudovaný v aplikaci. Napište svou otázku — co si vzít dnes večer, co zabalit, jak zkombinovat konkrétní kousek — a odpoví personalizovanými návrhy na základě oblečení, které již máte.',
       },
       {
-        question: 'Jak mohu požádat o doporučení od umělé inteligence?',
+        question: 'Je obtížné nahrát své oblečení?',
         answer:
-          "Přístup k Fashion Assistantu získáte prostřednictvím ikony chatu v navigační liště. Napište svou otázku do pole zprávy nebo klepněte na jednu z návrhů: naplánovat outfit na událost, objevit trendy, položit módní otázku nebo získat kombinace z vašeho šatníku. Umělá inteligence vám odpoví personalizovanými doporučeními.",
+          'Vůbec ne. Přejděte do sekce Šatník, klepněte na ikonu fotoaparátu a vyberte, zda nafotíte přímo nebo vyberete z galerie. Za pár minut máte celý šatník digitalizovaný.',
       },
       {
-        question: 'Mohu sdílet své outfity?',
+        question: 'Funguje na iPhone i Androidu?',
         answer:
-          "Ano, jakmile vytvoříte svůj outfit a kliknete na tlačítko kombinovat, uvidíte outfit a dvě možnosti níže: 'Uložit' a 'Sdílet'. Klikněte na tlačítko sdílet a vyberte platformu, na které chcete sdílet svůj outfit s přáteli.",
+          "Ano. MyOutfit je dostupný v App Store (iPhone) i na Google Play (Android). Stačí vyhledat 'MyOutfit' a stáhnout zdarma.",
       },
       {
-        question: 'Jak mohu smazat oblečení?',
+        question: 'Jsou moje fotografie a data v bezpečí?',
         answer:
-          "Jakmile jste v okně 'Šatník', klikněte na oděv pro otevření okna s jeho detaily. Tam můžete smazat svůj oděv kliknutím na tlačítko 'Smazat' v pravém horním rohu.",
+          'Ano. Vaše obrázky a data jsou bezpečně uloženy a vaše soukromí je naší prioritou. Vaše osobní údaje nikdy neprodáváme.',
       },
     ],
-    ctaTitle: 'Připojte se a staňte se #StyleMaster',
-    ctaSubtitle: 'Brzy v App Store a Google Play.',
-    ctaHashtag: 'Style Unites All',
+    ctaTitle: 'Style Unites Us All',
+    ctaSubtitle: 'Tisíce lidí se již obléká sebevědoměji, neopakuje se a cestuje bez stresu. Teď jsi na řadě ty.',
+    ctaHashtag: 'Nyní dostupné v App Store a Google Play.',
   },
 };

@@ -97,6 +97,19 @@ $section_headline_height: 80vh;
   }
 }
 
+@media (max-width: 767px) {
+  #section_headline {
+    height: 80vh; // Mantiene el corte de color morado/blanco para el efecto de straddling
+  }
+
+  // El teléfono (500px) desborda el 80vh y se monta visualmente en la zona blanca.
+  // Hacemos el contenedor lo suficientemente alto para que el formulario
+  // siguiente empiece siempre por debajo del teléfono.
+  #section_headline_container {
+    min-height: calc(80vh + 360px);
+  }
+}
+
 @media (min-width: 768px) {
   #section_headline {
     h1 {

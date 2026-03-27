@@ -12,14 +12,13 @@ export default function Hero() {
   const [currentPhoneIndex, setCurrentPhoneIndex] = useState(1); // Iniciar con la imagen central
   const [isMobile, setIsMobile] = useState(false);
 
-  // Array de imágenes de teléfonos - ahora todas con el mismo tamaño que la del medio
   const phoneImages = [
     {
       src: '/images/phones/device_15_home_feed2.png',
       alt: 'Screenshot of MyOutfit app showing dashboard with latest outfits.',
-      width: 250, // Igualado al tamaño de la imagen del medio
-      height: 500, // Igualado al tamaño de la imagen del medio
-      className: 'phone_shadow mx-4', // Mismas clases que la imagen del medio
+      width: 250,
+      height: 500,
+      className: 'phone_shadow mx-4',
     },
     {
       src: '/images/phones/device_15_tu_outfit_hoy.png',
@@ -31,9 +30,9 @@ export default function Hero() {
     {
       src: '/images/phones/device_15_player_response.png',
       alt: 'Screenshot of MyOutfit app showing wardrobe with garments grid.',
-      width: 250, // Igualado al tamaño de la imagen del medio
-      height: 500, // Igualado al tamaño de la imagen del medio
-      className: 'phone_shadow mx-4', // Mismas clases que la imagen del medio
+      width: 250,
+      height: 500,
+      className: 'phone_shadow mx-4',
     },
   ];
 
@@ -97,25 +96,13 @@ export default function Hero() {
               className="navbar-brand m-0 position-absolute start-50 translate-middle-x d-md-none"
               href="/"
             >
-              <Image
-                src="/images/MyOutfitTextWhite.png"
-                alt="MyOutfit Logo"
-                height={50}
-                width={125}
-                className=""
-              />
+              <span style={{ color: 'white', fontFamily: "'Poppins', sans-serif", fontWeight: 800, fontSize: '1.4rem', letterSpacing: '-0.01em' }}>MyOutfit</span>
             </Link>
             <Link
               className="navbar-brand mx-auto mx-md-0 d-none d-md-block"
               href="/"
             >
-              <Image
-                src="/images/MyOutfitTextWhite.png"
-                alt="MyOutfit Logo"
-                height={50}
-                width={125}
-                className=""
-              />
+              <span style={{ color: 'white', fontFamily: "'Poppins', sans-serif", fontWeight: 800, fontSize: '1.4rem', letterSpacing: '-0.01em' }}>MyOutfit</span>
             </Link>
             <div className="dropdown ms-auto">
               <button
